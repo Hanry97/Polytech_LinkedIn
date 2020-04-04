@@ -1,8 +1,8 @@
 /*==============================
                               ||
 LAST MODIFICATION:            ||
-	DATE: 03/04/2020      ||
-	AUTHOR: Mihary R.     ||
+	DATE: 04/04/2020         ||
+	AUTHOR: Mihary R.        ||
                               ||
 ==============================*/
 
@@ -10,7 +10,6 @@ LAST MODIFICATION:            ||
 #define __COMPANY__
 
 #include "Position.h"
-
 #include <iostream>
 #include <vector>
 
@@ -19,41 +18,45 @@ class Company
 {
 	public:	
 		// Functionnal specifications
+
+			// Creation
+				Company() ;																					// Create the profil of the company
+				Company( std::string const& name, int const& postalCode, std::string const& email ) ;						//
+
+			// Deletion
+				void delete_profile() ;																			// Delete the profile of the company
+				~Company() ;																					// (  IL FAUDRA NOTAMMENT DETRUIRE '_listSkills' PROPREMENT DE SORTE QU'IL N'Y AIT PAS DE FUITE DE MEMOIRE  )
+
+			// Job vacancy																				
+				void create_profile_jobVacancy( std::string const& title, std::vector<std::string> const& skills ) ;			// Create a job vacancy and add it to "_listJobsVacancy"			
+				void delete_profile_jobVacancy( std::string const& titre ) ;											// Delete of "_listJobsVacancy"  the job vacancy passed in argument
+
+			// Search																							// The 2 next fonctions print surname, firstname and email address
+				void search_by_skill( std::vector<std::string> const& skills ) const ;									// Search the job seekers corresponding to the skills			
+				void search_by_skill_postalCode( std::vector<std::string> const& skills, int const& postalCode ) const ;			// Search the job seekers corresponding to the skills and the postal code		
 		
-			Company( std::string name, int postalCode, std::string email ) ;							// Create the profil of the company
-
-			void delete_profile() ;															// Delete the profile of the company
-			
-			void create_profile_jobVacancy( std::string title, std::vector<std::string> skills ) ;		// Create a job vacancy and add it to "_listJobsVacancy"
-			
-			void delete_profile_jobVacancy( std::string titre ) ;									// Delete the job vacancy of "_listJobsVacancy"
-
-			void search_by_skill( std::vector<std::string> skills ) ;								// Search the job seekers corresponding to the skills
-																						// Print: surname, firstname and email address
-			
-			void search_by_skill_postalCode( std::vector<std::string> skills, int postalCode ) ;			// Search the job seekers corresponding to the skills and the postal code		
-																						// Print: surname, firstname and email address
+																										
 		// Accessors
+			// Name
+				std::string get_name() const ;			
+				void set_name( std::string const& name ) ;
+			// Postal code
+				int get_postalCode() const ;
+				void set_postalCode( int const& postalCode ) ;
+			// Email
+				std::string get_mail() const ;
+				void set_mail( std::string const& email ) ;
 
-			std::string get_name() ;			
-			void set_name( std::string name ) ;
 
-			int get_postalCode() ;
-			void set_postalCode( int postalCode ) ;
-
-			std::string get_mail() ;
-			void set_mail( std::string email ) ;
-
-		// Others
-			
-			void print_listJobsVacancy() ;													// Print the list of jobs vacancy
+		// Others		
+			void print_listJobsVacancy() const ;																	// Print the list of jobs vacancy
 
 
 	private:
 		std::string _name ;
 		int _postalCode ;
 		std::string _email ;
-		std::vector<Position> _listJobsVacancy ;												// list of job vacancy
+		std::vector<Position> _listJobsVacancy ;																	// list of job vacancy
 } ;
 
 
