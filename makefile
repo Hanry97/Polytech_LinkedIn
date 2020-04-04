@@ -12,7 +12,8 @@ build:
 
 # S'assure de l'existence tout les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
-
+all:
+	true
 # Lance le programme de test.
 check:
 	true
