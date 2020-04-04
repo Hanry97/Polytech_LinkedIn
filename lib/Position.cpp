@@ -7,3 +7,5 @@ LAST MODIFICATION:            ||
 ==============================*/
 
 #include "Position.h"
+using namespace std ;
+
