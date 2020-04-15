@@ -10,6 +10,9 @@ LAST MODIFICATION:            ||
 using namespace std ;
 
 
+Company::Company() {}
+
+/*
 Company::Company()
 {
 	cout << "\n Name: " ;
@@ -18,4 +21,12 @@ Company::Company()
 	cin >> _postalCode ;
 	cout << "\n email: " ;
 	cin >> _email ;
+}
+*/
+
+
+
+string Company::get_name() const
+{
+	return _name ;
 }

@@ -1,7 +1,7 @@
 /*==============================
                               ||
 LAST MODIFICATION:            ||
-	DATE: 04/04/2020         ||
+	DATE: 15/04/2020         ||
 	AUTHOR: Mihary R.        ||
                               ||
 ==============================*/
@@ -21,48 +21,53 @@ class Person
 		// Functionnal specifications
 		
 			// Creation
-				Person() ;																									// Create a profile
-				Person( std::string const& _surname, std::string const& _firstname, std::string const& _email, Company const& _company ) ;			//
-			
-			// Modify profil
-				void add_skill( std::string const& skill ) ;				
-				void delete_skill( std::string const& skill ) ;
-				void add_oldColleague( Person colleague ) ;
-				void modify_postalCode( int const& postalCode ) ;
-				void jobSeeker_to_employee() ;				
-				void employee_to_job_seeker() ;
+				Person() ;
+				void create_profil( char const& status ) ;																																					// Create a profile
+				bool load_my_profil() ;									// in order to connect
+																	// Ask the user an id and a password
+																	// If the couple (id, password) is correct, then:
+																		// - fill the current object and
+																		// - return true  
+																	// Otherwise return false
+			// profil modification
+				void add_skill() ;				
+				void add_oldColleague() ;
+				void modify_postalCode() ;
+				void modify_company() ;
+				void jobSeeker_to_employee() ;		
+				void employee_to_jobSeeker() ; 							// the employees of the company left are added automaticlly to the list of old colleagues
 
 			// Deletion profil
-				void delete_profil() ;																							// Deleate a profile
-				~Person() ;																									// (  IL FAUDRA NOTAMMENT DETRUIRE '_listSkills' et '_listOldColleagues' PROPREMENT DE SORTE QU'IL N'Y AIT PAS DE FUITE DE MEMOIRE  )
+				void delete_profil() ;
 			
-			// Search job vacancy																								// The 2 next fonctions print: postition title, company name, company email adress, company postal code
-				void search_position_by_skill() const ;																				// Seach jobs vacancy corresponding to its competences																															
-				void search_position_by_skill_postalCode( std::vector<std::string> const& skills, int const& postalCode ) const ;					// Seach jobs vacancy corresponding to its competences and its postal code		
+			// Search job vacancy										// The 2 next fonctions print: postition title, company name, company email adress, company postal code
+				void search_position_by_skill() const ;							// Seach jobs vacancy corresponding to the skills enter by the user																														
+				void search_position_by_skill_postalCode() const ;				// Seach jobs vacancy corresponding to the skills enter by the user	
 		
-			// Search among old colleagues																						// The 2 next fonctions print: surname, firstname, email adress
-				void search_colleagues_by_company( std::string const& company ) const ;													// Search the old colleagues who are in the company passed in argument
-				void search_colleagues_by_competences( std::vector<std::string> listSkills ) const ;											// Search the old colleagues who have the skills passed in argument																	
+			// Search old colleagues										// The 2 next fonctions print: surname, firstname, email adress
+				void search_colleagues_by_company() const ;						// Search the old colleagues who are in the company entered by the user
+				void search_colleagues_by_skill() const ;						// Search the old colleagues who have the skills entered by the user																	
 
+		// Display		
+				void print_profil() const ;
+				void print_listSkills() const ;
+				void print_listOldColleagues() const ;
 
-		// Accessors
-			// Status
-				char get_status() ;
-				void set_status( char status ) ;
-			// Surname
+		// Getters
+				char get_status() const ;
+				int get_id() const ;
 				std::string get_surname() const ;
-				void set_surname( std::string const& surname )  ;
-			// Postal Code
-				int get_postalCode() ;
-				void set_postalCode( int const& postalCode ) ;
-			// Email
+				std::string get_firstname() const ;
+				int get_postalCode() const ;
 				std::string get_email() const ;
-				void set_email( std::string const& email ) ;
-			// ...
+				
 
 			
 	private:
-		char _status ;																											// e <--> employee | j <--> job_seeker
+		char _status ;																			// 'e' <--> employee  ;  'j' <-->  job_seeker
+		int _id ;
+		std::string _password ;																	
+		
 		std::string _surname ;
 		std::string _firstname ;
 		int _postalCode ;
@@ -71,6 +76,35 @@ class Person
 		std::vector<Person> _listOldColleagues ;
 		Company _company ;
 } ;
+
+
+
+/*============================
+                            ||
+	OTHERS                 ||
+                            ||
+============================*/
+
+// Put the person with the id 'idPerson' in the argument 'person'
+// The person is load in the argument 'person'
+// Return true if the loading is succesful ; false otherwise
+bool load_a_profil( int const& idPerson, Person &person ) ;
+
+// Put the company with the name 'nameCompany' in the argument 'company'
+// The company is load in the argument 'company'
+// Return true if the loading is succesful ; false otherwise
+bool load_a_company( std::string const& nameCompany, Company &company ) ;
+
+
+// Return a list of skills 
+// These skills are input by the user
+std::vector<std::string> input_skills() ;
+
+// Return a postal code input by the user
+int input_postalCode() ;
+
+
+void put_sth_for_come_back() ;
 
 
 #endif
