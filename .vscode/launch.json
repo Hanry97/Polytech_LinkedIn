@@ -18,16 +18,7 @@
             },
             "miDebuggerArgs": "--quiet",
             "targetArchitecture": "x64",
-            "preLaunchTask": "make test"
-        },
-        {
-            "name": "test (MacOS)",
-            "type": "lldb",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/test",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "preLaunchTask": "make test"
+            "preLaunchTask": "make all"
         }
     ]
 }
