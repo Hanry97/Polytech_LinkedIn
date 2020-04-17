@@ -20,8 +20,8 @@ Company::Company() {}   //contructeur
 
 void create_company()                        //Ajouter un profil entreprise
 {
-	int code;
-	cout<< "************Ajouter un profil pour votre entreprise***********"<< endl<< endl;
+	int code;                               //code contient le code erreur
+	cout<< "************Create your company Account ***********"<< endl<< endl;
 	cout << "\n Name: " ;
 	cin >> name ;
 	cout << "\n Postal Code: " ;
@@ -32,45 +32,49 @@ void create_company()                        //Ajouter un profil entreprise
 	                                       //Insertion dans le fichier
 	code=etp_create_profile(name,PostalCode,email);
 
-	return code;                            //code contient le code erreur
+	if(code==0)cout << "++++++++++SUCCESFUL!++++++++++++"<< endl;
+	else cout <<"-------------FAILURE! ERROR NUMBER : "<<code<<"------------"<< endl;
+
+                            
 }
 
 
 
-int delete_company()
+void delete_company()
 {
 	int id_entreprise,code;
-	cout<< "************Supprimer le  profil de votre entreprise***********"<< endl<< endl;
-	cout<<"Veuillez entre l'ID de votre entreprise";
+	cout<< "************Delete Your Company Account***********"<< endl<< endl;
+	cout<<"Please,enter your Company's ID";
 	cin >> id_entreprise;
 	
 	                                 //Insertion dans le fichier
 	code=etp_delete_profile(id_entreprise);
-	
-	return code;                      //le code erreur
+
+	if(code==0)cout << "++++++++++SUCCESFUL!++++++++++++"<< endl;
+	else cout <<"-------------FAILURE! ERROR NUMBER : "<<code<<"------------"<< endl;
 }
 
 
 
 //////////////////////////////JOB VACANCY/////////////////////////////////
 
-int create_profile_jobVacancy() 
+void create_profile_jobVacancy() 
 {
 	int id_entreprise,code,i;
 	std::vector<std::string> skills;           //Tableau de compétences
 	std::string skill,titre;    
 
-	cout<< "*************Publier une offre pour un Poste Vacant***********"<< endl<< endl;
-	cout<<"Saisir l'intitulé du Poste :";
+	cout<< "*************Add an offer for a vacancy position***********"<< endl<< endl;
+	cout<<"Please,Enter the name of the position :";
 	cin>>titre;
 
-	cout<<"Lister les compétences requises pour ce poste"<< endl;
-	cout<<"Saisir q pour quitter"<< endl;  
+	cout<<"Please, List the skills required for this position"<< endl;
+	cout<<"Enter "q" to quit skill's list"<< endl;  
 
 	i=0;
 	do{                                         //Boucle pour permettre la saisie de plusieur competence
 		i++;								    //L utilisateur saisi q pour quitter la boucle
-		cout<<"Competence N "<<i<<" :"<< endl;
+		cout<<"Skill N "<<i<<" :"<< endl;
 		cin>>skill;
 		if(skill!="q") skills.push_back(skill);   //Pour ne pas enregistrer la lettre q
 		
@@ -78,28 +82,34 @@ int create_profile_jobVacancy()
 
 
 	//A COMPLETER   //A COMPLETER   //A COMPLETER
+
+	if(code==0)cout << "++++++++++SUCCESFUL!++++++++++++"<< endl;
+	else cout <<"-------------FAILURE! ERROR NUMBER : "<<code<<"------------"<< endl;
 	
 }
 
 
-etp_delete_profileOfPosition(int id_etp,int id_poste)
 
-int delete_profile_jobVacancy()
+
+void delete_profile_jobVacancy()
 {
 	int id_etp, id_poste,code;
 
-	cout<<"Saisir l'ID de l'entreprise";
+	cout<<"Please,Enter the company's ID";
 	cin>>id_etp;
 
-	cout<<"Saisir l'ID du poste a supprimer";
+	cout<<"Please,Enter the position ID"<< endl;
 	cin>>id_poste;
 	//penser a creer une fonction qui retourn l id d un poste a partie du titre
 
 	code=etp_delete_profileOfPosition(id_etp,id_poste);
+
+	if(code==0)cout << "++++++++++SUCCESFUL!++++++++++++"<< endl;
+	else cout <<"-------------FAILURE! ERROR NUMBER : "<<code<<"------------"<< endl;
 }
 
 
-int search_by_skill(vector<string> const& skills ) const
+void search_by_skill(vector<string> const& skills ) const
 {
 
 }
