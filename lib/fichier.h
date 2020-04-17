@@ -5,6 +5,8 @@
 #include <vector>
 
 //GENERICS FUNCTIONS
+//==============================================================================================================================
+
 bool skillFounded(std::vector<std::string> tab, std::string val);
 bool existOnVector(std::vector<int> tab, int val);
 
@@ -15,7 +17,9 @@ std::vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise);
 
 int delete_list_of_row_from_table(std::vector<int> listOfRowsID, std::string const path_table);
 
-//FUNCTIONS OF THE ENTERPRISE
+
+//FUNCTIONS FOR THE ENTERPRISE
+//==============================================================================================================================
 
 //Retourne un code erreur ou succeès
 int etp_create_profile(std::string nom, std::string code_postal, std::string email);
@@ -32,5 +36,26 @@ int etp_delete_profileOfPosition(int id_etp, int id_poste);
 
 //Pour une recherche sans code postal renseigner # comme donnée de code postal
 std::vector<std::vector<std::string>> etp_searchToHire(std::vector<std::string> list_competence,std::string code_postal);
+
+//FUNCTIONS FOR THE JOB SEEKER
+//==============================================================================================================================
+
+//Retourne un code erreur ou succeès
+int jsk_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills);
+
+int jsk_add_skills();
+
+int jsk_add_colleague();
+
+int jsk_update_code_postal();
+
+int jsk_profile_transition();
+
+int jsk_delete_profile(int id);
+
+//Pour une recherche sans code postal renseigner # comme donnée de code postal
+std::vector<std::vector<std::string>> jsk_searchJob(std::vector<std::string> list_competence,std::string code_postal);
+
+std::vector<std::vector <std::string>> jsk_find_former_colleagues();
 
 #endif
