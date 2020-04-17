@@ -232,7 +232,7 @@ int etp_create_profile(string nom, string code_postal, string email)
 	
 } 
 
-int etp_create_profileOfPosition(string titre, string skills, int entreprise_id){
+int etp_create_profileOfPosition(string titre, vector<string> skills, int entreprise_id){
 
     int code = EXIT_WITH_ERROR;
     int id,lastID;
@@ -242,11 +242,21 @@ int etp_create_profileOfPosition(string titre, string skills, int entreprise_id)
     if(lastID != -1){
 
         id = lastID +1;
+        string string_skills = "";
+        int i;
+        int nb_skills = skills.size();
+
+        if(nb_skills > 1){
+            for(i=0; i<nb_skills - 1; i++) string_skills = string_skills + skills[i] + ";";
+            string_skills = string_skills + skills[i];                                      //On ajoute la dernière de la liste;  
+        }else{
+            string_skills = string_skills + skills[0];
+        }
         ofstream flux(tablePoste.c_str(), ios::app);
         
         if(flux)    
         {
-            flux << id << "," << titre << "," << skills << "," << entreprise_id << endl;
+            flux << id << "," << titre << "," << string_skills << "," << entreprise_id << endl;
             code = SUCCESS;
         }else{
             cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEntreprise << endl;
