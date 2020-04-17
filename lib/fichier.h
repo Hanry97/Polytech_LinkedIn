@@ -25,7 +25,7 @@ int etp_create_profile(std::string nom, std::string code_postal, std::string ema
 int etp_delete_profile(int id_entreprise);
 
 //Retourne un code erreur ou succès
-int etp_create_profileOfPosition(std::string titre, std::string skills, int entreprise_id);
+int etp_create_profileOfPosition(std::string titre, std::vector<std::string> skills, int entreprise_id);
 
 //Retourne un code erreur ou succès
 int etp_delete_profileOfPosition(int id_etp, int id_poste);
