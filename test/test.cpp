@@ -64,13 +64,19 @@ int main()
     {
         string pathPosteTable = tablePoste;
         string titre = "concepteur logiciel";
-        string competences = "C;C++;Python";
+        vector<string> competences;
         int id_entreprise = get_lastID(tableEntreprise);
+
+        competences.push_back("C");
+        competences.push_back("C++");
+        competences.push_back("Python");
 
         TEST(etp_create_profileOfPosition(titre,competences,id_entreprise) == SUCCESS);
 
         titre = "Admin systeme";
-        competences = "Linux;Windows";
+        competences.clear();
+        competences.push_back("Linux");
+        competences.push_back("Windows");
 
         TEST(etp_create_profileOfPosition(titre,competences,id_entreprise) == SUCCESS);
 
