@@ -22,7 +22,6 @@ class Position
 
 		// Deletion
 			void delete_position() ;
-		//	~Position() ;																				// 
 
 		// Name
 			std::string get_title() const ;
