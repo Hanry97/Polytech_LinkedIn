@@ -51,7 +51,7 @@ int main()
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGSEGV, &sa, NULL);
 
-    {
+    /*{
         string nom, code_postal,email;
         string pathEnterpriseTable = tableEntreprise;
         nom = "Polytech Nice";
@@ -115,6 +115,37 @@ int main()
 
         results = etp_searchToHire(list_skill,code_postal);
         TEST( results == employes);
+    }*/
+
+    {
+        string nom = "Didier";
+        string prenom = "Franck";
+        string email = "Franck@gmail.com";
+        string code_postal = "13009";
+        vector<string> competences;
+
+        competences.push_back("Ruby");
+        competences.push_back("C++");
+        competences.push_back("React");
+
+        TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);
+
+        competences.clear();
+        competences.push_back("Agile");
+        competences.push_back("Java EE");
+        competences.push_back("API rest");
+
+        int id = get_lastID(tableJobseeker);
+
+        TEST(jsk_add_skills(id,competences) == SUCCESS);
+
+        vector<int> collegue;
+        collegue.push_back(4);
+        collegue.push_back(5);
+        collegue.push_back(6);
+
+        TEST(jsk_add_colleague(id,collegue) == SUCCESS);
+
     }
 
     cout << tests_reussis << " / " << tests_executes << endl;
