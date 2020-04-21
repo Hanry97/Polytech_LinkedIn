@@ -170,7 +170,6 @@ void display_person_connection( char const& status )
 void navigation_person_connection( int const& choice, char const& status )
 {
 	Person person ;
-	int id ;
 	string password ;
 	bool succes ;
 
