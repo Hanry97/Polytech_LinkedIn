@@ -17,6 +17,12 @@ std::vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise);
 
 int delete_list_of_row_from_table(std::vector<int> listOfRowsID, std::string const path_table);
 
+int update_row(int id_row, std::string new_row, std::string const path_table);
+
+std::string get_tableHeader(std::string const path_table);
+
+std::string get_tableRow(int id, std::string const path);
+
 
 //FUNCTIONS FOR THE ENTERPRISE
 //==============================================================================================================================
@@ -43,9 +49,9 @@ std::vector<std::vector<std::string>> etp_searchToHire(std::vector<std::string> 
 //Retourne un code erreur ou succeès
 int jsk_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills);
 
-int jsk_add_skills();
+int jsk_add_skills(int id_jsk, std::vector<std::string> skills);
 
-int jsk_add_colleague();
+int jsk_add_colleague(int id_jsk, std::vector<int> colleague);
 
 int jsk_update_code_postal();
 
