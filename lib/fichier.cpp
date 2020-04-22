@@ -285,7 +285,7 @@ string get_tableRow(int id, string const path)
         
         getline(table_file, ligne);
         while(getline(table_file, ligne)) {
-            
+            row.clear();
             // utilisé pour casser des mots 
             stringstream s(ligne); 
             // On lit chaque colone de la ligne 
@@ -458,6 +458,7 @@ vector <vector <string> > etp_searchToHire(vector<string> list_competence,string
         while(getline(table_file, ligne)) {
 
             employe.clear();
+            row.clear();
             stringstream s(ligne); 
 
             while (getline(s, word, ',')) { 
