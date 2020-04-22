@@ -128,7 +128,8 @@ int main()
         competences.push_back("C++");
         competences.push_back("React");
 
-        TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);
+        TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);   //L'un va transiter vers employé
+        TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);   //L'autre sera supprimé
 
         competences.clear();
         competences.push_back("Agile");
@@ -153,6 +154,10 @@ int main()
         int id_enterprise = get_lastID(tableEntreprise);
 
         TEST(jsk_profile_transition_to_employe(id,id_enterprise) == SUCCESS);
+
+        id = get_lastID(tableJobseeker);
+
+        TEST(jsk_delete_profile(id) == SUCCESS);
 
     }
 
