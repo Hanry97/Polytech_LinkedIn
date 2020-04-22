@@ -628,4 +628,142 @@ int jsk_add_colleague(int id_jsk, vector<int> colleague)
     return code;
 }
 
+int jsk_update_code_postal(int id_jsk, std::string new_code_postale)
+{
+    int code = EXIT_WITH_ERROR;
+    string new_row = "";
+    string oldrow;
 
+    oldrow = get_tableRow(id_jsk,tableJobseeker);
+
+    if(oldrow != ""){
+        vector<string> row;
+        string ligne,word;
+
+        stringstream s(oldrow); 
+        while (getline(s, word, ',')) {
+            row.push_back(word);            //On récupère les colonnes
+        } 
+        
+        ligne = ligne + row[0];
+        for(size_t i=1; i<row.size(); i++){
+            if(i != 4) ligne = ligne + "," + row[i];
+            else ligne = ligne + "," + new_code_postale;
+        }
+
+        code = update_row(id_jsk,ligne,tableJobseeker);
+
+
+    }
+
+    return code;
+}
+
+int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise)
+{
+    int code = EXIT_WITH_ERROR;
+    string new_row = "";
+    string oldrow;
+
+    oldrow = get_tableRow(id_jsk,tableJobseeker);
+
+    if(oldrow != ""){
+        vector<string> row;
+        vector<string> skills;
+        vector<string> colleagues;
+        string ligne,word;
+
+        stringstream s(oldrow); 
+        while (getline(s, word, ',')) {
+            row.push_back(word);            //On récupère les colonnes
+        } 
+        
+        string nom =  row[1];
+        string prenom = row[2];
+        string email = row[3];
+        string code_postal = row[4];
+
+        string skill;
+        stringstream ss(row[5]);
+        while (getline(ss, skill, ';')) {
+            skills.push_back(skill);            //On récupère les compétences
+        }
+
+        if(row.size() == 7){
+            string colleague;
+            stringstream sc(row[6]);
+
+            while (getline(sc, colleague, ';')) {
+                colleagues.push_back(colleague);            //On récupère les compétences
+            }
+        }
+
+        code = emp_create_profile(nom, prenom, email, code_postal, skills, colleagues, id_enterprise);
+
+        if(code == SUCCESS)
+        {
+            vector<int> listRow;
+
+            listRow.push_back(id_jsk);
+
+            code = delete_list_of_row_from_table(listRow,tableJobseeker);
+        }
+
+
+    }
+
+    return code;
+}
+
+//FUNCTIONS OF THE EMPLOYE
+
+int emp_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills, vector<string> colleagues, int id_enterprise)
+{
+    int id;
+    int code;
+
+    int lastID = get_lastID(tableEmployes);
+
+    if(lastID != -1){
+        
+        id = lastID + 1;
+        string string_skills = "";
+        int i;
+        int nb_skills = skills.size();
+
+        if(nb_skills > 1){
+            for(i=0; i<nb_skills - 1; i++) string_skills = string_skills + skills[i] + ";";
+            string_skills = string_skills + skills[i];                                      //On ajoute la dernière de la liste;  
+        }else{
+            string_skills = string_skills + skills[0];
+        }
+
+        int nb_colleagues = colleagues.size();
+        string string_colleagues = "";
+
+        if(nb_colleagues > 1){
+            for(i=0; i<nb_colleagues - 1; i++) string_colleagues = string_colleagues + colleagues[i] + ";";
+            string_colleagues = string_colleagues + colleagues[i];                                      //On ajoute la dernière de la liste;  
+        }else{
+            string_colleagues = string_colleagues + colleagues[0];
+        }
+
+        ofstream flux(tableEmployes.c_str(), ios::app);
+
+        if(flux)    
+        {
+            flux << id << "," << nom << "," << prenom << "," << email << "," << code_postal << "," << string_skills << "," << string_colleagues << "," << to_string(id_enterprise) << endl;
+            code = SUCCESS;
+        }else{
+            cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl;
+            code = OPEN_FILE_ERROR;
+        }
+
+        flux.close();
+    
+    }else{
+        code = SUB_FUNCTION_ERROR;
+    }
+
+    return code;
+}
