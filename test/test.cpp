@@ -51,7 +51,7 @@ int main()
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGSEGV, &sa, NULL);
 
-    /*{
+    {
         string nom, code_postal,email;
         string pathEnterpriseTable = tableEntreprise;
         nom = "Polytech Nice";
@@ -115,7 +115,7 @@ int main()
 
         results = etp_searchToHire(list_skill,code_postal);
         TEST( results == employes);
-    }*/
+    }
 
     {
         string nom = "Didier";
