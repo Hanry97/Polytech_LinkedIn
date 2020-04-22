@@ -53,8 +53,11 @@ build/libPosition.a: build/Position.o | build
 build/test.o: test/test.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c test/test.cpp -I ./lib -o build/test.o
 
-build/test: build/test.o build/libfichier.a build/libPosition.a build/libPerson.a build/libdisplay.a build/libCompany.a | build
-	$(cc) build/test.o -Lbuild -lfichier -lPosition -lPerson -ldisplay -lCompany -o build/test
+#build/test: build/test.o build/libfichier.a build/libPosition.a build/libPerson.a build/libdisplay.a build/libCompany.a | build
+#	$(cc) build/test.o -Lbuild -lfichier -lPosition -lPerson -ldisplay -lCompany -o build/test
+
+build/test: build/test.o build/libfichier.a | build
+	$(cc) build/test.o -Lbuild -lfichier -o build/test
 
 build/appli.o: main.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c main.cpp -I ./lib -o build/appli.o
@@ -65,7 +68,7 @@ build/appli: build/appli.o build/libfichier.a build/libPosition.a build/libPerso
 # S'assure de l'existence tout les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
 
-all: build/test build/appli
+all: build/test #build/appli
 
 # Lance le programme de test.
 check: all
