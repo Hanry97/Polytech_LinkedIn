@@ -53,9 +53,9 @@ int jsk_add_skills(int id_jsk, std::vector<std::string> skills);
 
 int jsk_add_colleague(int id_jsk, std::vector<int> colleague);
 
-int jsk_update_code_postal();
+int jsk_update_code_postal(int id_jsk, std::string new_code_postale);
 
-int jsk_profile_transition();
+int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise);
 
 int jsk_delete_profile(int id);
 
@@ -63,5 +63,11 @@ int jsk_delete_profile(int id);
 std::vector<std::vector<std::string>> jsk_searchJob(std::vector<std::string> list_competence,std::string code_postal);
 
 std::vector<std::vector <std::string>> jsk_find_former_colleagues();
+
+//FUNCTIONS FOR THE EMPLOYE
+//================================================================================================================================
+
+int emp_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills, std::vector<std::string> colleagues,int id_enterprise);
+
 
 #endif
