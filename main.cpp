@@ -1,5 +1,5 @@
-#include "fonctionSup.h"
 #include <iostream>
+#include "lib/display.h"
 using namespace std;
 
 //last modif: GNANKENE Cheick   06/04/2020
@@ -21,7 +21,7 @@ int main()
     do
     {
         system("clear");
-        menu_gen();  // Affiche le menu général
+        display_general_menu();  // Affiche le menu général
         cin>>choix;
         switch (choix)
         {
