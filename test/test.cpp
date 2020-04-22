@@ -146,6 +146,14 @@ int main()
 
         TEST(jsk_add_colleague(id,collegue) == SUCCESS);
 
+        code_postal = "13005";
+
+        TEST(jsk_update_code_postal(id,code_postal) == SUCCESS);
+
+        int id_enterprise = get_lastID(tableEntreprise);
+
+        TEST(jsk_profile_transition_to_employe(id,id_enterprise) == SUCCESS);
+
     }
 
     cout << tests_reussis << " / " << tests_executes << endl;
