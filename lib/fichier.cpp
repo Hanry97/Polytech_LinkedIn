@@ -715,6 +715,17 @@ int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise)
     return code;
 }
 
+int jsk_delete_profile(int id)
+{
+    int code = EXIT_WITH_ERROR;
+
+    vector<int> tab_OneID;
+    tab_OneID.push_back(id);
+    
+    code = delete_list_of_row_from_table(tab_OneID,tableJobseeker);
+    
+    return code;
+}
 //FUNCTIONS OF THE EMPLOYE
 
 int emp_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills, vector<string> colleagues, int id_enterprise)
