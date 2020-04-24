@@ -13,7 +13,6 @@ LAST MODIFICATION:            ||
 #include <iostream>
 #include <vector>
 
-
 class Company
 {
 	public:	
@@ -22,14 +21,12 @@ class Company
 			// Creation
 				Company() ;																					// Create the profil of the company
 				Company( std::string const& name, int const& postalCode, std::string const& email ) ;						//
-
-			// Deletion
-				void delete_profile() ;																			// Delete the profile of the company
-				~Company() ;																					// (  IL FAUDRA NOTAMMENT DETRUIRE '_listSkills' PROPREMENT DE SORTE QU'IL N'Y AIT PAS DE FUITE DE MEMOIRE  )
-
+				void create_company();
+				void delete_company();
+			
 			// Job vacancy																				
-				void create_profile_jobVacancy( std::string const& title, std::vector<std::string> const& skills ) ;			// Create a job vacancy and add it to "_listJobsVacancy"			
-				void delete_profile_jobVacancy( std::string const& titre ) ;											// Delete of "_listJobsVacancy"  the job vacancy passed in argument
+				void create_profile_jobVacancy() ;			// Create a job vacancy and add it to "_listJobsVacancy"			
+				void delete_profile_jobVacancy() ;											// Delete of "_listJobsVacancy"  the job vacancy passed in argument
 
 			// Search																							// The 2 next fonctions print surname, firstname and email address
 				void search_by_skill( std::vector<std::string> const& skills ) const ;									// Search the job seekers corresponding to the skills			
@@ -53,10 +50,11 @@ class Company
 
 
 	private:
-		std::string _name ;
-		int _postalCode ;
-		std::string _email ;
-		std::vector<Position> _listJobsVacancy ;																	// list of job vacancy
+		std::string name ;
+		int postalCode ;
+		std::string email ;
+		std::vector<Position> listJobsVacancy ;	
+		//std::string _																// list of job vacancy
 } ;
 
 
