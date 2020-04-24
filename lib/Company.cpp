@@ -111,22 +111,102 @@ void delete_profile_jobVacancy()
 
 void search_by_skill(vector<string> const& skills ) const
 {
+ 
+	int id_entreprise,code,i;
+	vector<string> skills;           //Tableau de compétences
+	string skill;    
 
+	cout<<"Please, List your skills "<< endl;
+	cout<<"Enter "q" to quit skill's list"<< endl;  
+
+	i=0;
+	do{                                         //Boucle pour permettre la saisie de plusieur competence
+		i++;								    //L utilisateur saisi q pour quitter la boucle
+		cout<<"Skill N "<<i<<" :"<< endl;
+		cin>>skill;
+		if(skill!="q") skills.push_back(skill);   //Pour ne pas enregistrer la lettre q
+		
+	}while skill!="q";
+
+
+	//A COMPLETER   //A COMPLETER   //A COMPLETER
+
+	if(code==0)cout << "++++++++++SUCCESFUL!++++++++++++"<< endl;
+	else cout <<"-------------FAILURE! ERROR NUMBER : "<<code<<"------------"<< endl;
 }
 
 
-
-
-
-
-string Company::get_name() const
+void search_by_skill_postalCode(vector<string> const& skills, int const& postalCode ) const 
 {
-	return _name ;
+
+	int id_entreprise,code,i;
+	vector<string> skills;           //Tableau de compétences
+	string skill;    
+
+	cout<<"Please, List your skills "<< endl;
+	cout<<"Enter "q" to quit skill's list"<< endl;  
+
+	i=0;
+	do{                                         //Boucle pour permettre la saisie de plusieur competence
+		i++;								    //L utilisateur saisi q pour quitter la boucle
+		cout<<"Skill N "<<i<<" :"<< endl;
+		cin>>skill;
+		if(skill!="q") skills.push_back(skill);   //Pour ne pas enregistrer la lettre q
+		
+	}while skill!="q";
+
+
+	//A COMPLETER   //A COMPLETER   //A COMPLETER
+
+	if(code==0)cout << "++++++++++SUCCESFUL!++++++++++++"<< endl;
+	else cout <<"-------------FAILURE! ERROR NUMBER : "<<code<<"------------"<< endl;
 }
 
+
+void print_listJobsVacancy() const 
+{
+	int code;
+	
+	//A COMPLETER   //A COMPLETER   //A COMPLETER
+
+	if(code==0)cout << "++++++++++SUCCESFUL!++++++++++++"<< endl;
+	else cout <<"-------------FAILURE! ERROR NUMBER : "<<code<<"------------"<< endl;
+
+}
+
+
+
+// Accessors
+
+// Name
+string get_name() const 
+{
+	return company.name;
+}		
+void set_name(string const& name1 ) 
+{
+	company.name=name1;
+}
+
+// Postal code
 int get_postalCode() const 
 {
-	return _postalCode;
+	return company.postalCode;
+}
+void set_postalCode( int const& postalCode ) 
+{
+	company.postalCode=postalCode;
 }
 
+
+// Email
+string get_mail() const 
+{
+	return company.email;
+}
+
+void set_mail( std::string const& email ) 
+{
+	company.email=email;
+}
 	
