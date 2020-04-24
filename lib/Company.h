@@ -25,7 +25,7 @@ class Company
 
 			// Deletion
 				void delete_profile() ;																			// Delete the profile of the company
-				~Company() ;																					// (  IL FAUDRA NOTAMMENT DETRUIRE '_listSkills' PROPREMENT DE SORTE QU'IL N'Y AIT PAS DE FUITE DE MEMOIRE  )
+				//~Company() ;																					// (  IL FAUDRA NOTAMMENT DETRUIRE '_listSkills' PROPREMENT DE SORTE QU'IL N'Y AIT PAS DE FUITE DE MEMOIRE  )
 
 			// Job vacancy																				
 				void create_profile_jobVacancy( std::string const& title, std::vector<std::string> const& skills ) ;			// Create a job vacancy and add it to "_listJobsVacancy"			
