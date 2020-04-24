@@ -64,13 +64,19 @@ int main()
     {
         string pathPosteTable = tablePoste;
         string titre = "concepteur logiciel";
-        string competences = "C;C++;Python";
+        vector<string> competences;
         int id_entreprise = get_lastID(tableEntreprise);
+
+        competences.push_back("C");
+        competences.push_back("C++");
+        competences.push_back("Python");
 
         TEST(etp_create_profileOfPosition(titre,competences,id_entreprise) == SUCCESS);
 
         titre = "Admin systeme";
-        competences = "Linux;Windows";
+        competences.clear();
+        competences.push_back("Linux");
+        competences.push_back("Windows");
 
         TEST(etp_create_profileOfPosition(titre,competences,id_entreprise) == SUCCESS);
 
@@ -109,6 +115,50 @@ int main()
 
         results = etp_searchToHire(list_skill,code_postal);
         TEST( results == employes);
+    }
+
+    {
+        string nom = "Didier";
+        string prenom = "Franck";
+        string email = "Franck@gmail.com";
+        string code_postal = "13009";
+        vector<string> competences;
+
+        competences.push_back("Ruby");
+        competences.push_back("C++");
+        competences.push_back("React");
+
+        TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);   //L'un va transiter vers employé
+        TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);   //L'autre sera supprimé
+
+        competences.clear();
+        competences.push_back("Agile");
+        competences.push_back("Java EE");
+        competences.push_back("API rest");
+
+        int id = get_lastID(tableJobseeker);
+
+        TEST(jsk_add_skills(id,competences) == SUCCESS);
+
+        vector<int> collegue;
+        collegue.push_back(4);
+        collegue.push_back(5);
+        collegue.push_back(6);
+
+        TEST(jsk_add_colleague(id,collegue) == SUCCESS);
+
+        code_postal = "13005";
+
+        TEST(jsk_update_code_postal(id,code_postal) == SUCCESS);
+
+        int id_enterprise = get_lastID(tableEntreprise);
+
+        TEST(jsk_profile_transition_to_employe(id,id_enterprise) == SUCCESS);
+
+        id = get_lastID(tableJobseeker);
+
+        TEST(jsk_delete_profile(id) == SUCCESS);
+
     }
 
     cout << tests_reussis << " / " << tests_executes << endl;
