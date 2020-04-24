@@ -59,15 +59,47 @@ int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise);
 
 int jsk_delete_profile(int id);
 
+//Résultats
+    //Titre du poste                dans [0]
+    //Nom de l'entreprise           dans [1]
+    //Adresse mail de l'entreprise  dans [2]
+    //Code postal de l'entreprise   dans [3]
 //Pour une recherche sans code postal renseigner # comme donnée de code postal
+//La recherche par code postale recherche dans la table entreprise en fonction de l'id de l'entreprise qui propose le poste
 std::vector<std::vector<std::string>> jsk_searchJob(std::vector<std::string> list_competence,std::string code_postal);
 
-std::vector<std::vector <std::string>> jsk_find_former_colleagues();
+//Résultats
+    //Nom du (de la) collègue
+    //Prénom du (de la) collègue
+    //Adresse mail du (de la) collègue
+//Recherche par entreprise (retoune les ancien(ne)s collègues employés à l'entreprise)
+
+std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int id enterprise);
+
+//####### A FAIRE ##############//
+std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std::vector<std::string> list_competence);
 
 //FUNCTIONS FOR THE EMPLOYE
 //================================================================================================================================
 
 int emp_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills, std::vector<std::string> colleagues,int id_enterprise);
 
+int emp_add_skills(int id_emp, std::vector<std::string> skills);
+
+int emp_add_colleague(int id_emp, std::vector<int> colleague);
+
+int emp_update_code_postal(int id_emp, std::string new_code_postale);
+
+int emp_update_enterprise(int id_emp, int new_id_enterprise);
+
+//Les employés de l'entreprise quittée s'ajoutent automatiquement à la liste des anciens collègues
+int emp_profile_transition_to_jobseeker(int id_emp, int id_enterprise);
+
+int emp_delete_profile(int id);
+
+//Pour une recherche sans code postal renseigner # comme donnée de code postal
+std::vector<std::vector<std::string>> emp_searchJob(std::vector<std::string> list_competence,std::string code_postal);
+
+std::vector<std::vector <std::string>> emp_find_former_colleagues();
 
 #endif

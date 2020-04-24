@@ -440,7 +440,7 @@ int etp_delete_profile(int id_entreprise)
     return code;    
 }
 
-vector <vector <string> > etp_searchToHire(vector<string> list_competence,string code_postal)
+vector<vector<string>> etp_searchToHire(vector<string> list_competence,string code_postal)
 {
     vector <vector <string> > list_of_result;
 
@@ -726,6 +726,121 @@ int jsk_delete_profile(int id)
     
     return code;
 }
+
+vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_postal)
+{
+    vector <vector <string> > list_of_result;
+
+    ifstream table_file(tablePoste.c_str());
+
+    if(table_file){
+
+        string ligne, word, sub_word, skill, last_ligne;
+        int x = 0;
+        bool match = false;
+        vector<string> row; 
+        vector<string> poste;
+        
+        getline(table_file, ligne);        //Ligne de l'entete
+        while(getline(table_file, ligne)) {
+
+            poste.clear();
+            row.clear();
+            stringstream s(ligne); 
+
+            while (getline(s, word, ',')) {     //On met chaque champ dans le tableau row
+                row.push_back(word); 
+            }
+            sub_word = row[2];                  //row[2] contient les compétences
+
+            stringstream ss(sub_word);
+            while (getline(ss, skill, ';') && match == false) { 
+                match = skillFounded(list_competence,skill);        //Si une compétence correspond on valide
+            } 
+
+            if(match == true)                           //Si au moins une compétence correspond
+            {                                           //On recherche l'entreprise correspondant au poste
+                string data_enterprise;                 //L'id de l'entreprise est dans row[3]
+                string enterprise = "";
+                vector<string> data; 
+
+                enterprise = get_tableRow(stoi(row[3]), tableEntreprise);
+                if(enterprise != "")
+                {
+                    
+                    stringstream sx(enterprise);
+                    data.clear();
+
+                    while(getline(sx, data_enterprise, ','))
+                    {
+                        data.push_back(data_enterprise);
+                    }
+
+                    if((code_postal != "#" && data[3] == code_postal) || (code_postal == "#"))
+                    {
+                        poste.push_back(row[1]);        //On met dans poste[0] le titre du poste
+                        poste.push_back(data[1]);       //On met dans poste[1] le nom
+                        poste.push_back(data[3]);       //On met dans poste[2] l'adresse mail
+                        poste.push_back(data[2]);       //On met dans poste[3] le code postal
+                    }
+                }
+                list_of_result.push_back(poste);
+            }
+  
+        } 
+
+    }else{
+        cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+    }
+    table_file.close();
+
+    return list_of_result;
+}
+
+std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int id enterprise)
+{
+    vector <vector <string> > list_of_result;
+
+    ifstream table_file(tableEmployes.c_str());
+
+    if(table_file)
+    {
+        string ligne, word;
+        int x = 0;
+        bool match = false;
+        vector<string> row; 
+        vector<string> collegue;
+        
+        getline(table_file, ligne);        //Ligne de l'entete
+        while(getline(table_file, ligne)) 
+        {
+            stringstream s(ligne); 
+            row.clear();
+
+            while (getline(s, word, ',')) { 
+                row.push_back(word); 
+            }
+
+            if(row[7] == enterprise)
+            {
+                collegue.clear();
+                collegue.push_back(row[1]);
+                collegue.push_back(row[2]);
+                collegue.push_back(row[3]);
+
+                list_of_result.push_back(collegue);
+            }
+
+            row.clear();
+        }
+    }else{
+        cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+    }
+    table_file.close();
+
+    return list_of_result;
+}
+
 //FUNCTIONS OF THE EMPLOYE
 
 int emp_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills, vector<string> colleagues, int id_enterprise)
@@ -776,5 +891,144 @@ int emp_create_profile(string nom, string prenom, string email, string code_post
         code = SUB_FUNCTION_ERROR;
     }
 
+    return code;
+}
+
+int emp_add_skills(int id_emp, vector<string> skills)
+{
+    int code = EXIT_WITH_ERROR;
+    string string_skills = "";
+    string oldrow;
+    string skill;
+    int i;
+    int nb_skills = skills.size();
+
+    
+
+    oldrow = get_tableRow(id_emp,tableEmployes);
+
+    if(oldrow != ""){
+        vector<string> row;
+        string ligne,word;
+
+        stringstream s(oldrow); 
+        while (getline(s, word, ',')) {
+            row.push_back(word);            //On récupère les colonnes
+        } 
+        stringstream ss(row[5]);
+        while (getline(ss, skill, ';')) {
+            string_skills = string_skills + skill + ";";            //On récupère les compétences
+        }
+
+        if(nb_skills > 1){
+            for(i=0; i<nb_skills - 1; i++) string_skills = string_skills + skills[i] + ";";
+            string_skills = string_skills + skills[i];                                       
+        }else{
+            string_skills = string_skills + skills[0];
+        }
+        
+        ligne = ligne + row[0];
+        for(size_t i=1; i<row.size(); i++){
+            if(i != 5) ligne = ligne + "," + row[i];
+            else ligne = ligne + "," + string_skills;
+        }
+
+        code = update_row(id_jsk,ligne,tableEmployes);
+
+
+    }
+
+    return code;
+}
+
+int emp_add_colleague(int id_emp, std::vector<int> colleague)
+{
+    int code = EXIT_WITH_ERROR;
+    string string_colleague = "";
+    string oldrow;
+    string collegue;
+    int i;
+    int nb_colleague = colleague.size();
+
+    
+
+    oldrow = get_tableRow(id_emp,tableEmployes);
+
+    if(oldrow != ""){
+        vector<string> row;
+        string ligne,word;
+
+        stringstream s(oldrow); 
+        while (getline(s, word, ',')) {
+            row.push_back(word);            //On récupère les colonnes
+        } 
+        if(row[6] != ""){
+            stringstream ss(row[6]);
+            while (getline(ss, collegue, ';')) {
+                string_colleague = string_colleague + collegue + ";";            //On récupère les compétences
+            }
+        }
+
+        if(nb_colleague > 1){
+            for(i=0; i<nb_colleague - 1; i++) string_colleague = string_colleague + to_string(colleague[i]) + ";";
+            string_colleague = string_colleague + to_string(colleague[i]);                                       
+        }else{
+            string_colleague = string_colleague + to_string(colleague[0]);
+        }
+        
+        ligne = ligne + row[0];
+        for(size_t i=1; i<row.size(); i++){
+            if(i != 6) ligne = ligne + "," + row[i];
+            else ligne = ligne + "," + string_colleague;
+        }
+
+        code = update_row(id_jsk,ligne,tableEmployes);
+
+    }
+
+    return code;
+}
+
+int emp_update_code_postal(int id_emp, std::string new_code_postale)
+{
+    int code = EXIT_WITH_ERROR;
+    string new_row = "";
+    string oldrow;
+
+    oldrow = get_tableRow(id_emp,tableEmployes);
+
+    if(oldrow != ""){
+        vector<string> row;
+        string ligne,word;
+
+        stringstream s(oldrow); 
+        while (getline(s, word, ',')) {
+            row.push_back(word);            //On récupère les colonnes
+        } 
+        
+        ligne = ligne + row[0];
+        for(size_t i=1; i<row.size(); i++){
+            if(i != 4) ligne = ligne + "," + row[i];
+            else ligne = ligne + "," + new_code_postale;
+        }
+
+        code = update_row(id_jsk,ligne,tableEmployes);
+
+
+    }
+
+    return code;
+}
+
+
+int emp_delete_profile(int id)
+{
+    int code = EXIT_WITH_ERROR;
+
+    vector<int> tab_OneID;
+    tab_OneID.push_back(id);
+    
+    code = delete_list_of_row_from_table(tab_OneID,tableEmployes);
+    
     return code;
 }
