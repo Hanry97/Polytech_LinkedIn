@@ -62,17 +62,8 @@ build/test: build/test.o build/libfichier.a | build
 build/appli.o: main.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c main.cpp -I ./lib -o build/appli.o
 
-
-
-# AVEC LES '.a' (  ne fonctionne pas :(  )
-#build/appli: build/appli.o build/libfichier.a build/libPosition.a build/libPerson.a build/libdisplay.a build/libCompany.a | build
-#	$(cc) build/appli.o -Lbuild -lfichier -lPosition -lPerson -ldisplay -lCompany -o build/appli
-
-# AVEC LES '.o' ( fonctionne )
-build/appli: build/appli.o build/fichier.o build/Position.o build/Person.o build/display.o build/Company.o
-	$(cc) build/appli.o build/fichier.o build/Position.o build/Person.o build/display.o build/Company.o -o build/appli
-
-
+build/appli: build/appli.o build/libfichier.a build/libPosition.a build/libPerson.a build/libdisplay.a build/libCompany.a | build
+	$(cc) build/appli.o -Lbuild -lfichier -lPosition -lPerson -ldisplay -lCompany -o build/appli
 
 # S'assure de l'existence tout les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
@@ -84,5 +75,5 @@ check: all
 	./build/test
 
 # Lance le programme principale
-execute_app : build/appli
+execute_app : all
 	./build/appli
