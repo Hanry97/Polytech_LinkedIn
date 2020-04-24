@@ -74,7 +74,7 @@ std::vector<std::vector<std::string>> jsk_searchJob(std::vector<std::string> lis
     //Adresse mail du (de la) collègue
 //Recherche par entreprise (retoune les ancien(ne)s collègues employés à l'entreprise)
 
-std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int id enterprise);
+std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int enterprise);
 
 //####### A FAIRE ##############//
 std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std::vector<std::string> list_competence);
