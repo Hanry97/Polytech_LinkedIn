@@ -736,7 +736,6 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
     if(table_file){
 
         string ligne, word, sub_word, skill, last_ligne;
-        int x = 0;
         bool match = false;
         vector<string> row; 
         vector<string> poste;
@@ -797,7 +796,7 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
     return list_of_result;
 }
 
-std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int id enterprise)
+std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
 {
     vector <vector <string> > list_of_result;
 
@@ -806,8 +805,6 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(
     if(table_file)
     {
         string ligne, word;
-        int x = 0;
-        bool match = false;
         vector<string> row; 
         vector<string> collegue;
         
@@ -821,7 +818,7 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(
                 row.push_back(word); 
             }
 
-            if(row[7] == enterprise)
+            if(stoi(row[7]) == enterprise)
             {
                 collegue.clear();
                 collegue.push_back(row[1]);
@@ -933,7 +930,7 @@ int emp_add_skills(int id_emp, vector<string> skills)
             else ligne = ligne + "," + string_skills;
         }
 
-        code = update_row(id_jsk,ligne,tableEmployes);
+        code = update_row(id_emp,ligne,tableEmployes);
 
 
     }
@@ -982,7 +979,7 @@ int emp_add_colleague(int id_emp, std::vector<int> colleague)
             else ligne = ligne + "," + string_colleague;
         }
 
-        code = update_row(id_jsk,ligne,tableEmployes);
+        code = update_row(id_emp,ligne,tableEmployes);
 
     }
 
@@ -1012,7 +1009,7 @@ int emp_update_code_postal(int id_emp, std::string new_code_postale)
             else ligne = ligne + "," + new_code_postale;
         }
 
-        code = update_row(id_jsk,ligne,tableEmployes);
+        code = update_row(id_emp,ligne,tableEmployes);
 
 
     }
