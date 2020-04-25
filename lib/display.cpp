@@ -71,7 +71,7 @@ void navigation_general_menu( int const& choice )
 
 void menu_entreprise()
 {           
-    
+    system( "clear" ) ;
     cout<<"===================================================================================="<<endl;
     cout<<"||                                MENU ENTREPRISE                                 ||"<<endl;
     cout<<"===================================================================================="<<endl;
@@ -88,7 +88,10 @@ void menu_entreprise()
     cout<<"|                             9-Quitter le programme                               |"<<endl;
     cout<<"|                                                                                  |"<<endl; 
     cout<<"===================================================================================="<<endl;
-    cout<<" Veuillez entrer le numero de votre choix  : ";
+    // cout<<" Veuillez entrer le numero de votre choix  : ";
+
+    cout<<" EN COURS DE CONSTRUCTION..." << endl ;
+    cout<<" ESSAYEZ PLUTOT LE MENU CHERCHEUR D'EMPLOIE OU EMPLOYÉ ;) \n\n\n\n" << endl ;
 }
 
 
@@ -170,7 +173,6 @@ void display_person_connection( char const& status )
 void navigation_person_connection( int const& choice, char const& status )
 {
 	Person person ;
-	int id ;
 	string password ;
 	bool succes ;
 

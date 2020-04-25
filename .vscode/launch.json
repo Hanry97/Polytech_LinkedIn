@@ -19,6 +19,22 @@
             "miDebuggerArgs": "--quiet",
             "targetArchitecture": "x64",
             "preLaunchTask": "make all"
+        },
+        {
+            "name": "execute (Linux/WSL)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/appli",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "stopAtEntry": true,
+            "logging": {
+                "moduleLoad": false
+            },
+            "miDebuggerArgs": "--quiet",
+            "targetArchitecture": "x64",
+            "preLaunchTask": "make all"
         }
     ]
 }
