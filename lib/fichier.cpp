@@ -24,6 +24,8 @@ bool existOnVector(vector<int> tab, int val)
     
     return exist;
 }
+
+
 int get_lastID(string const path)
 {
     int id = 0;
@@ -66,6 +68,9 @@ int get_lastID(string const path)
 
     return id;
 }
+
+
+
 
 vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise)
 {
@@ -121,6 +126,8 @@ vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise)
     return tab_of_post_id;
 }
 
+
+
 int delete_list_of_row_from_table(vector<int> listOfRowsID, string const path_table)
 {
     int code = SUCCESS;
@@ -137,7 +144,7 @@ int delete_list_of_row_from_table(vector<int> listOfRowsID, string const path_ta
 
         if(newTable_file){
              int id_on_line;
-
+             
              if (path_table == tableEntreprise) newTable_file << header_tableEntreprise << endl;
              else if (path_table == tablePoste) newTable_file << header_tablePoste << endl;
 
