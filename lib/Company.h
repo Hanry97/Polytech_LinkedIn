@@ -12,7 +12,7 @@ LAST MODIFICATION:            ||
 #include "Position.h"
 #include <iostream>
 #include <vector>
-
+#include "fichier.h"
 class Company
 {
 	public:	
@@ -20,7 +20,7 @@ class Company
 
 			// Creation
 				Company() ;																					// Create the profil of the company
-				Company( std::string const& name, int const& postalCode, std::string const& email ) ;						//
+				Company(int id_etp,std::string const& name, std::string const& postalCode, std::string const& email ) ;						//
 				void create_company();
 				void delete_company();
 			
@@ -29,8 +29,8 @@ class Company
 				void delete_profile_jobVacancy() ;											// Delete of "_listJobsVacancy"  the job vacancy passed in argument
 
 			// Search																							// The 2 next fonctions print surname, firstname and email address
-				void search_by_skill( std::vector<std::string> const& skills ) const ;									// Search the job seekers corresponding to the skills			
-				void search_by_skill_postalCode( std::vector<std::string> const& skills, int const& postalCode ) const ;			// Search the job seekers corresponding to the skills and the postal code		
+				void search_by_skill();									// Search the job seekers corresponding to the skills			
+				void search_by_skill_postalCode();			// Search the job seekers corresponding to the skills and the postal code		
 		
 																										
 		// Accessors
@@ -38,11 +38,14 @@ class Company
 				std::string get_name() const ;			
 				void set_name( std::string const& name ) ;
 			// Postal code
-				int get_postalCode() const ;
+				std::string get_postalCode() const ;
 				void set_postalCode( int const& postalCode ) ;
 			// Email
 				std::string get_mail() const ;
 				void set_mail( std::string const& email ) ;
+			//ID
+			     int get_etpId() const ;
+				  void set_etpId( int const& Id ) ;
 
 
 		// Others		
@@ -50,8 +53,9 @@ class Company
 
 
 	private:
+		int etpId;
 		std::string name ;
-		int postalCode ;
+		std::string postalCode ;
 		std::string email ;
 		std::vector<Position> listJobsVacancy ;	
 		//std::string _																// list of job vacancy

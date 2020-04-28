@@ -71,7 +71,7 @@ class Person
 		std::string _surname ;
 		std::string _firstname ;
 		int _postalCode ;
-		std::string _email ;
+		std::string _email ;           
 		std::vector<std::string> _listSkills ;
 		std::vector<Person> _listOldColleagues ;
 		Company _company ;
@@ -90,7 +90,7 @@ class Person
 // Return true if the loading is succesful ; false otherwise
 bool load_a_profil( int const& idPerson, Person &person ) ;
 
-// Put the company with the name 'nameCompany' in the argument 'company'
+// Put the co
 // The company is load in the argument 'company'
 // Return true if the loading is succesful ; false otherwise
 bool load_a_company( std::string const& nameCompany, Company &company ) ;
