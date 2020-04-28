@@ -1,3 +1,11 @@
+/*
+ ===============================================
+||  Auteur ::                 Hanry Nzale      ||
+ ===============================================
+|| Dernière modification ::   28/04/2020       ||
+ ===============================================
+*/
+
 #ifndef FICHIER_H 
 #define FICHIER_H
 
@@ -22,6 +30,8 @@ int update_row(int id_row, std::string new_row, std::string const path_table);
 std::string get_tableHeader(std::string const path_table);
 
 std::string get_tableRow(int id, std::string const path);
+
+std::vector<std::string> get_Allemploye_fromEnterprise(int id_entreprise);
 
 
 //FUNCTIONS FOR THE ENTERPRISE
@@ -93,7 +103,7 @@ int emp_update_code_postal(int id_emp, std::string new_code_postale);
 int emp_update_enterprise(int id_emp, int new_id_enterprise);
 
 //Les employés de l'entreprise quittée s'ajoutent automatiquement à la liste des anciens collègues
-int emp_profile_transition_to_jobseeker(int id_emp, int id_enterprise);
+int emp_profile_transition_to_jobseeker(int id_emp, int id_etp);
 
 int emp_delete_profile(int id);
 
