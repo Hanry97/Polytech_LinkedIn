@@ -12,8 +12,7 @@ LAST MODIFICATION:            ||
 #include "Position.h"
 #include <iostream>
 #include <vector>
-
-
+#include "fichier.h"
 class Company
 {
 	public:	
@@ -21,19 +20,19 @@ class Company
 
 			// Creation
 				Company() ;																					// Create the profil of the company
-				Company( std::string const& name, int const& postalCode, std::string const& email ) ;						//
 
-			// Deletion
-				void delete_profile() ;																			// Delete the profile of the company
-				//~Company() ;																					// (  IL FAUDRA NOTAMMENT DETRUIRE '_listSkills' PROPREMENT DE SORTE QU'IL N'Y AIT PAS DE FUITE DE MEMOIRE  )
+				Company(int id_etp,std::string const& name, std::string const& postalCode, std::string const& email ) ;						//
+				void create_company();
+				void delete_company();
+			
 
 			// Job vacancy																				
-				void create_profile_jobVacancy( std::string const& title, std::vector<std::string> const& skills ) ;			// Create a job vacancy and add it to "_listJobsVacancy"			
-				void delete_profile_jobVacancy( std::string const& titre ) ;											// Delete of "_listJobsVacancy"  the job vacancy passed in argument
+				void create_profile_jobVacancy() ;			// Create a job vacancy and add it to "_listJobsVacancy"			
+				void delete_profile_jobVacancy() ;											// Delete of "_listJobsVacancy"  the job vacancy passed in argument
 
 			// Search																							// The 2 next fonctions print surname, firstname and email address
-				void search_by_skill( std::vector<std::string> const& skills ) const ;									// Search the job seekers corresponding to the skills			
-				void search_by_skill_postalCode( std::vector<std::string> const& skills, int const& postalCode ) const ;			// Search the job seekers corresponding to the skills and the postal code		
+				void search_by_skill();									// Search the job seekers corresponding to the skills			
+				void search_by_skill_postalCode();			// Search the job seekers corresponding to the skills and the postal code		
 		
 																										
 		// Accessors
@@ -41,11 +40,14 @@ class Company
 				std::string get_name() const ;			
 				void set_name( std::string const& name ) ;
 			// Postal code
-				int get_postalCode() const ;
+				std::string get_postalCode() const ;
 				void set_postalCode( int const& postalCode ) ;
 			// Email
 				std::string get_mail() const ;
 				void set_mail( std::string const& email ) ;
+			//ID
+			     int get_etpId() const ;
+				  void set_etpId( int const& Id ) ;
 
 
 		// Others		
@@ -53,10 +55,12 @@ class Company
 
 
 	private:
-		std::string _name ;
-		int _postalCode ;
-		std::string _email ;
-		std::vector<Position> _listJobsVacancy ;																	// list of job vacancy
+		int etpId;
+		std::string name ;
+		std::string postalCode ;
+		std::string email ;
+		std::vector<Position> listJobsVacancy ;	
+		//std::string _																// list of job vacancy
 } ;
 
 
