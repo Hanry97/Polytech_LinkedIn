@@ -20,10 +20,12 @@ class Company
 
 			// Creation
 				Company() ;																					// Create the profil of the company
+
 				Company(int id_etp,std::string const& name, std::string const& postalCode, std::string const& email ) ;						//
 				void create_company();
 				void delete_company();
 			
+
 			// Job vacancy																				
 				void create_profile_jobVacancy() ;			// Create a job vacancy and add it to "_listJobsVacancy"			
 				void delete_profile_jobVacancy() ;											// Delete of "_listJobsVacancy"  the job vacancy passed in argument
