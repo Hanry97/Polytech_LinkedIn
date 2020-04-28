@@ -1,3 +1,10 @@
+
+# ===============================================
+#||  Auteur ::                 Hanry Nzale      ||
+# ===============================================
+#|| Dernière modification ::   28/04/2020       ||
+# ===============================================
+
 cc := g++
 
 .DEFAULT_GOAL := check
@@ -17,37 +24,22 @@ build:
 build/fichier.o: lib/fichier.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/fichier.cpp -I ./lib -o build/fichier.o
 
-#build/libfichier.a: build/fichier.o | build
-#	ar crs build/libfichier.a build/fichier.o
-
 #Class
 #Company
 build/Company.o: lib/Company.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/Company.cpp -I ./lib -o build/Company.o
 
-#build/libCompany.a: build/Company.o | build
-#	ar crs build/libCompany.a build/Company.o
-
 #display
 build/display.o: lib/display.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/display.cpp -I ./lib -o build/display.o
-
-#build/libdisplay.a: build/display.o | build
-#	ar crs build/libdisplay.a build/display.o
 
 #Person
 build/Person.o: lib/Person.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/Person.cpp -I ./lib -o build/Person.o
 
-#build/libPerson.a: build/Person.o | build
-#	ar crs build/libPerson.a build/Person.o
-
 #Position
 build/Position.o: lib/Position.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/Position.cpp -I ./lib -o build/Position.o
-
-#build/libPosition.a: build/Position.o | build
-#	ar crs build/libPosition.a build/Position.o
 
 #Librairie statique globale
 build/libglobal.a: build/fichier.o build/Position.o build/Person.o build/display.o build/Company.o
@@ -66,7 +58,7 @@ build/appli.o: main.cpp | build
 build/appli: build/appli.o build/libglobal.a | build
 	$(cc) build/appli.o -Lbuild -lglobal -o build/appli
 
-# S'assure de l'existence tout les programmes finaux (application, test, etc.)
+# S'assure de l'existence de tous les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
 
 all: build/test build/appli

@@ -1,3 +1,11 @@
+/*
+ ===============================================
+||  Auteur ::                 Hanry Nzale      ||
+ ===============================================
+|| Dernière modification ::   28/04/2020       ||
+ ===============================================
+*/
+
 #ifndef CONSTANTE_H 
 #define CONSTANTE_H
 #include <string>
@@ -32,5 +40,8 @@ const int ERROR_REMOVE_FILE = -4;
 
 //Une erreur s'est produite lors de l'opération de renomage du fichier
 const int ERROR_RENAME_FILE = -5;
+
+//Résutat neutre
+const int NOTHING_TO_DO = -6;
 
 #endif
