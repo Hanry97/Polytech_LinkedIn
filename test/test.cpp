@@ -1,3 +1,11 @@
+/*
+ ===============================================
+||  Ré-édition ::             Hanry Nzale      ||
+ ===============================================
+|| Dernière modification ::   28/04/2020       ||
+ ===============================================
+*/
+
 #include <iostream>
 #include <signal.h>
 #include <stddef.h>
@@ -159,6 +167,10 @@ int main()
 
         TEST(jsk_delete_profile(id) == SUCCESS);
 
+    }
+
+    {
+        
     }
 
     cout << tests_reussis << " / " << tests_executes << endl;
