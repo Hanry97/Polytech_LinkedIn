@@ -725,7 +725,7 @@ int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise)
     if(oldrow != ""){
         vector<string> row;
         vector<string> skills;
-        vector<string> colleagues;
+        vector<int> colleagues;
         string ligne,word;
 
         stringstream s(oldrow); 
@@ -749,7 +749,7 @@ int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise)
             stringstream sc(row[6]);
 
             while (getline(sc, colleague, ';')) {
-                colleagues.push_back(colleague);            //On récupère les compétences
+                colleagues.push_back(stoi(colleague));            //On récupère les compétences
             }
         }
 
@@ -895,7 +895,7 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(
 
 //FUNCTIONS OF THE EMPLOYE
 
-int emp_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills, vector<string> colleagues, int id_enterprise)
+int emp_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills, vector<int> colleagues, int id_enterprise)
 {
     int id;
     int code;
@@ -920,10 +920,10 @@ int emp_create_profile(string nom, string prenom, string email, string code_post
         string string_colleagues = "";
 
         if(nb_colleagues > 1){
-            for(i=0; i<nb_colleagues - 1; i++) string_colleagues = string_colleagues + colleagues[i] + ";";
-            string_colleagues = string_colleagues + colleagues[i];                                      //On ajoute la dernière de la liste;  
+            for(i=0; i<nb_colleagues - 1; i++) string_colleagues = string_colleagues + to_string(colleagues[i]) + ";";
+            string_colleagues = string_colleagues + to_string(colleagues[i]);                                      //On ajoute la dernière de la liste;  
         }else{
-            string_colleagues = string_colleagues + colleagues[0];
+            string_colleagues = string_colleagues + to_string(colleagues[0]);
         }
 
         ofstream flux(tableEmployes.c_str(), ios::app);

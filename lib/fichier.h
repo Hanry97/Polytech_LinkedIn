@@ -2,7 +2,7 @@
  ===============================================
 ||  Auteur ::                 Hanry Nzale      ||
  ===============================================
-|| Dernière modification ::   28/04/2020       ||
+|| Dernière modification ::   05/05/2020       ||
  ===============================================
 */
 
@@ -92,7 +92,7 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std:
 //FUNCTIONS FOR THE EMPLOYE
 //================================================================================================================================
 
-int emp_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills, std::vector<std::string> colleagues,int id_enterprise);
+int emp_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills, std::vector<int> colleagues,int id_enterprise);
 
 int emp_add_skills(int id_emp, std::vector<std::string> skills);
 
