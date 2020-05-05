@@ -26,16 +26,20 @@ build/fichier.o: lib/fichier.cpp | build
 
 #Class
 #Company
-build/Company.o: lib/Company.cpp | build
-	$(cc) -Wall -pedantic -Werror -g -c lib/Company.cpp -I ./lib -o build/Company.o
+build/company.o: lib/company.cpp | build
+	$(cc) -Wall -pedantic -Werror -g -c lib/company.cpp -I ./lib -o build/company.o
 
 #display
 build/display.o: lib/display.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/display.cpp -I ./lib -o build/display.o
 
-#Person
-build/Person.o: lib/Person.cpp | build
-	$(cc) -Wall -pedantic -Werror -g -c lib/Person.cpp -I ./lib -o build/Person.o
+#jobseeker
+build/jobseeker.o: lib/jobseeker.cpp | build
+	$(cc) -Wall -pedantic -Werror -g -c lib/jobseeker.cpp -I ./lib -o build/jobseeker.o
+
+#employe
+build/employe.o: lib/employe.cpp | build
+	$(cc) -Wall -pedantic -Werror -g -c lib/employe.cpp -I ./lib -o build/employe.o
 
 #Position
 build/Position.o: lib/Position.cpp | build
@@ -55,9 +59,11 @@ build/test: build/test.o build/libglobal.a | build
 build/appli.o: main.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c main.cpp -I ./lib -o build/appli.o
 
-build/appli: build/appli.o build/libglobal.a | build
-	$(cc) build/appli.o -Lbuild -lglobal -o build/appli
+#build/appli: build/appli.o build/libglobal.a | build
+#	$(cc) build/appli.o -Lbuild -lglobal -o build/appli
 
+build/appli: build/appli.o build/fichier.o build/company.o build/display.o build/employe.o build/jobseeker.o build/Position.o
+	$(cc) build/appli.o -o build/appli build/fichier.o build/company.o build/display.o build/employe.o build/jobseeker.o build/Position.o
 # S'assure de l'existence de tous les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
 
