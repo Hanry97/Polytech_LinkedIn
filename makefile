@@ -2,7 +2,7 @@
 # ===============================================
 #||  Auteur ::                 Hanry Nzale      ||
 # ===============================================
-#|| Dernière modification ::   28/04/2020       ||
+#|| Dernière modification ::   08/05/2020       ||
 # ===============================================
 
 cc := g++
@@ -30,8 +30,8 @@ build/company.o: lib/company.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/company.cpp -I ./lib -o build/company.o
 
 #display
-build/display.o: lib/display.cpp | build
-	$(cc) -Wall -pedantic -Werror -g -c lib/display.cpp -I ./lib -o build/display.o
+build/view.o: lib/view.cpp | build
+	$(cc) -Wall -pedantic -Werror -g -c lib/view.cpp -I ./lib -o build/view.o
 
 #jobseeker
 build/jobseeker.o: lib/jobseeker.cpp | build
@@ -46,8 +46,8 @@ build/Position.o: lib/Position.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/Position.cpp -I ./lib -o build/Position.o
 
 #Librairie statique globale
-build/libglobal.a: build/fichier.o build/Position.o build/Person.o build/display.o build/Company.o
-	ar crs build/libglobal.a build/fichier.o build/Position.o build/Person.o build/display.o build/Company.o
+build/libglobal.a: build/fichier.o build/Position.o build/Person.o build/view.o build/Company.o
+	ar crs build/libglobal.a build/fichier.o build/Position.o build/Person.o build/view.o build/Company.o
 
 #Test
 build/test.o: test/test.cpp | build
@@ -62,8 +62,8 @@ build/appli.o: main.cpp | build
 #build/appli: build/appli.o build/libglobal.a | build
 #	$(cc) build/appli.o -Lbuild -lglobal -o build/appli
 
-build/appli: build/appli.o build/fichier.o build/company.o build/display.o build/employe.o build/jobseeker.o build/Position.o
-	$(cc) build/appli.o -o build/appli build/fichier.o build/company.o build/display.o build/employe.o build/jobseeker.o build/Position.o
+build/appli: build/appli.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o
+	$(cc) build/appli.o -o build/appli build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o
 # S'assure de l'existence de tous les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
 
