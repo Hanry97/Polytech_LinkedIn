@@ -103,28 +103,7 @@ int main()
         TEST(etp_delete_profile(id_etp2) == SUCCESS);
     }
 
-    {
-        vector<string> list_skill;
-        vector <vector <string> > employes;
-        vector <vector <string> > results;
-        vector <string> employe;
-        string code_postal = "#";
-
-        list_skill.push_back("Ruby");
-        list_skill.push_back("Python");
-        list_skill.push_back("C");
-
-        employe.push_back("1");
-        employe.push_back("nzale");
-        employe.push_back("hanry");
-        employe.push_back("hanry@gmail.com");
-
-        employes.push_back(employe);
-
-        results = etp_searchToHire(list_skill,code_postal);
-        TEST( results == employes);
-    }
-
+    
     {
         string nom = "Didier";
         string prenom = "Franck";
@@ -135,6 +114,7 @@ int main()
         competences.push_back("Ruby");
         competences.push_back("C++");
         competences.push_back("React");
+        competences.push_back("MySpecialSkill");
 
         TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);   //L'un va transiter vers employé
         TEST(jsk_create_profile(nom,prenom, email, code_postal, competences) == SUCCESS);   //L'autre sera supprimé
@@ -163,15 +143,39 @@ int main()
 
         TEST(jsk_profile_transition_to_employe(id,id_enterprise) == SUCCESS);
 
-        id = get_lastID(tableJobseeker);
-
-        TEST(jsk_delete_profile(id) == SUCCESS);
+        
 
     }
 
     {
-        
+        vector<string> list_skill;
+        vector <vector <string> > employes;
+        vector <vector <string> > results;
+        vector <string> employe;
+        string code_postal = "#";
+
+        int id = get_lastID(tableJobseeker);
+
+        list_skill.push_back("MySpecialSkill");
+
+        employe.push_back(to_string(id));
+        employe.push_back("Didier");
+        employe.push_back("Franck");
+        employe.push_back("Franck@gmail.com");
+
+        employes.push_back(employe);
+
+        results = etp_searchToHire(list_skill,code_postal);
+        TEST( results == employes);
+
+        TEST(jsk_delete_profile(id) == SUCCESS);
     }
+
+    {
+        int id = get_lastID(tableEmployes);
+        TEST(emp_delete_profile(id) == SUCCESS);
+    }
+    
 
     cout << tests_reussis << " / " << tests_executes << endl;
     return tests_reussis - tests_executes;
