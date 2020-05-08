@@ -139,7 +139,7 @@ int creation_screen()
             return etp_create_profil();
             break;
         case 2:
-            return 1;
+            return jsk_create_profil();
             break;
         case 3:
             return 1;
@@ -495,8 +495,7 @@ int navigation_jobSeeker( int const& choice, jobseeker & jsk )
 		case 4: 
 			return jsk_search_poste(jsk);
 		case 5:
-			//return display_search_oldColleagues( person ) ;
-            return 1;
+			return jsk_search_oldColleagues( jsk ) ;
 		case 6:
 			return DECONNEXION;
         case 7:
@@ -557,7 +556,7 @@ int navigation_modify_profil_jobSeeker( int const& choice, jobseeker & jsk )
 			code = jsk_add_skills(jsk); 
             break ;
 		case 3: 
-			//jsk.add_oldColleague() ; 
+			code = jsk_add_oldColleague(jsk); 
             break ;
 		case 4: 
 			code = jsk_update_codePostal(jsk); 
@@ -579,7 +578,14 @@ int jsk_afficher(jobseeker & jsk)
     char exit_char;
     vector<string> skills;
     size_t nbr_skills;
+    vector<string> oldColleagues;
+    size_t nbr_oldColleagues;
+    vector<int> list_id;
 
+    list_id = jsk.getColleagues();
+    oldColleagues = jsk.getOldColleaguesById(list_id);
+    nbr_oldColleagues = oldColleagues.size();
+    
     skills = jsk.getSkills();
     nbr_skills = skills.size();
 
@@ -595,7 +601,12 @@ int jsk_afficher(jobseeker & jsk)
 	cout << "   Prénom      : " << jsk.getPrenom() << endl ;
 	cout << "   Code Postal : " << jsk.getCodePostal() << endl ;
 	cout << "   Email       : " << jsk.getEmail() << endl ;
-    cout << "   Compétences : "; for(size_t i=0; i<nbr_skills;i++ ) cout << skills[i] << " ";
+    cout << "   Compétences : "; for(size_t i=0; i<nbr_skills;i++ ) cout << skills[i] << " "; cout<<endl;
+    cout << endl;
+    cout << "   Anciens collègues :" << endl << endl;
+
+    if(nbr_oldColleagues < 1) cout<< "     VOUS N'AVEZ PAS D'ANCIENS COLLEGUES.";
+    else for(size_t i=0; i<nbr_oldColleagues;i++ ) cout<< "    "<< i+1 << " - " << oldColleagues[i] <<endl;
 
     cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
     cin>> exit_char;
@@ -686,6 +697,7 @@ int jobseeker_to_employe(jobseeker & jsk)
 
     do
     {
+        restart = 'n';
         system( "clear" ) ;
         cout<<"Connecté en tant que " << jsk.getNom() << " " << jsk.getPrenom() << ", " << jsk.getEmail() << endl;
         cout<< "\n" << endl;
@@ -782,6 +794,7 @@ int jsk_search_poste(jobseeker & jsk)
 
     do
     {
+        restart = 'n';
         system( "clear" ) ;
         cout<<"Connecté en tant que " << jsk.getNom() << " " << jsk.getPrenom() << ", " << jsk.getEmail() << endl;
         cout<< "\n" << endl;
@@ -838,6 +851,263 @@ int jsk_search_poste(jobseeker & jsk)
 
     return code;
 }
+
+int jsk_create_profil()
+{
+    int code;
+    string nom, prenom, email,code_postal, skill;
+    vector<string> skills;
+    char exit_char;
+
+    system( "clear" ) ;
+    cout<< "*************CREATION D'UN COMPTE CHERCHEUR D'EMPLOI'***********"<< endl<< endl;
+    cin.ignore();
+
+	cout<<"NOM         : "; getline(cin,nom);
+    cout<<"PRENOM      : "; getline(cin,prenom);
+    cout<<"EMAIL       : "; getline(cin,email);
+    cout<<"CODE POSTAL : "; getline(cin,code_postal);
+    cout<<endl;
+
+    cout<<"ENTREZ VOS COMPETENCES (UNE A UNE)"<< endl;
+    cout<<"ENTREZ 'q' POUR TERMINER LA SAISIE"<< endl;  
+
+    int i=1, nbr_skills = 0;
+    do{                                         //Boucle pour permettre la saisie de plusieur competence
+                                                //L utilisateur saisi q pour quitter la boucle
+        cout<<"\nCOMPETENCE N° "<<i<<" : "; getline(cin,skill);
+        
+        if(skill!="q"){
+            skills.push_back(skill);  
+            nbr_skills = nbr_skills + 1; 
+            i++;
+        }
+        
+    }while(skill!="q" || nbr_skills==0);
+
+    jobseeker jsk;
+    jsk.setNom(nom);
+    jsk.setPrenom(prenom);
+    jsk.setEmail(email);
+    jsk.setCodePostal(code_postal);
+    jsk.setSkills(skills);
+
+    code = jsk.createJobseeker();
+    
+    if(code == SUCCESS)
+        cout<< "\n\nFELICITAIONS, VOTRE COMPTE A ETE CREE VOUS POUVEZ DESORMAIS VOUS CONNECTER! ENTREZ 'q' POUR CONTINUER" << endl;
+    else 
+        cout<< "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
+        
+    cin>> exit_char;
+
+    return code;
+}
+
+int jsk_search_oldColleagues(jobseeker & jsk )
+{
+    int code = SUCCESS;
+    char exit_char;
+    string code_postal = "#";
+    string nom_entreprise;
+    int id_entreprise;
+    vector<string> list_etp;
+    char restart = 'n', type_search = 'x';
+    
+
+    do
+    {
+        restart = 'n';
+        while(type_search != 'e' && type_search != 'c')
+        {
+
+            system( "clear" ) ;
+            cout<<"Connecté en tant que " << jsk.getNom() << " " << jsk.getPrenom() << ", " << jsk.getEmail() << endl;
+            cout<< "\n" << endl;
+            cout << "  =============================================== " << endl ;
+            cout << " |                                               | " << endl ;
+            cout << " |      RECHERCHER D'ANCIEN(NE)S COLLEGUES       | " << endl ;
+            cout << " |                                               | " << endl ;
+            cout << "  =============================================== " << endl << endl ;
+
+            cout << "\n-> RECHERCHE PAR ENTREPRISE (e) OU PAR COMPETENCES (c)  (e/c)? : "; cin>>type_search;
+        }
+        
+        if(type_search == 'e')
+        {
+            cin.ignore();
+            cout<<"\n\nENTREPRISE  : " ; getline(cin,nom_entreprise);
+            cout<<"\n"<<endl;
+
+            list_etp.clear();
+            list_etp = jsk.searchEntreprise(nom_entreprise, code_postal);
+
+            if(list_etp.size() > 0)
+            {
+                cout << "ENTREPRISE(S) TROUVE(ES)\n" << endl;
+                for(size_t i=0; i<list_etp.size(); i++) cout << list_etp[i] << endl;
+
+                cout << "\n\nN° DE L'ENTREPRISE DANS LAQUELLE VOUS RECHERCHEZ D'ANCIEN(NE)S COLLEGUES : "; cin>> id_entreprise; cout<<endl;
+                vector<vector<string>> colleagues;
+                colleagues = jsk.find_former_colleagues_by_enterprise(id_entreprise);
+
+                if(colleagues.size() > 0)
+                {
+                    cout<< colleagues.size() << " ANCIEN(NE)(S) COLLEGUE(S) TROUVE(ES)(S)\n" << endl;
+                    for(size_t i=0; i<colleagues.size(); i++) 
+                    {
+                        cout<< "\nNOM    : " << colleagues[i][0] << endl;
+                        cout<< "PRENOM : " << colleagues[i][1] << endl;
+                        cout<< "EMAIL  : " << colleagues[i][2] << endl;
+                    }
+                }
+                else
+                {
+                    cout<< "AUCUN(E) COLLEGUE TROUVE(E)\n"<<endl;
+                    cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                    if(restart == 'y') type_search = 'x';
+                } 
+            }
+            else
+            {
+                cout<< "AUCUNE ENTREPRISE TROUVE\n"<<endl;
+                cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                if(restart == 'y') type_search = 'x';
+            }
+        }
+        else if(type_search == 'c')
+        {
+            
+        }
+
+
+    }while(restart == 'y');
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int jsk_add_oldColleague(jobseeker & jsk)
+{
+    int code = SUCCESS;
+    char exit_char;
+    string code_postal = "#";
+    string nom_entreprise;
+    int id_entreprise;
+    vector<string> list_etp;
+    char restart = 'n';
+    
+
+    do
+    {
+        restart = 'n';
+  
+        system( "clear" ) ;
+        cout<<"Connecté en tant que " << jsk.getNom() << " " << jsk.getPrenom() << ", " << jsk.getEmail() << endl;
+        cout<< "\n" << endl;
+        cout << "  =============================================== " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << " |        AJOUTER D'ANCIEN(NE)S COLLEGUES        | " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << "  =============================================== " << endl << endl ;
+
+        cout << "\n-> AJOUT PAR ENTREPRISE ";
+
+        cin.ignore();
+        cout<<"\n\nENTREPRISE  : " ; getline(cin,nom_entreprise);
+        cout<<"\n"<<endl;
+
+        list_etp.clear();
+        list_etp = jsk.searchEntreprise(nom_entreprise, code_postal);
+
+        if(list_etp.size() > 0)
+        {
+            cout << "ENTREPRISE(S) TROUVE(ES)\n" << endl;
+            for(size_t i=0; i<list_etp.size(); i++) cout << list_etp[i] << endl;
+
+            cout << "\n\nN° DE L'ENTREPRISE DANS LAQUELLE VOUS RECHERCHEZ D'ANCIEN(NE)S COLLEGUES : "; cin>> id_entreprise; cout<<endl;
+            vector<vector<string>> colleagues;
+            colleagues = jsk.find_former_colleagues_by_enterprise(id_entreprise);
+
+            if(colleagues.size() > 0)
+            {
+                cout<< colleagues.size() << " ANCIEN(NE)(S) COLLEGUE(S) TROUVE(ES)(S)\n" << endl;
+                for(size_t i=0; i<colleagues.size(); i++) 
+                {
+                    cout<< "\nID     : " << colleagues[i][3] << endl; 
+                    cout<< "NOM    : " << colleagues[i][0] << endl;
+                    cout<< "PRENOM : " << colleagues[i][1] << endl;
+                    cout<< "EMAIL  : " << colleagues[i][2] << endl;
+                }
+
+                cout<<"\nENTREZ LES ID DES PERSONNES A AJOUTER A VOTRE LISTE D'ANCIEN(NE)(S) COLLEGUE (UN A UN)"<< endl;
+                cout<<"ENTREZ '0' POUR TERMINER LA SAISIE"<< endl;  
+
+                int i=0;
+                int id;
+                vector<int> list_id;
+                do{                                         //Boucle pour permettre la saisie de plusieur competence
+                    i++;								    //L utilisateur saisi q pour quitter la boucle
+                    cout<<"\nID N° "<<i<<" : "; cin>>id;
+                    
+                    if(id!=0) list_id.push_back(id);   //Pour ne pas enregistrer la lettre q
+                    
+                }while(id!=0);
+
+                
+                if(list_id.size() > 0)
+                {
+                    bool exist = false;
+                    vector<int> old_c = jsk.getColleagues();
+
+                    for(size_t i=0; i<list_id.size(); i++)
+                    {
+                        for (size_t j = 0; j < old_c.size(); j++)
+                        {
+                            if(list_id[i] == old_c[j]) exist = true;
+                        }
+                        
+                    }
+
+                    if(exist == false)
+                    {
+                        code = jsk.addColleague(list_id);
+                        if(code == SUCCESS) cout << "\nVOTRE LISTE D'ANCIENS COLLEGUES A BIEN ETE MISE A JOUR." << endl;
+                            else cout << "\nUNE ERREUR S'EST PRODUITE" << endl;
+                    }
+                    else{
+                        cout<< "CERTAINES DE CES PERSONNES SONT DEJA DANS VOTRE LISTE D'ANCIENS COLLEGUES\n"<<endl;
+                        cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                    }
+                }
+                
+
+            }
+            else
+            {
+                cout<< "AUCUN(E) COLLEGUE TROUVE(E)\n"<<endl;
+                cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                
+            } 
+        }
+        else
+        {
+            cout<< "AUCUNE ENTREPRISE TROUVE\n"<<endl;
+            cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+            
+        }
+
+    }while(restart == 'y');
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+
 //=========================================================================================
 //Menu employé
 int emp_home(employe & emp)

@@ -995,7 +995,7 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
     return list_of_result;
 }
 
-std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
+vector<vector <string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
 {
     vector <vector <string> > list_of_result;
 
@@ -1023,12 +1023,70 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(
                 collegue.push_back(row[1]);
                 collegue.push_back(row[2]);
                 collegue.push_back(row[3]);
+                collegue.push_back(row[0]);
 
                 list_of_result.push_back(collegue);
             }
 
             row.clear();
         }
+    }else{
+        cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+    }
+    table_file.close();
+
+    return list_of_result;
+}
+
+vector<string> jsk_get_old_colleagues_by_id(vector<int> list_id)
+{
+    vector <string> list_of_result;
+
+    ifstream table_file(tableEmployes.c_str());
+
+    if(table_file){
+
+        string ligne, word;
+        vector<string> row; 
+        vector<string> collegue;
+        
+        getline(table_file, ligne);        //Ligne de l'entete
+        while(getline(table_file, ligne)) {
+
+            collegue.clear();
+            row.clear();
+            stringstream s(ligne); 
+
+            while (getline(s, word, ',')) {     //On met chaque champ dans le tableau row
+                row.push_back(word); 
+            }
+            
+            if(existOnVector(list_id,stoi(row[0])))                           //Si au moins une compétence correspond
+            {                                           //On recherche l'entreprise correspondant au poste
+                string data_enterprise;                 //L'id de l'entreprise est dans row[3]
+                string enterprise = "";
+                vector<string> data; 
+                string collegue_row;
+
+                enterprise = get_tableRow(stoi(row[7]), tableEntreprise);
+                if(enterprise != "")
+                {
+                    stringstream sx(enterprise);
+                    data.clear();
+
+                    while(getline(sx, data_enterprise, ','))
+                    {
+                        data.push_back(data_enterprise);
+                    }
+                    collegue_row = row[1] + " " + row[2] + " (" + data[1] + ") ";
+                    
+                }
+                list_of_result.push_back(collegue_row);
+            }
+            
+  
+        } 
+
     }else{
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
     }

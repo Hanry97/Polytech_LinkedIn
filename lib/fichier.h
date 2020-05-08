@@ -96,6 +96,7 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(
 //####### A FAIRE ##############//
 std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std::vector<std::string> list_competence);
 
+std::vector<std::string> jsk_get_old_colleagues_by_id(std::vector<int> list_id);
 //FUNCTIONS FOR THE EMPLOYE
 //================================================================================================================================
 

@@ -44,4 +44,9 @@ int jsk_update_codePostal(jobseeker & jsk);
 int jsk_deleteProfile(jobseeker & jsk);
 int jobseeker_to_employe(jobseeker & jsk);
 int jsk_search_poste(jobseeker & jsk);
+
+int jsk_create_profil();
+int jsk_search_oldColleagues(jobseeker & jsk );
+int jsk_add_oldColleague(jobseeker & jsk);
+
 #endif

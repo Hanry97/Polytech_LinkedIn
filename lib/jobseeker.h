@@ -50,6 +50,8 @@ public:
 
     virtual int jobseekerToEmploye(int id_etp);
 
+    virtual std::vector<std::string> getOldColleaguesById(std::vector<int> & list_id);
+
 };
 
 

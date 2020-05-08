@@ -160,3 +160,8 @@ int jobseeker::jobseekerToEmploye(int id_etp)
 {
     return jsk_profile_transition_to_employe(_id, id_etp);
 }
+
+vector<string> jobseeker::getOldColleaguesById(vector<int> & list_id)
+{
+    return jsk_get_old_colleagues_by_id(list_id);
+}
