@@ -1,5 +1,6 @@
 #include <iostream>
-#include "lib/display.h"
+#include "lib/view.h"
+
 using namespace std;
 
 //last modif: GNANKENE Cheick   06/04/2020
@@ -14,7 +15,7 @@ using namespace std;
 
 int main()
 {
-	display_general_menu() ;
+	home_screen() ;
 	return 0 ;
 }
 
