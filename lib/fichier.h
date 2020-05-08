@@ -1,3 +1,11 @@
+/*
+ ===============================================
+||  Auteur ::                 Hanry Nzale      ||
+ ===============================================
+|| Dernière modification ::   05/05/2020       ||
+ ===============================================
+*/
+
 #ifndef FICHIER_H 
 #define FICHIER_H
 
@@ -23,6 +31,10 @@ std::string get_tableHeader(std::string const path_table);
 
 std::string get_tableRow(int id, std::string const path);
 
+std::vector<std::string> get_Allemploye_fromEnterprise(int id_entreprise);
+
+//connexion à un compte via une adresse mail, le deuxième paramètre doit correspondre à un tag de profil
+std::vector<std::string> login_byEmail(std::string email, std::string profil_tag);
 
 //FUNCTIONS FOR THE ENTERPRISE
 //==============================================================================================================================
@@ -43,6 +55,9 @@ int etp_delete_profileOfPosition(int id_etp, int id_poste);
 //Pour une recherche sans code postal renseigner # comme donnée de code postal
 std::vector<std::vector<std::string>> etp_searchToHire(std::vector<std::string> list_competence,std::string code_postal);
 
+//Récupère tous les offres d'emploi de l'entreprise dont l'id est passé en paramètre
+std::vector<std::string> get_AllPoste_fromEnterprise(int id_entreprise);
+
 //FUNCTIONS FOR THE JOB SEEKER
 //==============================================================================================================================
 
@@ -58,6 +73,8 @@ int jsk_update_code_postal(int id_jsk, std::string new_code_postale);
 int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise);
 
 int jsk_delete_profile(int id);
+
+std::vector<std::string> jsk_search_entreprise(std::string nom, std::string code_postal);
 
 //Résultats
     //Titre du poste                dans [0]
@@ -82,7 +99,7 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std:
 //FUNCTIONS FOR THE EMPLOYE
 //================================================================================================================================
 
-int emp_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills, std::vector<std::string> colleagues,int id_enterprise);
+int emp_create_profile(std::string nom, std::string prenom, std::string email, std::string code_postal, std::vector<std::string> skills, std::vector<int> colleagues,int id_enterprise);
 
 int emp_add_skills(int id_emp, std::vector<std::string> skills);
 
@@ -93,7 +110,7 @@ int emp_update_code_postal(int id_emp, std::string new_code_postale);
 int emp_update_enterprise(int id_emp, int new_id_enterprise);
 
 //Les employés de l'entreprise quittée s'ajoutent automatiquement à la liste des anciens collègues
-int emp_profile_transition_to_jobseeker(int id_emp, int id_enterprise);
+int emp_profile_transition_to_jobseeker(int id_emp, int id_etp);
 
 int emp_delete_profile(int id);
 

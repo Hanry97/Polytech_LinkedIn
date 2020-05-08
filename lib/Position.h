@@ -8,34 +8,33 @@ LAST MODIFICATION:            ||
 
 #ifndef __POSITION__
 #define __POSITION__
-
-#include <iostream>
 #include <vector>
-
+#include <string>
 
 class Position
 {
 	public:
-		// Creation
-			Position( std::string const& title ) ;		
-			Position( std::string const& title, std::vector<std::string> const& skills ) ;
-
-		// Deletion
-			void delete_position() ;
-
-		// Name
-			std::string get_title() const ;
-			void set_title( std::string const& title ) ;
 		
-		// Skills
-			void print_listSkills() const ;
-			void add_skill( std::string const& skill ) ;
-			void delete_skill( std::string const& skill ) ;
+		Position() ;		
+		Position(const std::string & title, const std::vector<std::string> & skills, const int id_entreprise);
+		~Position();
 
+		int getId() const { return _id; };
+		std::string getTitre() const { return _titre;};
+		std::vector<std::string> getSkills() const { return _skills;};
+		int getEntrepriseId() const { return _id_entreprise;};
+
+		void setId(int & id) { _id = id;};
+		void setTitre(std::string & titre) { _titre = titre;};
+		void setEntrepriseId(int & id) { _id_entreprise = id;};
+		void setSkills(std::vector<std::string> & skills);
 
 	private:
-		std::string _title ;
-		std::vector<std::string> _listSkills ;		
+
+		int _id;
+		std::string _titre ;
+		std::vector<std::string> _skills;
+		int _id_entreprise;		
 } ;
 
 

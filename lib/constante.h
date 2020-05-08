@@ -1,6 +1,19 @@
+/*
+ ===============================================
+||  Auteur ::                 Hanry Nzale      ||
+ ===============================================
+|| Dernière modification ::   28/04/2020       ||
+ ===============================================
+*/
+
 #ifndef CONSTANTE_H 
 #define CONSTANTE_H
 #include <string>
+
+//TAGS
+std::string const TAG_ENTREPRISE = "etp";
+std::string const TAG_JOBSEEKER = "jsk";
+std::string const TAG_EMPLOYE = "emp";
 
 //CHEMIN D'ACCES DES TABLES
 
@@ -14,6 +27,15 @@ std::string const header_tableEmployes("id,nom,prenom,mail,code postal,competenc
 std::string const header_tableJobseeker("id,nom,prenom,mail,code postal,competences,collegues");
 
 //CODES DE RETOUR
+
+//Quitter le programme
+const int EXIT_PROGRAM = 100;
+
+//Deconnexion
+const int DECONNEXION = 101;
+
+//Back to previous menu
+const int BACK_PREV_MENU = 102;
 
 //Tout s'est bien passé
 const int SUCCESS = 0;
@@ -32,5 +54,8 @@ const int ERROR_REMOVE_FILE = -4;
 
 //Une erreur s'est produite lors de l'opération de renomage du fichier
 const int ERROR_RENAME_FILE = -5;
+
+//Résutat neutre
+const int NOTHING_TO_DO = -6;
 
 #endif
