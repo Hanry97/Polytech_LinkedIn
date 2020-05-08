@@ -276,6 +276,7 @@ string get_tableHeader(std::string const path_table)
     if (path_table == tableEntreprise) table_header = header_tableEntreprise;
     else if (path_table == tablePoste) table_header = header_tablePoste;
     else if (path_table == tableJobseeker) table_header = header_tableJobseeker;
+    else if (path_table == tableEmployes) table_header = header_tableEmployes;
 
     return table_header;
 }
