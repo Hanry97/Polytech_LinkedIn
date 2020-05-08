@@ -33,6 +33,8 @@ std::string get_tableRow(int id, std::string const path);
 
 std::vector<std::string> get_Allemploye_fromEnterprise(int id_entreprise);
 
+//connexion à un compte via une adresse mail, le deuxième paramètre doit correspondre à un tag de profil
+std::vector<std::string> login_byEmail(std::string email, std::string profil_tag);
 
 //FUNCTIONS FOR THE ENTERPRISE
 //==============================================================================================================================
@@ -53,6 +55,9 @@ int etp_delete_profileOfPosition(int id_etp, int id_poste);
 //Pour une recherche sans code postal renseigner # comme donnée de code postal
 std::vector<std::vector<std::string>> etp_searchToHire(std::vector<std::string> list_competence,std::string code_postal);
 
+//Récupère tous les offres d'emploi de l'entreprise dont l'id est passé en paramètre
+std::vector<std::string> get_AllPoste_fromEnterprise(int id_entreprise);
+
 //FUNCTIONS FOR THE JOB SEEKER
 //==============================================================================================================================
 
@@ -68,6 +73,8 @@ int jsk_update_code_postal(int id_jsk, std::string new_code_postale);
 int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise);
 
 int jsk_delete_profile(int id);
+
+std::vector<std::string> jsk_search_entreprise(std::string nom, std::string code_postal);
 
 //Résultats
     //Titre du poste                dans [0]

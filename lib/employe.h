@@ -9,9 +9,10 @@ class employe : public jobseeker
         int _id_etp;
 
     public:
-        employe();
+        employe() : jobseeker::jobseeker() {};
         employe(std::string & nom, std::string & prenom, std::string & email, std::string & code_postal, std::vector<int> & colleagues,std::vector<std::string> & skills, int & id_enterprise);
         ~employe();
+        employe & operator=(const employe & emp);
 
         int getEnterpriseId() const { return _id_etp;};
 
@@ -28,14 +29,6 @@ class employe : public jobseeker
 
 };
 
-employe::employe()
-{
-
-}
-
-employe::~employe()
-{
-}
 
 
 #endif

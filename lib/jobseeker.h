@@ -15,9 +15,10 @@ protected:
     std::vector<int> _colleagues;
 
 public:
-    jobseeker();
+    jobseeker() : _id(-1) {};
     jobseeker(std::string & nom, std::string & prenom, std::string & email, std::string & code_postal, std::vector<std::string> & skills );
     ~jobseeker();
+    jobseeker & operator=(const jobseeker & jsk);
 
     int getId() const {  return _id;};
     std::string getNom() const {  return _nom;};
@@ -40,11 +41,14 @@ public:
     virtual int updateCodePostal(std::string & code_postal);
 
 
-    void getJobseekerByEmail(std::string & email);
-    int createJobseeker();
-    int deleteJobseeker();
-    std::vector<std::vector<std::string>> searchJob(std::vector<std::string> & list_competence,std::string & code_postal);
-    std::vector<std::vector <std::string>> find_former_colleagues_by_enterprise(int & enterprise);
+    virtual void getJobseekerByEmail(std::string & email);
+    virtual int createJobseeker();
+    virtual int deleteJobseeker();
+    virtual std::vector<std::string> searchEntreprise(std::string & nom, std::string code_postal);
+    virtual std::vector<std::vector<std::string>> searchJob(std::vector<std::string> & list_competence,std::string & code_postal);
+    virtual std::vector<std::vector <std::string>> find_former_colleagues_by_enterprise(int & enterprise);
+
+    virtual int jobseekerToEmploye(int id_etp);
 
 };
 

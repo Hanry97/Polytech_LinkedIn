@@ -10,6 +10,13 @@ LAST MODIFICATION:            ||
 #include "Position.h"
 
 using namespace std ;
+Position::Position(){
+
+}
+
+Position::~Position(){
+
+}
 
 Position::Position(string const& title, vector<string> const& skills, int id_entreprise)
 {

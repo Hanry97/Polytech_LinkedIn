@@ -2,21 +2,38 @@
 #include "employe.h"
 #include "fichier.h"
 #include "constante.h"
+#include <vector>
+#include <string>
+#include <sstream>
+
 
 using namespace std;
 
 employe::employe(string & nom, string & prenom, string & email, string & code_postal, vector<int> & colleagues, vector<string> & skills,int & id_enterprise)
+    : jobseeker::jobseeker(nom, prenom, email, code_postal, skills)
 {
-    _id = -1;
-    _nom =nom;
-    _prenom = prenom;
-    _email = email;
-    _code_postal = code_postal;
-    _skills = skills;
-    _colleagues.clear();
     _colleagues = colleagues;
     _id_etp = id_enterprise;
 }  
+
+employe::~employe()
+{
+
+}
+
+employe & employe::operator=(const employe &emp)
+{
+    _id = emp._id;
+    _nom = emp._nom;
+    _prenom = emp._prenom;
+    _email = emp._code_postal;
+    _code_postal = emp._code_postal;
+    _skills = emp._skills;
+    _colleagues = emp._colleagues;
+    _id_etp = emp._id_etp;
+    
+    return *this;
+}
 
 int employe::addSkill(vector<string> & skills)
 {
@@ -58,7 +75,33 @@ int employe::updateCodePostal(std::string & code_postal)
 
 void employe::getEmployeByEmail(std::string & email)
 {
+    vector<string> data = login_byEmail(email,TAG_EMPLOYE);
+    
+    if(data.size() >= 1)
+    {
+        _id = stoi(data[0]);
+        _nom = data[1];
+        _prenom = data[2];
+        _email = data[3];
+        _code_postal = data[4];
 
+        string word;
+        stringstream s(data[5]);
+
+        while (getline(s, word, ';')) { 
+            _skills.push_back(word); 
+        }
+
+        if(data[6] != "")
+        {
+            stringstream ss(data[6]);
+
+            while (getline(ss, word, ';')) { 
+                _colleagues.push_back(stoi(word)); 
+            }
+        }
+        _id_etp = stoi(data[7]);
+    }
 }
 
 int employe::createEmploye()

@@ -12,36 +12,31 @@ class company
         std::string _email;
         
     public:
-        company();
+        company(): _id(-1) {};
         company(std::string nom, std::string code_postal, std::string email) : _nom(nom), _code_postal(code_postal), _email(email) {};
         ~company();
+        company & operator=(const company & etp);
 
-        int getId() const;
-        std::string getNom() const;
-        std::string getCodePostal() const;
-        std::string getEmail() const;
+        int getId() const { return _id; };
+        std::string getNom() const { return _nom; };
+        std::string getCodePostal() const { return _code_postal;};
+        std::string getEmail() const { return _email;};
 
         void setNom(std::string & nom) { _nom = nom;};
         void setCodePostal(std::string & code_postal) { _code_postal = code_postal;};
         void setEmail(std::string & email) { _email = email;};
 
-        void getCompanyByEmail(std::string & email) const;
+        void getCompanyByEmail(std::string & email);
         int createCompany();
         int deleteCompany();
 
         int createPosition(Position & poste);
-        int deletePosition(Position & poste);
+        int deletePosition(int id_poste);
+        std::vector<std::string> getAllPosition();
 
         std::vector<std::vector<std::string>> searchToHire(std::vector<std::string> & list_competence,std::string & code_postal);
 };
 
-company::company()
-{
-}
-
-company::~company()
-{
-}
 
 
 #endif
