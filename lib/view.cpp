@@ -142,7 +142,7 @@ int creation_screen()
             return jsk_create_profil();
             break;
         case 3:
-            return 1;
+            return emp_create_profil();
             break;
         case 4:
             return code;
@@ -152,6 +152,22 @@ int creation_screen()
             break;
     }
     
+}
+
+//Vérifie l'exitence d'un entier dans un tableau
+bool existOnVector(const vector<int> & tab, const int & val)
+{
+    bool exist = false;
+    int tab_size = tab.size();
+    int i = 0;
+ 
+    while (i < tab_size && exist == false)
+    {
+        if(tab[i] == val) exist = true;
+        ++i;
+    }
+    
+    return exist;
 }
 
 //Menu entreprise
@@ -529,7 +545,7 @@ int display_modify_profil_jobSeeker( jobseeker & jsk )
             cout<<"|                             3-AJOUTER UN(E) ANCIEN(NE) COLLEGUE                  |"<<endl;
             cout<<"|                             4-CHANGER LE CODE POSTAL                             |"<<endl;
             cout<<"|                                                                                  |"<<endl;
-            cout<<"|                             5-RETOURNER AU LE MENU                               |"<<endl;
+            cout<<"|                             5-RETOURNER AU MENU                                  |"<<endl;
             cout<<"|                             6-Quitter le Programme                               |"<<endl;
             cout<<"|                                                                                  |"<<endl;
             cout<<"===================================================================================="<<endl;
@@ -831,12 +847,13 @@ int jsk_search_poste(jobseeker & jsk)
         
         if(list_etp.size() > 0)
         {
-            cout << "\nENTREPRISE(S) TROUVE(ES)\n" << endl;
-            for(size_t i=0; i<list_etp.size(); i++) cout << i+1 << " ( POSTE ) : " << list_etp[i][0] 
-                                                         << " ( ENTRPRISE ) : " << list_etp[i][1] 
-                                                         << " ( EMAIL ) : " << list_etp[i][2] 
-                                                         << " ( CODE POSTAL ) : " << list_etp[i][3] 
-                                                         << "  " << endl;
+            cout << "\nPOSTE(S) TROUVE(S)\n" << endl;
+            for(size_t i=0; i<list_etp.size(); i++) cout << "N° " << i+1 
+                                                         << "\nPOSTE       : " << list_etp[i][0] 
+                                                         << "\nENTRPRISE   : " << list_etp[i][1] 
+                                                         << "\nEMAIL       : " << list_etp[i][2] 
+                                                         << "\nCODE POSTAL : " << list_etp[i][3] 
+                                                         << "\n" << endl;
 
         }else
         {
@@ -909,7 +926,8 @@ int jsk_search_oldColleagues(jobseeker & jsk )
     int code = SUCCESS;
     char exit_char;
     string code_postal = "#";
-    string nom_entreprise;
+    string nom_entreprise, skill;
+    vector<string> skills;
     int id_entreprise;
     vector<string> list_etp;
     char restart = 'n', type_search = 'x';
@@ -977,7 +995,26 @@ int jsk_search_oldColleagues(jobseeker & jsk )
         }
         else if(type_search == 'c')
         {
-            
+            vector<vector<string>> colleagues;
+            colleagues = jsk.find_former_colleagues_by_skills();
+
+            if(colleagues.size() > 0)
+            {
+                cout<<endl;
+                cout<< colleagues.size() << " ANCIEN(NE)(S) COLLEGUE(S) TROUVE(ES)(S)\n" << endl;
+                for(size_t i=0; i<colleagues.size(); i++) 
+                {
+                    cout<< "\nNOM    : " << colleagues[i][0] << endl;
+                    cout<< "PRENOM : " << colleagues[i][1] << endl;
+                    cout<< "EMAIL  : " << colleagues[i][2] << endl;
+                }
+            }
+            else
+            {
+                cout<< "\nAUCUN(E) COLLEGUE TROUVE(E)\n"<<endl;
+                cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                if(restart == 'y') type_search = 'x';
+            } 
         }
 
 
@@ -1112,5 +1149,802 @@ int jsk_add_oldColleague(jobseeker & jsk)
 //Menu employé
 int emp_home(employe & emp)
 {
-    return 1;
+    int choice = -1;
+    int code_option;
+
+    while(code_option != EXIT_PROGRAM && code_option != DECONNEXION){
+
+        while(choice < 1 or choice >7)
+        {
+
+            system( "clear" ) ;
+            cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+            cout<< "\n" << endl;
+            cout<<"========================================================================================"<<endl;
+            cout<<"||                                MENU EMPLOYE                                        ||"<<endl;
+            cout<<"========================================================================================"<<endl;
+            cout<<"|                                                                                      |"<<endl;
+            cout<<"|                         Que souhaitez vous faire:                                    |"<<endl;
+            cout<<"|                                                                                      |"<<endl;
+            cout<<"|                         1-METTRE À JOUR LE PROFIL                                    |"<<endl;
+            cout<<"|                         2-DEVENIR CHERCHEUR D'EMPLOI                                 |"<<endl;
+            cout<<"|                         3-SUPPRIMER LE PROFIL                                        |"<<endl; 
+            cout<<"|                         4-RECHERCHER DES POSTES                                      |"<<endl;
+            cout<<"|                         5-RECHERCHER PARMIS LES ANCIENS COLLEGUES                    |"<<endl;
+            cout<<"|                                                                                      |"<<endl;
+            cout<<"|                         6-DECONNEXION                                                |"<<endl;
+            cout<<"|                         7-Quitter le programme                                       |"<<endl;
+            cout<<"|                                                                                      |"<<endl;
+            cout<<"======================================================================================="<<endl;
+            cout<<"\n Veuillez entrer le numero de votre choix  : ";
+            cin >> choice ;
+
+        }
+
+        code_option = navigation_employe( choice, emp ) ;
+        choice = -1;
+    }
+    return code_option;
 }
+
+int navigation_employe( int const & choice, employe & emp )
+{
+    switch( choice )
+	{
+		case 1: 
+			return display_modify_profil_employe( emp ) ;		
+		case 2:
+			return employe_to_jobseeker(emp); 	
+		case 3:
+            return emp_deleteProfile(emp);
+		case 4: 
+			return emp_search_poste(emp);
+		case 5:
+			return emp_search_oldColleagues( emp ) ;
+		case 6:
+			return DECONNEXION;
+        case 7:
+            exit(0);
+		default:
+			return SUCCESS;
+	}
+}
+
+int display_modify_profil_employe(employe & emp )
+{
+    int choice = -1;
+    int code_option;
+
+    while(code_option != EXIT_PROGRAM && code_option != DECONNEXION && code_option != BACK_PREV_MENU){
+
+        while(choice < 1 or choice >7)
+        {
+
+            system( "clear" ) ;
+            cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+            cout<< "\n" << endl;
+            cout<<"===================================================================================="<<endl;
+            cout<<"||                            MODIFIER MON PROFIL EMPLOYE                         ||"<<endl;
+            cout<<"===================================================================================="<<endl;
+            cout<<"|                                                                                  |"<<endl;
+            cout<<"|                             Que souhaitez vous faire ?:                          |"<<endl;
+            cout<<"|                                                                                  |"<<endl;
+            cout<<"|                             1-VOIR MON PROFIL                                    |"<<endl;
+            cout<<"|                             2-AJOUTER DES COMPETENCES                            |"<<endl;
+            cout<<"|                             3-AJOUTER UN(E) ANCIEN(NE) COLLEGUE                  |"<<endl;
+            cout<<"|                             4-CHANGER LE CODE POSTAL                             |"<<endl;
+            cout<<"|                             5-CHANGER D'ENTREPRISE                               |"<<endl;
+            cout<<"|                                                                                  |"<<endl;
+            cout<<"|                             6-RETOURNER AU MENU                                  |"<<endl;
+            cout<<"|                             7-Quitter le Programme                               |"<<endl;
+            cout<<"|                                                                                  |"<<endl;
+            cout<<"===================================================================================="<<endl;
+            cout<<"\n Veuillez entrer le numero de votre choix  : ";
+            cin >> choice ;
+        }
+
+	    code_option = navigation_modify_profil_employe( choice, emp ) ;
+        choice = -1;
+    }
+    return code_option;
+}
+
+int navigation_modify_profil_employe ( const int & choice, employe & emp)
+{
+    int code = EXIT_WITH_ERROR;
+
+	switch( choice )
+	{
+		case 1:
+			code = emp_afficher(emp);
+            break;	
+		case 2: 
+			code = emp_add_skills(emp); 
+            break ;
+		case 3: 
+			code = emp_add_oldColleague(emp); 
+            break ;
+		case 4: 
+			code = emp_update_codePostal(emp); 
+            break ;
+        case 5:
+            code = emp_update_entreprise(emp);
+            break;
+		case 6: 
+			code = BACK_PREV_MENU;
+            break;
+		case 7: 
+			exit(0);	
+		default: 
+            code = SUCCESS;
+            break;
+	}
+    return code;
+}
+
+int emp_afficher(employe & emp)
+{
+    char exit_char;
+    vector<string> skills;
+    size_t nbr_skills;
+    vector<string> oldColleagues;
+    size_t nbr_oldColleagues;
+    vector<int> list_id;
+    vector<string> etp;
+    int id_etp;
+
+    list_id = emp.getColleagues();
+    oldColleagues = emp.getOldColleaguesById(list_id);
+    nbr_oldColleagues = oldColleagues.size();
+    
+    skills = emp.getSkills();
+    nbr_skills = skills.size();
+
+    id_etp = emp.getEnterpriseId();
+    etp = emp.getEntrepriseById(id_etp);
+
+    system( "clear" ) ;
+	cout << "\n\n" << endl ;
+	cout << "  ========================================== " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << " |                MON PROFIL                | " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << "  ========================================== " << endl << endl ;
+
+	cout << "   Nom         : " << emp.getNom() << endl ;
+	cout << "   Prénom      : " << emp.getPrenom() << endl ;
+	cout << "   Code Postal : " << emp.getCodePostal() << endl ;
+	cout << "   Email       : " << emp.getEmail() << endl ;
+    cout << "   Compétences : "; for(size_t i=0; i<nbr_skills;i++ ) cout << skills[i] << " "; cout<<endl;
+    cout << endl;
+    cout << "   Entreprise actuelle : "; if(etp.size() > 0) cout<< etp[1] << " (" << etp[2] << ")" << endl << endl;
+                                            else cout << "Votre entreprise n'est plus dans notre liste d'entreprises" << endl << endl;
+
+    cout << "   Anciens collègues :" << endl << endl;
+
+    if(nbr_oldColleagues < 1) cout<< "     VOUS N'AVEZ PAS D'ANCIENS COLLEGUES.";
+    else for(size_t i=0; i<nbr_oldColleagues;i++ ) cout<< "    "<< i+1 << " - " << oldColleagues[i] <<endl;
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+    
+    return SUCCESS;
+}
+
+int emp_create_profil()
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    string nom,prenom,email,code_postal;
+    string nom_entreprise, skill;
+    int id_entreprise;
+    vector<string> list_etp;
+    vector<string> skills;
+    char restart = 'n';
+
+    do
+    {
+        restart = 'n';
+        system( "clear" ) ;
+        cout<< "*************CREATION D'UN COMPTE EMPLOYE***********"<< endl<< endl;
+        
+        cout << "*saisir le caractère '#' pour ignorer un champ\n\n" << endl;
+
+        cin.ignore();
+        cout<< "NOM DE L'ENTREPRISE         : " ; getline(cin,nom_entreprise);
+        cout<< "\nCODE POSTAL DE L'ENTREPRISE : " ; getline(cin,code_postal);  
+        cout<<"\n"<<endl;
+
+        employe emp;
+        list_etp.clear();
+        list_etp = emp.searchEntreprise(nom_entreprise,code_postal);
+        
+        if(list_etp.size() > 0)
+        {
+            cout << "ENTREPRISE(S) TROUVE(ES)\n" << endl;
+            for(size_t i=0; i<list_etp.size(); i++) cout << list_etp[i] << endl;
+
+            cout << "\n\nN° DE L'ENTREPRISE DANS LAQUELLE VOUS ETES EMPLOYE : "; cin>> id_entreprise; cout<<endl;
+            cin.ignore();
+
+            cout<<"NOM         : "; getline(cin,nom);
+            cout<<"PRENOM      : "; getline(cin,prenom);
+            cout<<"EMAIL       : "; getline(cin,email);
+            cout<<"CODE POSTAL : "; getline(cin,code_postal);
+            cout<<endl;
+
+            cout<<"ENTREZ VOS COMPETENCES (UNE A UNE)"<< endl;
+            cout<<"ENTREZ 'q' POUR TERMINER LA SAISIE"<< endl;  
+
+            int i=1, nbr_skills = 0;
+            do{                                         //Boucle pour permettre la saisie de plusieur competence
+                                                        //L utilisateur saisi q pour quitter la boucle
+                cout<<"\nCOMPETENCE N° "<<i<<" : "; getline(cin,skill);
+                
+                if(skill!="q"){
+                    skills.push_back(skill);  
+                    nbr_skills = nbr_skills + 1; 
+                    i++;
+                }
+                
+            }while(skill!="q" || nbr_skills==0);
+
+            emp.setNom(nom);
+            emp.setPrenom(prenom);
+            emp.setEmail(email);
+            emp.setCodePostal(code_postal);
+            emp.setSkills(skills);
+            emp.setEnterpriseId(id_entreprise);
+
+            code = emp.createEmploye();
+            
+            if(code == SUCCESS)
+                cout<< "\n\nFELICITAIONS, VOTRE COMPTE A ETE CREE VOUS POUVEZ DESORMAIS VOUS CONNECTER!" << endl;
+            else 
+                cout<< "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
+
+        }else
+        {
+            cout<< "AUCUNE ENTREPRISE TROUVE\n"<<endl;
+            cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+        }
+
+    }while(restart == 'y');
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int emp_add_skills(employe & emp)
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    vector<string> skills;
+    string skill;
+
+    system( "clear" ) ;
+	cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+    cout<< "\n" << endl;
+	cout << "  ========================================== " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << " |         AJOUTER DES COMPETENCES          | " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << "  ========================================== " << endl << endl ;
+
+    cout<<"ENTREZ LES COMPETENCES A AJOUTER (UNE A UNE)"<< endl;
+	cout<<"ENTREZ 'q' POUR TERMINER LA SAISIE"<< endl;  
+
+	int i=0;
+    cin.ignore();
+	do{                                         //Boucle pour permettre la saisie de plusieur competence
+		i++;								    //L utilisateur saisi q pour quitter la boucle
+		cout<<"\nCOMPETENCE N° "<<i<<" : "; getline(cin,skill);
+		
+		if(skill!="q") skills.push_back(skill);   //Pour ne pas enregistrer la lettre q
+		
+	}while(skill!="q");
+
+    if(skills.size() > 0)
+    {
+        code = emp.addSkill(skills);
+        if(code == SUCCESS) cout << "\nLES COMPETENCES ONT BIEN ETE AJOUTEES" << endl;
+            else cout << "\nUNE ERREUR S'EST PRODUITE" << endl;
+    }
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int emp_add_oldColleague(employe & emp)
+{
+    int code = SUCCESS;
+    char exit_char;
+    string code_postal = "#";
+    string nom_entreprise;
+    int id_entreprise;
+    vector<string> list_etp;
+    char restart = 'n';
+    
+
+    do
+    {
+        restart = 'n';
+  
+        system( "clear" ) ;
+        cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+        cout<< "\n" << endl;
+        cout << "  =============================================== " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << " |        AJOUTER D'ANCIEN(NE)S COLLEGUES        | " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << "  =============================================== " << endl << endl ;
+
+        cout << "\n-> AJOUT PAR ENTREPRISE ";
+
+        cin.ignore();
+        cout<<"\n\nENTREPRISE  : " ; getline(cin,nom_entreprise);
+        cout<<"\n"<<endl;
+
+        list_etp.clear();
+        list_etp = emp.searchEntreprise(nom_entreprise, code_postal);
+
+        if(list_etp.size() > 0)
+        {
+            cout << "ENTREPRISE(S) TROUVE(ES)\n" << endl;
+            for(size_t i=0; i<list_etp.size(); i++) cout << list_etp[i] << endl;
+
+            cout << "\n\nN° DE L'ENTREPRISE DANS LAQUELLE VOUS RECHERCHEZ D'ANCIEN(NE)S COLLEGUES : "; cin>> id_entreprise; cout<<endl;
+            
+            vector<vector<string>> colleagues;
+            colleagues = emp.find_former_colleagues_by_enterprise(id_entreprise);
+
+            if(colleagues.size() > 0)
+            {
+                int my_id = emp.getId();
+                size_t nbr_results = colleagues.size();
+                vector<int> list_idOfresults;
+                for (size_t i = 0; i < nbr_results; i++)
+                    list_idOfresults.push_back(stoi(colleagues[i][3]));
+                
+                if(existOnVector(list_idOfresults, my_id)) nbr_results -= 1;
+
+                cout<< nbr_results << " ANCIEN(NE)(S) COLLEGUE(S) TROUVE(ES)(S)\n" << endl;
+
+                if(nbr_results > 0){
+                
+                    for(size_t i=0; i<colleagues.size(); i++) 
+                    {
+                        //On exclut l'utilisateur courant de la liste de résultats
+                        if(my_id != stoi(colleagues[i][3]))
+                        {
+                            cout<< "\nID     : " << colleagues[i][3] << endl; 
+                            cout<< "NOM    : " << colleagues[i][0] << endl;
+                            cout<< "PRENOM : " << colleagues[i][1] << endl;
+                            cout<< "EMAIL  : " << colleagues[i][2] << endl;
+                        }
+                    }
+
+                    cout<<"\nENTREZ LES ID DES PERSONNES A AJOUTER A VOTRE LISTE D'ANCIEN(NE)(S) COLLEGUE (UN A UN)"<< endl;
+                    cout<<"ENTREZ '0' POUR TERMINER Lcolleagues.size()A SAISIE"<< endl;  
+
+                    int i=0;
+                    int id;
+                    vector<int> list_id;
+                    do{                                         //Boucle pour permettre la saisie de plusieur competence
+                        i++;								    //L utilisateur saisi q pour quitter la boucle
+                        cout<<"\nID N° "<<i<<" : "; cin>>id;
+                        
+                        if(id!=0) list_id.push_back(id);   //Pour ne pas enregistrer la lettre q
+                        
+                    }while(id!=0);
+
+                    
+                    if(list_id.size() > 0)
+                    {
+                        bool exist = false;
+                        vector<int> old_c = emp.getColleagues();
+
+                        for(size_t i=0; i<list_id.size(); i++)
+                        {
+                            for (size_t j = 0; j < old_c.size(); j++)
+                            {
+                                if(list_id[i] == old_c[j]) exist = true;
+                            }
+                            
+                        }
+
+                        if(exist == false)
+                        {
+                            code = emp.addColleague(list_id);
+                            if(code == SUCCESS) cout << "\nVOTRE LISTE D'ANCIENS COLLEGUES A BIEN ETE MISE A JOUR." << endl;
+                                else cout << "\nUNE ERREUR S'EST PRODUITE" << endl;
+                        }
+                        else{
+                            cout<< "CERTAINES DE CES PERSONNES SONT DEJA DANS VOTRE LISTE D'ANCIENS COLLEGUES\n"<<endl;
+                            cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                        }
+                    }
+                    
+                }else{
+                    cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                }
+            }
+            else
+            {
+                cout<< "AUCUN(E) COLLEGUE TROUVE(E)\n"<<endl;
+                cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                
+            } 
+        }
+        else
+        {
+            cout<< "AUCUNE ENTREPRISE TROUVE\n"<<endl;
+            cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+            
+        }
+
+    }while(restart == 'y');
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int emp_update_codePostal(employe & emp)
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    string code_postal;
+
+    system( "clear" ) ;
+	cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+    cout<< "\n" << endl;
+	cout << "  ========================================== " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << " |          CHANGER LE CODE POSTAL          | " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << "  ========================================== " << endl << endl ;
+
+    cout<< emp.getCodePostal() << " est votre code postal actuel." << endl;
+	cout<<"\nNouveau code postal : " ; cin>> code_postal;  
+
+    code = emp.updateCodePostal(code_postal);
+    if(code == SUCCESS) cout << "\nLE CODE POSTAL A BIEN ETE MIS A JOUR" << endl;
+        else cout << "\nUNE ERREUR S'EST PRODUITE" << endl;
+
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int emp_update_entreprise(employe & emp)
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    string code_postal;
+    string nom_entreprise;
+    int id_entreprise;
+    vector<string> list_etp;
+    char restart = 'n', confirm;
+
+    do
+    {
+        restart = 'n';
+        system( "clear" ) ;
+        cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+        cout<< "\n" << endl;
+        cout << "  =============================================== " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << " |              CHANGER D'ENTREPRISE             | " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << "  =============================================== " << endl << endl ;
+
+        cout << "*saisir le caractère '#' pour ignorer le champ code postal\n\n" << endl;
+
+        cin.ignore();
+        cout<< "ENTREPRISE D'ACCEUIL : " ; getline(cin,nom_entreprise);
+        cout<<"\nCODE POSTAL          : " ; getline(cin,code_postal);  
+        cout<<"\n"<<endl;
+
+        list_etp.clear();
+        list_etp = emp.searchEntreprise(nom_entreprise, code_postal);
+        
+        if(list_etp.size() > 0)
+        {
+            cout << "ENTREPRISE(S) TROUVE(ES)\n" << endl;
+            for(size_t i=0; i<list_etp.size(); i++) cout << list_etp[i] << endl;
+
+            cout << "\n\nN° DE L'ENTREPRISE QUI VOUS EMBAUCHE : "; cin>> id_entreprise; cout<<endl;
+            
+            int current_etp_id = emp.getEnterpriseId();
+            
+            if(current_etp_id != id_entreprise)
+            {
+                cout << "CONFIRMER LE CHANGEMENT D'ENTREPRISE (y) OU ANNULER (n) ? (y/n) : "; cin>>confirm; cout<<endl;
+                
+                if(confirm == 'y')
+                {
+                    code = emp.updateEntreprise(id_entreprise);
+                    
+                    if(code == SUCCESS)
+                    {
+                        //On met à jour les information chargées dans l'objet (en session)
+                        string email = emp.getEmail();
+                        emp.getEmployeByEmail(email);
+
+                        cout<< "\n\nVOS INFORMATIONS ONT BIEN ETE MIS A JOUR"<<endl;
+                    }
+                    else cout<< "\n\nUNE ERREUR S'EST PRODUITE"<<endl;
+                }
+                else code = SUCCESS;
+            }
+            else{
+                cout<< "\nVOUS FAITE DEJA PARTIE DE CETTE ENTREPRISE\n"<<endl;
+                cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+            }
+
+        }else
+        {
+            cout<< "AUCUNE ENTREPRISE TROUVE\n"<<endl;
+            cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+        }
+
+    }while(restart == 'y');
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int employe_to_jobseeker(employe & emp)
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    char confirm;
+
+    system( "clear" ) ;
+    cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+    cout<< "\n" << endl;
+    cout << "  =============================================== " << endl ;
+    cout << " |                                               | " << endl ;
+    cout << " |     PASSER D'EMPLOYE A CHERCHEUR D'EMPLOI     | " << endl ;
+    cout << " |                                               | " << endl ;
+    cout << "  =============================================== " << endl << endl ;
+
+    
+    cout << "CONFIRMER LE CHANGEMENT DE STATUT (y) OU ANNULER (n) ? (y/n) : "; cin>>confirm; cout<<endl;
+    
+    if(confirm == 'y')
+    {
+        code = emp.employeToJobseeker();
+        
+        if(code == SUCCESS)
+        {
+            cout<< "\n\nVOTRE STATUT A BIEN ETE MIS A JOUR, VOUS ALLEZ ETRE DECONNECTER"<<endl;
+            code = DECONNEXION;
+        }
+        else cout<< "\n\nUNE ERREUR S'EST PRODUITE"<<endl;
+    }
+    else code = SUCCESS;
+
+    
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int emp_deleteProfile(employe & emp)
+{
+    int code = EXIT_WITH_ERROR;
+    char confirmation, exit_char;
+    
+    system( "clear" ) ;
+
+    cout<<"************SUPPRESSION DE COMPTE************" << endl;
+    cout<<endl;
+    cout << "\n\n CONFIRMEZ-VOUS LA SUPPRESSION DE VOTRE COMPTE ? (y/n) : "; cin>> confirmation;
+
+    if(confirmation == 'y')
+    {
+        code = emp.deleteEmploye();
+        if(code == SUCCESS) {
+            cout<<"\n\nSUPPRESSION TERMINEE, ENTREZ 'q' POUR CONTINUER."<<endl;
+            code = EXIT_PROGRAM;
+        }
+        else cout << "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
+    }else{
+        cout << "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    }
+
+    cin>> exit_char;
+
+    return code;
+}
+
+int emp_search_poste(employe & emp)
+{
+    int code = SUCCESS;
+    char exit_char;
+    string code_postal, skill;
+    vector<string> skills;
+
+    vector<vector<string>> list_etp;
+    char restart = 'n';
+
+    do
+    {
+        restart = 'n';
+        system( "clear" ) ;
+        cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+        cout<< "\n" << endl;
+        cout << "  =============================================== " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << " |       RECHERCHER DES POSTES A POURVOIR        | " << endl ;
+        cout << " |                                               | " << endl ;
+        cout << "  =============================================== " << endl << endl ;
+
+        cout << "*saisir le caractère '#' pour une recherche sans code postal\n\n" << endl;
+
+        cin.ignore();
+        cout<<"\nCODE POSTAL   : " ; getline(cin,code_postal);  
+        cout<<"\n"<<endl;
+
+        cout<<"ENTREZ LES COMPETENCES REQUISES (UNE A UNE)"<< endl;
+        cout<<"ENTREZ 'q' POUR TERMINER LA SAISIE"<< endl;  
+
+        int i=1, nbr_skills = 0;
+        do{                                         //Boucle pour permettre la saisie de plusieur competence
+                								    //L utilisateur saisi q pour quitter la boucle
+            cout<<"\nCOMPETENCE N° "<<i<<" : "; getline(cin,skill);
+            
+            if(skill!="q"){
+                skills.push_back(skill);  
+                nbr_skills = nbr_skills + 1; 
+                i++;
+            }
+            
+        }while(skill!="q" || nbr_skills==0);
+
+        list_etp.clear();
+        list_etp = emp.searchJob(skills,code_postal);
+        
+        if(list_etp.size() > 0)
+        {
+            cout << "\nPOSTE(S) TROUVE(S)\n" << endl;
+            for(size_t i=0; i<list_etp.size(); i++) cout << "N° " << i+1 
+                                                         << "\nPOSTE       : " << list_etp[i][0] 
+                                                         << "\nENTRPRISE   : " << list_etp[i][1] 
+                                                         << "\nEMAIL       : " << list_etp[i][2] 
+                                                         << "\nCODE POSTAL : " << list_etp[i][3] 
+                                                         << "\n" << endl;
+
+        }else
+        {
+            cout<< "\nAUCUNE ENTREPRISE TROUVE\n"<<endl;
+            cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+        }
+
+    }while(restart == 'y');
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+int emp_search_oldColleagues( employe & emp )
+{
+    int code = SUCCESS;
+    char exit_char;
+    string code_postal = "#";
+    string nom_entreprise, skill;
+    vector<string> skills;
+    int id_entreprise;
+    vector<string> list_etp;
+    char restart = 'n', type_search = 'x';
+    
+
+    do
+    {
+        restart = 'n';
+        while(type_search != 'e' && type_search != 'c')
+        {
+
+            system( "clear" ) ;
+            cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+            cout<< "\n" << endl;
+            cout << "  =============================================== " << endl ;
+            cout << " |                                               | " << endl ;
+            cout << " |      RECHERCHER D'ANCIEN(NE)S COLLEGUES       | " << endl ;
+            cout << " |                                               | " << endl ;
+            cout << "  =============================================== " << endl << endl ;
+
+            cout << "\n-> RECHERCHE PAR ENTREPRISE (e) OU PAR COMPETENCES (c)  (e/c)? : "; cin>>type_search;
+        }
+        
+        if(type_search == 'e')
+        {
+            cin.ignore();
+            cout<<"\n\nENTREPRISE  : " ; getline(cin,nom_entreprise);
+            cout<<"\n"<<endl;
+
+            list_etp.clear();
+            list_etp = emp.searchEntreprise(nom_entreprise, code_postal);
+
+            if(list_etp.size() > 0)
+            {
+                cout << "ENTREPRISE(S) TROUVE(ES)\n" << endl;
+                for(size_t i=0; i<list_etp.size(); i++) cout << list_etp[i] << endl;
+
+                cout << "\n\nN° DE L'ENTREPRISE DANS LAQUELLE VOUS RECHERCHEZ D'ANCIEN(NE)S COLLEGUES : "; cin>> id_entreprise; cout<<endl;
+                vector<vector<string>> colleagues;
+                colleagues = emp.find_former_colleagues_by_enterprise(id_entreprise);
+
+                if(colleagues.size() > 0)
+                {
+                    cout<< colleagues.size() << " ANCIEN(NE)(S) COLLEGUE(S) TROUVE(ES)(S)\n" << endl;
+                    for(size_t i=0; i<colleagues.size(); i++) 
+                    {
+                        cout<< "\nNOM    : " << colleagues[i][0] << endl;
+                        cout<< "PRENOM : " << colleagues[i][1] << endl;
+                        cout<< "EMAIL  : " << colleagues[i][2] << endl;
+                    }
+                }
+                else
+                {
+                    cout<< "AUCUN(E) COLLEGUE TROUVE(E)\n"<<endl;
+                    cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                    if(restart == 'y') type_search = 'x';
+                } 
+            }
+            else
+            {
+                cout<< "AUCUNE ENTREPRISE TROUVE\n"<<endl;
+                cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                if(restart == 'y') type_search = 'x';
+            }
+        }
+        else if(type_search == 'c')
+        {
+            vector<vector<string>> colleagues;
+            colleagues = emp.find_former_colleagues_by_skills();
+
+            if(colleagues.size() > 0)
+            {
+                cout<<endl;
+                cout<< colleagues.size() << " ANCIEN(NE)(S) COLLEGUE(S) TROUVE(ES)(S)\n" << endl;
+                for(size_t i=0; i<colleagues.size(); i++) 
+                {
+                    cout<< "\nNOM    : " << colleagues[i][0] << endl;
+                    cout<< "PRENOM : " << colleagues[i][1] << endl;
+                    cout<< "EMAIL  : " << colleagues[i][2] << endl;
+                }
+            }
+            else
+            {
+                cout<< "\nAUCUN(E) COLLEGUE TROUVE(E)\n"<<endl;
+                cout<< "RECOMMENCER (y/n) ? : "; cin >>restart; cout<<endl;
+                if(restart == 'y') type_search = 'x';
+            } 
+        }
+
+
+    }while(restart == 'y');
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+

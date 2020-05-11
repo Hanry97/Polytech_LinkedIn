@@ -73,6 +73,16 @@ int employe::updateCodePostal(std::string & code_postal)
     return code;
 }
 
+int employe::updateEntreprise(int id_entreprise)
+{
+    int code;
+
+    code = emp_update_enterprise(_id,id_entreprise);
+    if(code == SUCCESS) _id_etp = id_entreprise;
+
+    return code;
+}
+
 void employe::getEmployeByEmail(std::string & email)
 {
     vector<string> data = login_byEmail(email,TAG_EMPLOYE);
@@ -124,11 +134,20 @@ int employe::deleteEmploye()
 
 vector<vector<string>> employe::searchJob(vector<string> & list_competence,string & code_postal)
 {
-    return emp_searchJob(list_competence,code_postal);
+    return jsk_searchJob(list_competence,code_postal);
 }
 
 vector<vector <string>> employe::find_former_colleagues_by_enterprise(int & enterprise)
 {
-    return emp_find_former_colleagues();
+    return jsk_find_former_colleagues_by_enterprise(enterprise);
 }
 
+vector<string> employe::getEntrepriseById(const int & id)
+{
+    return get_EntrepriseByID(id);
+}
+
+int employe::employeToJobseeker()
+{
+    return emp_profile_transition_to_jobseeker(_id,_id_etp);
+}

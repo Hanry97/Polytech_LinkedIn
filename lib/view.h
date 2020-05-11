@@ -17,6 +17,8 @@ int login_screen();
 //page de création
 int creation_screen();
 
+bool existOnVector(const std::vector<int> & tab,const int & val);
+
 //Menu entreprise
 //========================================================
 int etp_home(company & etp);
@@ -30,6 +32,20 @@ int etp_create_profil();
 //========================================================
 //Menu employé
 int emp_home(employe & emp);
+int emp_create_profil();
+int navigation_employe( const int & choice, employe & emp );
+int display_modify_profil_employe(employe & emp );
+int navigation_modify_profil_employe ( const int & choice, employe & emp);
+int emp_afficher(employe & emp);
+int emp_add_skills(employe & emp);
+int emp_add_oldColleague(employe & emp);
+int emp_update_codePostal(employe & emp);
+int emp_update_entreprise(employe & emp);
+int employe_to_jobseeker(employe & emp);
+int emp_deleteProfile(employe & emp);
+int emp_search_poste(employe & emp);
+int emp_search_oldColleagues( employe & emp );
+
 //========================================================
 
 //Menu jobseeker

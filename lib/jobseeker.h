@@ -44,13 +44,14 @@ public:
     virtual void getJobseekerByEmail(std::string & email);
     virtual int createJobseeker();
     virtual int deleteJobseeker();
-    virtual std::vector<std::string> searchEntreprise(std::string & nom, std::string code_postal);
+    std::vector<std::string> searchEntreprise(std::string & nom, std::string code_postal);
     virtual std::vector<std::vector<std::string>> searchJob(std::vector<std::string> & list_competence,std::string & code_postal);
     virtual std::vector<std::vector <std::string>> find_former_colleagues_by_enterprise(int & enterprise);
+    std::vector<std::vector <std::string>> find_former_colleagues_by_skills();
 
     virtual int jobseekerToEmploye(int id_etp);
 
-    virtual std::vector<std::string> getOldColleaguesById(std::vector<int> & list_id);
+    std::vector<std::string> getOldColleaguesById(std::vector<int> & list_id);
 
 };
 
