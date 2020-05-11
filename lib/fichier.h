@@ -17,6 +17,8 @@
 
 bool skillFounded(std::vector<std::string> tab, std::string val);
 bool existOnVector(std::vector<int> tab, int val);
+bool existOnVectorString(std::vector<std::string> tab, std::string val);
+
 
 //Renvoi -1 si une erreur s'est produite
 int get_lastID(std::string const path);
@@ -58,6 +60,8 @@ std::vector<std::vector<std::string>> etp_searchToHire(std::vector<std::string> 
 //Récupère tous les offres d'emploi de l'entreprise dont l'id est passé en paramètre
 std::vector<std::string> get_AllPoste_fromEnterprise(int id_entreprise);
 
+std::vector<std::string> get_EntrepriseByID(int id_etp);
+
 //FUNCTIONS FOR THE JOB SEEKER
 //==============================================================================================================================
 
@@ -94,8 +98,9 @@ std::vector<std::vector<std::string>> jsk_searchJob(std::vector<std::string> lis
 std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int enterprise);
 
 //####### A FAIRE ##############//
-std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std::vector<std::string> list_competence);
+std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std::vector<int> list_id, std::vector<std::string> list_competence);
 
+std::vector<std::string> jsk_get_old_colleagues_by_id(std::vector<int> list_id);
 //FUNCTIONS FOR THE EMPLOYE
 //================================================================================================================================
 

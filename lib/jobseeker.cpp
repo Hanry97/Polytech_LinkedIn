@@ -156,7 +156,17 @@ vector<vector <string>> jobseeker::find_former_colleagues_by_enterprise(int & en
     return jsk_find_former_colleagues_by_enterprise(enterprise);
 }
 
+vector<vector <string>> jobseeker::find_former_colleagues_by_skills()
+{
+    return jsk_find_former_colleagues_by_skills(_colleagues,_skills);
+}
+
 int jobseeker::jobseekerToEmploye(int id_etp)
 {
     return jsk_profile_transition_to_employe(_id, id_etp);
+}
+
+vector<string> jobseeker::getOldColleaguesById(vector<int> & list_id)
+{
+    return jsk_get_old_colleagues_by_id(list_id);
 }

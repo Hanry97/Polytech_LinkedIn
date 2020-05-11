@@ -33,6 +33,21 @@ bool existOnVector(vector<int> tab, int val)
     return exist;
 }
 
+bool existOnVectorString(vector<string> tab, string val)
+{
+    bool exist = false;
+    size_t tab_size = tab.size();
+    size_t i = 0;
+ 
+    while (i < tab_size && exist == false)
+    {
+        if(tab[i] == val) exist = true;
+        ++i;
+    }
+    
+    return exist;
+}
+
 int get_lastID(string const path)
 {
     int id = 0;
@@ -630,6 +645,26 @@ vector<string> get_AllPoste_fromEnterprise(int id_entreprise)
     return list_result;
 }
 
+vector<string> get_EntrepriseByID(int id_etp)
+{
+    vector<string> etp;
+    string etp_data = "", word;
+
+    etp_data = get_tableRow(id_etp,tableEntreprise);
+
+    if(etp_data != "")
+    {
+        stringstream s(etp_data); 
+        while (getline(s, word, ',')) { 
+            etp.push_back(word); 
+        }
+    }
+    else{
+        //écrire dans le journal
+    }
+    return etp;
+}
+
 //FUNCTIONS OF THE JOBSEEKER
 
 int jsk_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills)
@@ -979,9 +1014,11 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
                         poste.push_back(data[1]);       //On met dans poste[1] le nom
                         poste.push_back(data[3]);       //On met dans poste[2] l'adresse mail
                         poste.push_back(data[2]);       //On met dans poste[3] le code postal
+                    
+                        list_of_result.push_back(poste);
                     }
                 }
-                list_of_result.push_back(poste);
+                
             }
             match = false;
   
@@ -995,7 +1032,7 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
     return list_of_result;
 }
 
-std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
+vector<vector <string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
 {
     vector <vector <string> > list_of_result;
 
@@ -1023,6 +1060,7 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(
                 collegue.push_back(row[1]);
                 collegue.push_back(row[2]);
                 collegue.push_back(row[3]);
+                collegue.push_back(row[0]);
 
                 list_of_result.push_back(collegue);
             }
@@ -1036,6 +1074,151 @@ std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(
 
     return list_of_result;
 }
+
+vector<string> jsk_get_old_colleagues_by_id(vector<int> list_id)
+{
+    vector <string> list_of_result;
+
+    ifstream table_file(tableEmployes.c_str());
+
+    if(table_file){
+
+        string ligne, word;
+        vector<string> row; 
+        vector<string> collegue;
+        
+        getline(table_file, ligne);        //Ligne de l'entete
+        while(getline(table_file, ligne)) {
+
+            collegue.clear();
+            row.clear();
+            stringstream s(ligne); 
+
+            while (getline(s, word, ',')) {     //On met chaque champ dans le tableau row
+                row.push_back(word); 
+            }
+            
+            if(existOnVector(list_id,stoi(row[0])))                           //Si au moins une compétence correspond
+            {                                           //On recherche l'entreprise correspondant au poste
+                string data_enterprise;                 //L'id de l'entreprise est dans row[3]
+                string enterprise = "";
+                vector<string> data; 
+                string collegue_row;
+
+                enterprise = get_tableRow(stoi(row[7]), tableEntreprise);
+                if(enterprise != "")
+                {
+                    stringstream sx(enterprise);
+                    data.clear();
+
+                    while(getline(sx, data_enterprise, ','))
+                    {
+                        data.push_back(data_enterprise);
+                    }
+                    collegue_row = row[1] + " " + row[2] + " (" + data[1] + ") ";
+                    
+                }
+                list_of_result.push_back(collegue_row);
+            }
+            
+  
+        } 
+
+    }else{
+        cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+    }
+    table_file.close();
+
+    return list_of_result;
+}
+
+vector<vector <string>> jsk_find_former_colleagues_by_skills(vector<int> list_id, vector<string> list_competence)
+{
+    vector<vector<string>> list_results;    
+    string collegue_data = "";
+    bool match;
+    size_t nbr_collegues = list_id.size();
+    vector<int> alreadyAdded;
+
+    string word,ligne;
+    vector<string> row,skills,poste_data, founded;
+
+    //Pour chaque collègue dont l'id est présent dans la list_id
+    for (size_t i = 0; i < nbr_collegues; i++)
+    {
+        if(existOnVector(alreadyAdded,list_id[i])==false)
+        {
+            collegue_data = get_tableRow(list_id[i], tableEmployes);
+
+            if(collegue_data != "")
+            {
+                row.clear();
+                stringstream s(collegue_data); 
+
+                while (getline(s, word, ',')) {     //On récupère les données du collègue 
+                    row.push_back(word);            //l'id  de l'entreprise est mis dans row[7]
+                }
+
+                //On récupère maintenant la liste des postes liés à l'entreprise
+                ifstream table_file(tablePoste.c_str());
+
+                if(table_file)
+                {
+                    getline(table_file, ligne);         //On saute la ligne d'en-tete
+                    match = false;
+                    while (getline(table_file, ligne) && match == false) 
+                    {   
+                        poste_data.clear();
+                        skills.clear();
+
+                        stringstream sx(ligne); 
+
+                        while (getline(sx, word, ',')) {     //On récupère les données de chaque poste
+                            poste_data.push_back(word);       //Les compétences sont mises dans poste_data[2]
+                        }
+
+                        if(stoi(row[7]) == stoi(poste_data[3]))     //Si le poste correspond à l'entreprise
+                        {
+                            stringstream ssx(poste_data[2]); 
+                            
+                            while (getline(ssx, word, ';')) {     //On récupère les compétences de chaque poste
+                                skills.push_back(word);       
+                            }
+
+                            size_t i = 0;
+                            while(i<skills.size() && match == false)
+                            {
+                                match = existOnVectorString(list_competence,skills[i]);     //On vérifie si l'une des compétences du poste
+                                i = i + 1;
+                            }                                                               //correspond à l'une des compétences de celui qui recherche un poste
+
+                            if(match == true)
+                            {
+                                founded.clear();
+                                founded.push_back(row[1]);
+                                founded.push_back(row[2]);
+                                founded.push_back(row[3]);
+                                founded.push_back(row[0]);
+                                
+                                list_results.push_back(founded);            //S'il y'a correspondance on ajoute le collègue à la liste des résultatss
+                                alreadyAdded.push_back(stoi(row[0]));
+                            }
+                        }
+                    }
+
+                }else{
+                    cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+                }
+                table_file.close();
+            }
+        
+        }
+    }
+
+    return list_results;
+    
+}
+
 
 //FUNCTIONS OF THE EMPLOYE
 
@@ -1233,6 +1416,7 @@ int emp_update_enterprise(int id_emp, int new_id_enterprise)
             row.push_back(word);            //On récupère les colonnes
         } 
         
+                    //L'id de l'entreprise actuelle se trouve dans row[7]
         ligne = ligne + row[0];
         for(size_t i=1; i<row.size(); i++){
             if(i != 7) ligne = ligne + "," + row[i];
@@ -1240,6 +1424,20 @@ int emp_update_enterprise(int id_emp, int new_id_enterprise)
         }
 
         code = update_row(id_emp,ligne,tableEmployes);
+        
+        if(code == SUCCESS)
+        {
+            vector<vector<string>> collegues = jsk_find_former_colleagues_by_enterprise(stoi(row[7]));
+            if(collegues.size() > 0)
+            {
+                vector<int> list_id;
+                for (size_t i = 0; i < collegues.size(); i++)
+                    list_id.push_back(stoi(collegues[i][3]));
+                
+                code = emp_add_colleague(id_emp,list_id);
+                
+            }
+        }
 
 
     }
@@ -1249,7 +1447,7 @@ int emp_update_enterprise(int id_emp, int new_id_enterprise)
 
 int emp_profile_transition_to_jobseeker(int id_emp, int id_etp)
 {
-    int code = EXIT_WITH_ERROR, code1 = EXIT_WITH_ERROR, code2 = EXIT_WITH_ERROR, code3 = EXIT_WITH_ERROR;
+    int code = EXIT_WITH_ERROR, code1 = SUCCESS, code2 = SUCCESS, code3 = SUCCESS;
     string new_row = "";
     string oldrow;
     int id_created = -1;
@@ -1292,9 +1490,8 @@ int emp_profile_transition_to_jobseeker(int id_emp, int id_etp)
                     colleagues.push_back(stoi(colleague));            //On récupère les compétences
                 }
                 code2 = jsk_add_colleague(id_created, colleagues);
-            }else{
-                code2 = NOTHING_TO_DO;
             }
+            
 
             vector<string> colleagueOnEnterprise = get_Allemploye_fromEnterprise(id_etp);
             if(colleagueOnEnterprise.size() > 0)
@@ -1307,19 +1504,17 @@ int emp_profile_transition_to_jobseeker(int id_emp, int id_etp)
                     while (getline(sd, word, ',')) {
                         row.push_back(word);            
                     }
-
-                    colleagues.push_back(stoi(row[0]));        
+                    if(stoi(row[0]) != id_emp)
+                        colleagues.push_back(stoi(row[0]));        
                     
                 }
 
                 code3 = jsk_add_colleague(id_created, colleagues);
 
-            }else{
-                code3 =NOTHING_TO_DO;
             }
 
         }
-        if(code1 == SUCCESS && (code2 == SUCCESS || code2 == NOTHING_TO_DO) && (code3 = SUCCESS || code3 == NOTHING_TO_DO)) code = SUCCESS;
+        if(code1 == SUCCESS && code2 == SUCCESS && code3 == SUCCESS ) code = SUCCESS;
 
         if(code == SUCCESS)
         {
