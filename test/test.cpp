@@ -176,6 +176,16 @@ int main()
         TEST(emp_delete_profile(id) == SUCCESS);
     }
     
+    {
+        string mdp = "DevCommeLesPros";
+        string new_mdp = "HanryJp";
+
+        TEST(create_password(1997,mdp,TAG_EMPLOYE) == SUCCESS);
+        TEST(update_password(1997,new_mdp,TAG_EMPLOYE) == SUCCESS);
+        TEST(password_existAndOk(1997,new_mdp,TAG_EMPLOYE) == true);
+        TEST(delete_password(1997,TAG_EMPLOYE) == SUCCESS);
+
+    }
 
     cout << tests_reussis << " / " << tests_executes << endl;
     return tests_reussis - tests_executes;
