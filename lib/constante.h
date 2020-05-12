@@ -15,16 +15,21 @@ std::string const TAG_ENTREPRISE = "etp";
 std::string const TAG_JOBSEEKER = "jsk";
 std::string const TAG_EMPLOYE = "emp";
 
+std::string const TAG_CLE_CHIFFREMENT = "linkedin";
+
 //CHEMIN D'ACCES DES TABLES
 
 std::string const tableEntreprise("database/Entreprise.csv");
 std::string const tablePoste("database/Poste.csv");
 std::string const tableEmployes("database/Employes.csv");
 std::string const tableJobseeker("database/Jobseeker.csv");
+std::string const tablePassword("database/Password.csv");
 std::string const header_tablePoste("id,titre,competences,entreprise");
 std::string const header_tableEntreprise("id,nom,code postal,mail");
 std::string const header_tableEmployes("id,nom,prenom,mail,code postal,competences,collegues,entreprise");
 std::string const header_tableJobseeker("id,nom,prenom,mail,code postal,competences,collegues");
+std::string const header_tablePassword("id,password,user,type");
+
 
 //CODES DE RETOUR
 

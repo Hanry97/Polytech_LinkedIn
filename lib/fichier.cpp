@@ -7,12 +7,14 @@
 */
 
 #include <iostream>
+#include "sha256.h"
 #include <fstream>
 #include <string>
 #include <vector>
 #include "fichier.h"
 #include "constante.h"
 #include <sstream>
+
 
 using namespace std;
 
@@ -292,6 +294,7 @@ string get_tableHeader(std::string const path_table)
     else if (path_table == tablePoste) table_header = header_tablePoste;
     else if (path_table == tableJobseeker) table_header = header_tableJobseeker;
     else if (path_table == tableEmployes) table_header = header_tableEmployes;
+    else if (path_table == tablePassword) table_header = header_tablePassword;
 
     return table_header;
 }
@@ -1555,4 +1558,178 @@ vector<vector <string>> emp_find_former_colleagues()
     vector <vector <string> > list_of_result;
 
     return list_of_result;
+}
+
+//FONCTION CHIFFREMENT DES PASSWORD (VIGENERE)
+
+
+int create_password(int id, string mdp, string type)
+{
+    int code;
+
+    //On vérifie que l'utilisateur n'a pas déjà un mot de passe
+    //On récupère le dernier ID de la table
+    int lastID = get_lastID(tablePassword);
+    //On créé la ligne
+    if(lastID != -1){
+        
+        int id_l = lastID + 1;
+        string password = sha256(mdp);
+        
+        ofstream flux(tablePassword.c_str(), ios::app);
+
+        if(flux)    
+        {
+            flux << id_l << "," << password << "," << id << "," << type << endl;
+            code = SUCCESS;
+        }else{
+            cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl;
+            code = OPEN_FILE_ERROR;
+        }
+
+        flux.close();
+    
+    }else{
+        code = EXIT_WITH_ERROR;
+    }
+
+    return code;
+} 
+
+bool password_existAndOk(int id, string mdp, string type)
+{
+    bool match = false;
+
+    ifstream table_file(tablePassword.c_str());
+
+    if(table_file){
+        
+        string ligne, word;
+        int id_user = -1;
+        vector<string> row; 
+        
+        getline(table_file, ligne);
+        while(getline(table_file, ligne)) 
+        {
+            row.clear();
+            stringstream s(ligne); 
+            
+            while (getline(s, word, ',')) {     //id dans row[0], password dans row[1], id_user dans row[2], type dans row[3]
+                row.push_back(word); 
+            } 
+
+            id_user = stoi(row[2]);
+
+            if(id_user==id && type == row[3]) 
+            {
+                string encrypted = sha256(mdp);
+
+                if(encrypted == row[1] ) match =  true;
+            }
+        }                   
+    
+    }else{
+
+        cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+    }
+
+    table_file.close();
+
+    return match;
+}
+
+int delete_password(int id_user, string type)
+{
+    int code = EXIT_WITH_ERROR;
+
+    ifstream table_file(tablePassword.c_str());
+
+    if(table_file){
+        
+        string ligne, word;
+        int id = -1;
+        vector<string> row; 
+        
+        getline(table_file, ligne);
+        while(getline(table_file, ligne)) 
+        {
+            row.clear();
+            stringstream s(ligne); 
+            
+            while (getline(s, word, ',')) {     //id dans row[0], password dans row[1], id_user dans row[2], type dans row[3]
+                row.push_back(word); 
+            } 
+
+            id= stoi(row[2]);
+
+            if(id_user==id && type == row[3]) 
+            {
+                vector<int> oneId;
+                oneId.push_back(stoi(row[0]));
+                code = delete_list_of_row_from_table(oneId,tablePassword);
+            }
+        }                   
+    
+    }else{
+
+        cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+    }
+
+    table_file.close();
+
+
+    return code;
+}
+
+int update_password(int user_id, string mdp, string type)
+{
+    int code = EXIT_WITH_ERROR;
+    string encrypted = "";
+    bool founded = false;
+
+    encrypted = sha256(mdp);
+
+    if(encrypted != "")
+    {
+        ifstream table_file(tablePassword.c_str());
+
+        if(table_file){
+            
+            string ligne, word;
+            int id_user = -1;
+            vector<string> row; 
+            
+            getline(table_file, ligne);
+            while(getline(table_file, ligne)) 
+            {
+                row.clear();
+                stringstream s(ligne); 
+                
+                while (getline(s, word, ',')) {     //id dans row[0], password dans row[1], id_user dans row[2], type dans row[3]
+                    row.push_back(word); 
+                } 
+
+                id_user = stoi(row[2]);
+
+                if(id_user==user_id && type == row[3]) 
+                {
+                    founded = true;
+                }
+            }
+            if(founded == true)
+            {
+                string new_row = row[0] + ',' + encrypted + ',' + row[2];  
+                code = update_row(stoi(row[0]),new_row,tablePassword);
+             }                
+        
+        }else{
+
+            cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+        }
+
+        table_file.close();
+
+    }
+
+    return code;
 }
