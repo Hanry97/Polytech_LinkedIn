@@ -186,7 +186,10 @@ vector<string> jobseeker::getOldColleaguesById(vector<int> & list_id)
     return jsk_get_old_colleagues_by_id(list_id);
 }
 
-int jobseeker::updatemdp(string & n_mdp)
+int jobseeker::updatemdp(string & n_mdp, string o_mdp)
 {
-    return update_password(_id,n_mdp,TAG_JOBSEEKER);
+    int code = update_password(_id,n_mdp,o_mdp,TAG_JOBSEEKER);
+    if(code == SUCCESS) _mdp = n_mdp;
+
+    return code;
 }

@@ -1681,13 +1681,13 @@ int delete_password(int id_user, string type)
     return code;
 }
 
-int update_password(int user_id, string mdp, string type)
+int update_password(int user_id, string n_mdp,string o_mdp, string type)
 {
     int code = EXIT_WITH_ERROR;
     string encrypted = "";
     bool founded = false;
 
-    encrypted = sha256(mdp);
+    encrypted = sha256(n_mdp);
 
     if(encrypted != "")
     {
@@ -1713,12 +1713,15 @@ int update_password(int user_id, string mdp, string type)
 
                 if(id_user==user_id && type == row[3]) 
                 {
-                    founded = true;
+                    string old_mdp = sha256(o_mdp);
+                    
+                    if(old_mdp == row[1])
+                        founded = true;
                 }
             }
             if(founded == true)
             {
-                string new_row = row[0] + ',' + encrypted + ',' + row[2];  
+                string new_row = row[0] + ',' + encrypted + ',' + row[2] + ',' + type;  
                 code = update_row(stoi(row[0]),new_row,tablePassword);
              }                
         

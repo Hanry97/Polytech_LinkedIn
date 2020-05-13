@@ -21,7 +21,7 @@ class employe : public jobseeker
         int addColleague(std::vector<int> & colleagues);
         int updateCodePostal(std::string & code_postal);
         int updateEntreprise(int id_entreprise);
-        int updatemdp(std::string & n_mdp);
+        int updatemdp(std::string & n_mdp, std::string o_mdp);
 
 
         void getEmployeByEmail(std::string & email, std::string & mdp);

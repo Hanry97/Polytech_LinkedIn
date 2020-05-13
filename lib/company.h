@@ -32,7 +32,7 @@ class company
         void getCompanyByEmail(std::string & email, std::string mdp);
         int createCompany();
         int deleteCompany();
-        int updatemdp(std::string & n_mdp);
+        int updatemdp(std::string & n_mdp, std::string o_mdp);
 
         int createPosition(Position & poste);
         int deletePosition(int id_poste);

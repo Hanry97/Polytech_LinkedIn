@@ -167,7 +167,10 @@ int employe::employeToJobseeker()
     return emp_profile_transition_to_jobseeker(_id,_id_etp);
 }
 
-int employe::updatemdp(string & n_mdp)
+int employe::updatemdp(string & n_mdp, string o_mdp)
 {
-    return update_password(_id,n_mdp,TAG_EMPLOYE);
+    int code = update_password(_id,n_mdp,o_mdp,TAG_EMPLOYE);
+    if(code == SUCCESS) _mdp = n_mdp;
+
+    return code;
 }

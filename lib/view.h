@@ -29,6 +29,7 @@ int etp_search(company & etp) ;
 int etp_logout(company & etp);
 int etp_deleteProfil(company & etp);
 int etp_create_profil();
+int etp_update_password(company & etp);
 //========================================================
 //Menu employé
 int emp_home(employe & emp);
@@ -45,6 +46,7 @@ int employe_to_jobseeker(employe & emp);
 int emp_deleteProfile(employe & emp);
 int emp_search_poste(employe & emp);
 int emp_search_oldColleagues( employe & emp );
+int emp_update_password(employe & emp);
 
 //========================================================
 
@@ -64,5 +66,6 @@ int jsk_search_poste(jobseeker & jsk);
 int jsk_create_profil();
 int jsk_search_oldColleagues(jobseeker & jsk );
 int jsk_add_oldColleague(jobseeker & jsk);
+int jsk_update_password(jobseeker & jsk);
 
 #endif
