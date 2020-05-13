@@ -131,6 +131,6 @@ std::vector<std::vector <std::string>> emp_find_former_colleagues();
 int create_password(int id, std::string mdp, std::string type);
 bool password_existAndOk(int id, std::string mdp, std::string type);
 int delete_password(int id_user, std::string type);
-int update_password(int user_id, std::string mdp, std::string type);
+int update_password(int user_id, std::string n_mdp, std::string o_mdp, std::string type);
 
 #endif

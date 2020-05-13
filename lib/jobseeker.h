@@ -42,7 +42,7 @@ public:
     virtual int addSkill(std::vector<std::string> & skills);
     virtual int addColleague(std::vector<int> & colleagues);
     virtual int updateCodePostal(std::string & code_postal);
-    virtual int updatemdp(std::string & n_mdp);
+    virtual int updatemdp(std::string & n_mdp, std::string o_mdp);
 
 
     virtual void getJobseekerByEmail(std::string & email, std::string & mdp);

@@ -181,7 +181,7 @@ int etp_home(company & etp)
 
     while(code_option != EXIT_PROGRAM && code_option != DECONNEXION){
 
-        while(choice < 1 or choice >6){
+        while(choice < 1 or choice >7){
             system( "clear" ) ;
             cout<<"Connecté en tant que " << etp.getNom() << ", " << etp.getEmail() << ", CP " << etp.getCodePostal() << endl;
             cout<< "\n" << endl;
@@ -194,10 +194,11 @@ int etp_home(company & etp)
             cout<<"|                             1-FAIRE UNE OFFRE D'EMPLOI                           |"<<endl;
             cout<<"|                             2-RETIRER UNE OFFRE D'EMPLOI                         |"<<endl;
             cout<<"|                             3-RECHERCHER DES JOBSEEKERS                          |"<<endl;
-            cout<<"|                             4-DECONNEXION                                        |"<<endl;
+            cout<<"|                             4-MODIFIER LE MOT DE PASSE                           |"<<endl;
+            cout<<"|                             5-DECONNEXION                                        |"<<endl;
             cout<<"|                                                                                  |"<<endl;
-            cout<<"|                             5-SUPPRIMER LE COMPTE                                |"<<endl;
-            cout<<"|                             6-Quitter le programme                               |"<<endl;
+            cout<<"|                             6-SUPPRIMER LE COMPTE                                |"<<endl;
+            cout<<"|                             7-Quitter le programme                               |"<<endl;
             cout<<"|                                                                                  |"<<endl;
             cout<<"===================================================================================="<<endl;
             
@@ -221,11 +222,13 @@ int navigation_company( const int & choice, company & etp )
 			return etp_delete_poste(etp);
 		case 3:
 			return etp_search(etp) ;
-		case 4:
-			return etp_logout(etp);
+        case 4:
+			return etp_update_password(etp);
 		case 5:
-			return etp_deleteProfil(etp);
+			return etp_logout(etp);
 		case 6:
+			return etp_deleteProfil(etp);
+		case 7:
 			exit(0) ;
 		default:
 			return choice ;
@@ -459,6 +462,38 @@ int etp_create_profil()
     return code;
 }
 
+int etp_update_password(company & etp)
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    string old_mdp, new_mdp;
+
+    system( "clear" ) ;
+	cout<<"Connecté en tant que " << etp.getNom() << " " << etp.getEmail() << " (" << etp.getCodePostal() << ")" << endl;
+    cout<< "\n" << endl;
+	cout << "  ========================================== " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << " |         CHANGER LE MOT DE PASSE          | " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << "  ========================================== " << endl << endl ;
+
+    cin.ignore();
+    cout << "ENTREZ VOTRE MOT DE PASSE ACTUEL : " ; getline(cin,old_mdp);
+	cout << "\nENTREZ LE NOUVEAU MOT DE PASSE   : " ; getline(cin,new_mdp);  
+
+    code = etp.updatemdp(new_mdp,old_mdp);
+
+    if(code == SUCCESS) cout << "\nLE MOT DE PASSE A BIEN ETE MIS A JOUR" << endl;
+        else cout << "\nUNE ERREUR S'EST PRODUITE" << endl;
+
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
+
+
 //=========================================================================================
 
 //Menu jobseeker
@@ -532,7 +567,7 @@ int display_modify_profil_jobSeeker( jobseeker & jsk )
 
     while(code_option != EXIT_PROGRAM && code_option != DECONNEXION && code_option != BACK_PREV_MENU){
 
-        while(choice < 1 or choice >6)
+        while(choice < 1 or choice >7)
         {
 
             system( "clear" ) ;
@@ -548,9 +583,10 @@ int display_modify_profil_jobSeeker( jobseeker & jsk )
             cout<<"|                             2-AJOUTER DES COMPETENCES                            |"<<endl;
             cout<<"|                             3-AJOUTER UN(E) ANCIEN(NE) COLLEGUE                  |"<<endl;
             cout<<"|                             4-CHANGER LE CODE POSTAL                             |"<<endl;
+            cout<<"|                             5-CHANGER LE MOT DE PASSE                            |"<<endl;
             cout<<"|                                                                                  |"<<endl;
-            cout<<"|                             5-RETOURNER AU MENU                                  |"<<endl;
-            cout<<"|                             6-Quitter le Programme                               |"<<endl;
+            cout<<"|                             6-RETOURNER AU MENU                                  |"<<endl;
+            cout<<"|                             7-Quitter le Programme                               |"<<endl;
             cout<<"|                                                                                  |"<<endl;
             cout<<"===================================================================================="<<endl;
             cout<<"\n Veuillez entrer le numero de votre choix  : ";
@@ -578,13 +614,16 @@ int navigation_modify_profil_jobSeeker( int const& choice, jobseeker & jsk )
 		case 3: 
 			code = jsk_add_oldColleague(jsk); 
             break ;
-		case 4: 
+        case 4: 
 			code = jsk_update_codePostal(jsk); 
             break ;
 		case 5: 
+			code = jsk_update_password(jsk); 
+            break ;
+		case 6: 
 			code = BACK_PREV_MENU;
             break;
-		case 6: 
+		case 7: 
 			exit(0);	
 		default: 
             code = SUCCESS;
@@ -1150,6 +1189,36 @@ int jsk_add_oldColleague(jobseeker & jsk)
     return code;
 }
 
+int jsk_update_password(jobseeker & jsk)
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    string old_mdp, new_mdp;
+
+    system( "clear" ) ;
+    cout<<"Connecté en tant que " << jsk.getNom() << " " << jsk.getPrenom() << ", " << jsk.getEmail() << endl;
+    cout<< "\n" << endl;
+	cout << "  ========================================== " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << " |         CHANGER LE MOT DE PASSE          | " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << "  ========================================== " << endl << endl ;
+
+    cin.ignore();
+    cout << "ENTREZ VOTRE MOT DE PASSE ACTUEL : " ; getline(cin,old_mdp);
+	cout << "\nENTREZ LE NOUVEAU MOT DE PASSE   : " ; getline(cin,new_mdp);  
+
+    code = jsk.updatemdp(new_mdp,old_mdp);
+
+    if(code == SUCCESS) cout << "\nLE MOT DE PASSE A BIEN ETE MIS A JOUR" << endl;
+        else cout << "\nUNE ERREUR S'EST PRODUITE" << endl;
+
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
 
 //=========================================================================================
 //Menu employé
@@ -1223,7 +1292,7 @@ int display_modify_profil_employe(employe & emp )
 
     while(code_option != EXIT_PROGRAM && code_option != DECONNEXION && code_option != BACK_PREV_MENU){
 
-        while(choice < 1 or choice >7)
+        while(choice < 1 or choice >8)
         {
 
             system( "clear" ) ;
@@ -1240,9 +1309,10 @@ int display_modify_profil_employe(employe & emp )
             cout<<"|                             3-AJOUTER UN(E) ANCIEN(NE) COLLEGUE                  |"<<endl;
             cout<<"|                             4-CHANGER LE CODE POSTAL                             |"<<endl;
             cout<<"|                             5-CHANGER D'ENTREPRISE                               |"<<endl;
+            cout<<"|                             6-CHANGER DE MOT DE PASSE                            |"<<endl;
             cout<<"|                                                                                  |"<<endl;
-            cout<<"|                             6-RETOURNER AU MENU                                  |"<<endl;
-            cout<<"|                             7-Quitter le Programme                               |"<<endl;
+            cout<<"|                             7-RETOURNER AU MENU                                  |"<<endl;
+            cout<<"|                             8-Quitter le Programme                               |"<<endl;
             cout<<"|                                                                                  |"<<endl;
             cout<<"===================================================================================="<<endl;
             cout<<"\n Veuillez entrer le numero de votre choix  : ";
@@ -1276,10 +1346,13 @@ int navigation_modify_profil_employe ( const int & choice, employe & emp)
         case 5:
             code = emp_update_entreprise(emp);
             break;
-		case 6: 
-			code = BACK_PREV_MENU;
+        case 6:
+            code = emp_update_password(emp);
             break;
 		case 7: 
+			code = BACK_PREV_MENU;
+            break;
+		case 8: 
 			exit(0);	
 		default: 
             code = SUCCESS;
@@ -1956,4 +2029,34 @@ int emp_search_oldColleagues( employe & emp )
     return code;
 }
 
+int emp_update_password(employe & emp)
+{
+    int code = EXIT_WITH_ERROR;
+    char exit_char;
+    string old_mdp, new_mdp;
+
+    system( "clear" ) ;
+    cout<<"Connecté en tant que " << emp.getNom() << " " << emp.getPrenom() << ", " << emp.getEmail() << endl;
+    cout<< "\n" << endl;
+	cout << "  ========================================== " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << " |         CHANGER LE MOT DE PASSE          | " << endl ;
+	cout << " |                                          | " << endl ;
+	cout << "  ========================================== " << endl << endl ;
+
+    cin.ignore();
+    cout << "ENTREZ VOTRE MOT DE PASSE ACTUEL : " ; getline(cin,old_mdp);
+	cout << "\nENTREZ LE NOUVEAU MOT DE PASSE   : " ; getline(cin,new_mdp);  
+
+    code = emp.updatemdp(new_mdp,old_mdp);
+
+    if(code == SUCCESS) cout << "\nLE MOT DE PASSE A BIEN ETE MIS A JOUR" << endl;
+        else cout << "\nUNE ERREUR S'EST PRODUITE" << endl;
+
+
+    cout<< "\n\nENTREZ 'q' POUR CONTINUER" << endl;
+    cin>> exit_char;
+
+    return code;
+}
 

@@ -93,7 +93,10 @@ company & company::operator=(const company &etp)
     return *this;
 }
 
-int company::updatemdp(string & n_mdp)
+int company::updatemdp(string & n_mdp, string o_mdp)
 {
-    return update_password(_id,n_mdp,TAG_ENTREPRISE);
+    int code = update_password(_id,n_mdp,o_mdp,TAG_ENTREPRISE);
+    if(code == SUCCESS) _mdp = n_mdp;
+
+    return code;
 }

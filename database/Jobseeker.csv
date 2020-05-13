@@ -2,3 +2,4 @@ id,nom,prenom,mail,code postal,competences,collegues
 2,Le maire,Jérémi,jm@gmail.com,13008,Java;C;PHP
 3,Belloni,Roméo,romeo@gmail.com,13005,Finance;statistiques;assurance,1;2
 4,Steeve,Antoine,steeve@yahoo.fr,13001,Html;Css;PHP;C;C++,2;3;1
+5,Medhi,Berenice,berenice@gmail.com,13004,C#;.NET

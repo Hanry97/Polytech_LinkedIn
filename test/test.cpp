@@ -181,7 +181,7 @@ int main()
         string new_mdp = "HanryJp";
 
         TEST(create_password(1997,mdp,TAG_EMPLOYE) == SUCCESS);
-        TEST(update_password(1997,new_mdp,TAG_EMPLOYE) == SUCCESS);
+        TEST(update_password(1997,new_mdp,mdp,TAG_EMPLOYE) == SUCCESS);
         TEST(password_existAndOk(1997,new_mdp,TAG_EMPLOYE) == true);
         TEST(delete_password(1997,TAG_EMPLOYE) == SUCCESS);
 
