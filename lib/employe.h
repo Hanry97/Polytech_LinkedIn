@@ -21,8 +21,10 @@ class employe : public jobseeker
         int addColleague(std::vector<int> & colleagues);
         int updateCodePostal(std::string & code_postal);
         int updateEntreprise(int id_entreprise);
+        int updatemdp(std::string & n_mdp);
 
-        void getEmployeByEmail(std::string & email);
+
+        void getEmployeByEmail(std::string & email, std::string & mdp);
         int createEmploye();
         int deleteEmploye();
         std::vector<std::vector<std::string>> searchJob(std::vector<std::string> & list_competence,std::string & code_postal);

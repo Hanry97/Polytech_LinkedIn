@@ -68,14 +68,15 @@ bool isValidEmail(std::string email)
 int login_screen()
 {
     int code = 0;
-    string email;
+    string email,mdp;
 
-    cout << "\n\n Email :  "; cin >> email;
+    cout << "\n\n Email    :  "; cin >> email;
+    cout << "\nPassword :  "; cin >> mdp;
 
     if(isValidEmail(email))
     {
         company etp;
-        etp.getCompanyByEmail(email);
+        etp.getCompanyByEmail(email,mdp);
         
         if(etp.getId() != -1)
         {
@@ -84,7 +85,7 @@ int login_screen()
         else
         {
             jobseeker jsk;
-            jsk.getJobseekerByEmail(email);
+            jsk.getJobseekerByEmail(email,mdp);
             
             if(jsk.getId() != -1)
             {
@@ -93,7 +94,7 @@ int login_screen()
             else
             {
                 employe emp;
-                emp.getEmployeByEmail(email);
+                emp.getEmployeByEmail(email,mdp);
 
                 if(emp.getId() != -1)
                 {
@@ -107,6 +108,7 @@ int login_screen()
         }
          
     }
+    
     return code;
 }
 
@@ -428,20 +430,22 @@ int etp_deleteProfil(company & etp)
 int etp_create_profil()
 {
     int code;
-    string nom,email,code_postal;
+    string nom,email,code_postal,mdp;
     char exit_char;
 
     system( "clear" ) ;
     cout<< "*************CREATION D'UN COMPTE ENTREPRISE'***********"<< endl<< endl;
 	cout<<"NOM DE L'ENTREPRISE : "; cin.ignore(); getline(cin,nom);
-    cout<<"\nCODE POSTAL         : "; getline(cin,code_postal);
-    cout<<"\nEMAIL               : "; getline(cin,email);
+    cout<<"CODE POSTAL         : "; getline(cin,code_postal);
+    cout<<"EMAIL               : "; getline(cin,email);
+    cout<<"PASSWORD            : "; getline(cin,mdp);
     cout<<endl;
 
     company etp;
     etp.setNom(nom);
     etp.setCodePostal(code_postal);
     etp.setEmail(email);
+    etp.setMdp(mdp);
 
     code = etp.createCompany();
     
@@ -872,7 +876,7 @@ int jsk_search_poste(jobseeker & jsk)
 int jsk_create_profil()
 {
     int code;
-    string nom, prenom, email,code_postal, skill;
+    string nom, prenom, email,code_postal, skill, mdp;
     vector<string> skills;
     char exit_char;
 
@@ -884,6 +888,7 @@ int jsk_create_profil()
     cout<<"PRENOM      : "; getline(cin,prenom);
     cout<<"EMAIL       : "; getline(cin,email);
     cout<<"CODE POSTAL : "; getline(cin,code_postal);
+    cout<<"PASSWORD    : "; getline(cin,mdp);
     cout<<endl;
 
     cout<<"ENTREZ VOS COMPETENCES (UNE A UNE)"<< endl;
@@ -908,6 +913,7 @@ int jsk_create_profil()
     jsk.setEmail(email);
     jsk.setCodePostal(code_postal);
     jsk.setSkills(skills);
+    jsk.setMdp(mdp);
 
     code = jsk.createJobseeker();
     
@@ -1335,7 +1341,7 @@ int emp_create_profil()
 {
     int code = EXIT_WITH_ERROR;
     char exit_char;
-    string nom,prenom,email,code_postal;
+    string nom,prenom,email,code_postal,mdp;
     string nom_entreprise, skill;
     int id_entreprise;
     vector<string> list_etp;
@@ -1371,6 +1377,7 @@ int emp_create_profil()
             cout<<"PRENOM      : "; getline(cin,prenom);
             cout<<"EMAIL       : "; getline(cin,email);
             cout<<"CODE POSTAL : "; getline(cin,code_postal);
+            cout<<"PASSWORD    : "; getline(cin,mdp);
             cout<<endl;
 
             cout<<"ENTREZ VOS COMPETENCES (UNE A UNE)"<< endl;
@@ -1395,6 +1402,7 @@ int emp_create_profil()
             emp.setCodePostal(code_postal);
             emp.setSkills(skills);
             emp.setEnterpriseId(id_entreprise);
+            emp.setMdp(mdp);
 
             code = emp.createEmploye();
             
@@ -1677,7 +1685,8 @@ int emp_update_entreprise(employe & emp)
                     {
                         //On met à jour les information chargées dans l'objet (en session)
                         string email = emp.getEmail();
-                        emp.getEmployeByEmail(email);
+                        string mdp = emp.getMdp();
+                        emp.getEmployeByEmail(email,mdp);
 
                         cout<< "\n\nVOS INFORMATIONS ONT BIEN ETE MIS A JOUR"<<endl;
                     }

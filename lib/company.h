@@ -10,6 +10,7 @@ class company
         std::string _nom;
         std::string _code_postal;
         std::string _email;
+        std::string _mdp;
         
     public:
         company(): _id(-1) {};
@@ -21,14 +22,17 @@ class company
         std::string getNom() const { return _nom; };
         std::string getCodePostal() const { return _code_postal;};
         std::string getEmail() const { return _email;};
+        std::string getMdp() const { return _mdp;};
 
         void setNom(std::string & nom) { _nom = nom;};
         void setCodePostal(std::string & code_postal) { _code_postal = code_postal;};
         void setEmail(std::string & email) { _email = email;};
+        void setMdp(std::string & mdp) { _mdp = mdp;};
 
-        void getCompanyByEmail(std::string & email);
+        void getCompanyByEmail(std::string & email, std::string mdp);
         int createCompany();
         int deleteCompany();
+        int updatemdp(std::string & n_mdp);
 
         int createPosition(Position & poste);
         int deletePosition(int id_poste);

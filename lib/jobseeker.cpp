@@ -91,32 +91,39 @@ int jobseeker::updateCodePostal(string & code_postal)
     return code;
 }
 
-void jobseeker::getJobseekerByEmail(string & email)
+void jobseeker::getJobseekerByEmail(string & email, string & mdp)
 {
+    
     vector<string> data = login_byEmail(email,TAG_JOBSEEKER);
     
     if(data.size() >= 1)
     {
         _id = stoi(data[0]);
-        _nom = data[1];
-        _prenom = data[2];
-        _email = data[3];
-        _code_postal = data[4];
 
-        string word;
-        stringstream s(data[5]);
+         if(password_existAndOk(_id,mdp,TAG_JOBSEEKER) == true)
+         {
+            _nom = data[1];
+            _prenom = data[2];
+            _email = data[3];
+            _code_postal = data[4];
 
-        while (getline(s, word, ';')) { 
-            _skills.push_back(word); 
-        }
+            string word;
+            stringstream s(data[5]);
 
-        if(data.size() == 7)
-        {
-            stringstream ss(data[6]);
-
-            while (getline(ss, word, ';')) { 
-                _colleagues.push_back(stoi(word)); 
+            while (getline(s, word, ';')) { 
+                _skills.push_back(word); 
             }
+
+            if(data.size() == 7)
+            {
+                stringstream ss(data[6]);
+
+                while (getline(ss, word, ';')) { 
+                    _colleagues.push_back(stoi(word)); 
+                }
+            }
+        }else{
+            _id = -1;
         }
     }
 }
@@ -125,12 +132,16 @@ int jobseeker::createJobseeker()
 {
     int code;
     code = jsk_create_profile(_nom,_prenom,_email,_code_postal,_skills);
+    
     if(code == SUCCESS)
     {   
-        int id;
-        id = get_lastID(tableJobseeker);
-        _id = id;
+        int id_given = get_lastID(tableJobseeker);
+        code = create_password(id_given,_mdp,TAG_JOBSEEKER);
+        
+        if(code == SUCCESS)
+            _id = id_given;
     }
+
     return code;
 }
 
@@ -138,6 +149,10 @@ int jobseeker::deleteJobseeker()
 {
     int code;
     code = jsk_delete_profile(_id);
+    
+    if(code == SUCCESS)
+        code = delete_password(_id,TAG_JOBSEEKER);
+        
     return code;
 }
 
@@ -169,4 +184,9 @@ int jobseeker::jobseekerToEmploye(int id_etp)
 vector<string> jobseeker::getOldColleaguesById(vector<int> & list_id)
 {
     return jsk_get_old_colleagues_by_id(list_id);
+}
+
+int jobseeker::updatemdp(string & n_mdp)
+{
+    return update_password(_id,n_mdp,TAG_JOBSEEKER);
 }

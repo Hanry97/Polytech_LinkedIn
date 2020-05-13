@@ -83,34 +83,40 @@ int employe::updateEntreprise(int id_entreprise)
     return code;
 }
 
-void employe::getEmployeByEmail(std::string & email)
+void employe::getEmployeByEmail(string & email, string & mdp)
 {
     vector<string> data = login_byEmail(email,TAG_EMPLOYE);
     
     if(data.size() >= 1)
     {
         _id = stoi(data[0]);
-        _nom = data[1];
-        _prenom = data[2];
-        _email = data[3];
-        _code_postal = data[4];
 
-        string word;
-        stringstream s(data[5]);
-
-        while (getline(s, word, ';')) { 
-            _skills.push_back(word); 
-        }
-
-        if(data[6] != "")
+        if(password_existAndOk(_id,mdp,TAG_EMPLOYE) == true)
         {
-            stringstream ss(data[6]);
+            _nom = data[1];
+            _prenom = data[2];
+            _email = data[3];
+            _code_postal = data[4];
 
-            while (getline(ss, word, ';')) { 
-                _colleagues.push_back(stoi(word)); 
+            string word;
+            stringstream s(data[5]);
+
+            while (getline(s, word, ';')) { 
+                _skills.push_back(word); 
             }
+
+            if(data[6] != "")
+            {
+                stringstream ss(data[6]);
+
+                while (getline(ss, word, ';')) { 
+                    _colleagues.push_back(stoi(word)); 
+                }
+            }
+            _id_etp = stoi(data[7]);
+        }else{
+            _id = -1;
         }
-        _id_etp = stoi(data[7]);
     }
 }
 
@@ -118,18 +124,27 @@ int employe::createEmploye()
 {
     int code;
     code = emp_create_profile(_nom,_prenom,_email,_code_postal,_skills,_colleagues,_id_etp);
+    
     if(code == SUCCESS)
     {   
-        int id;
-        id = get_lastID(tableEmployes);
-        _id = id;
+        int id_given = get_lastID(tableEmployes);
+        code = create_password(id_given,_mdp,TAG_EMPLOYE);
+        
+        if(code == SUCCESS)
+            _id = id_given;
     }
     return code;
 }
 
 int employe::deleteEmploye()
 {
-    return emp_delete_profile(_id);
+    int code;
+    code = emp_delete_profile(_id);
+
+    if(code == SUCCESS)
+        code = delete_password(_id,TAG_EMPLOYE);
+    
+    return code;
 }
 
 vector<vector<string>> employe::searchJob(vector<string> & list_competence,string & code_postal)
@@ -150,4 +165,9 @@ vector<string> employe::getEntrepriseById(const int & id)
 int employe::employeToJobseeker()
 {
     return emp_profile_transition_to_jobseeker(_id,_id_etp);
+}
+
+int employe::updatemdp(string & n_mdp)
+{
+    return update_password(_id,n_mdp,TAG_EMPLOYE);
 }

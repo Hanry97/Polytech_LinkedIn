@@ -11,6 +11,7 @@ protected:
     std::string _prenom;
     std::string _email;
     std::string _code_postal;
+    std::string _mdp;
     std::vector<std::string> _skills;
     std::vector<int> _colleagues;
 
@@ -25,6 +26,7 @@ public:
     std::string getPrenom() const {  return _prenom;};
     std::string getEmail() const {  return _email;};
     std::string getCodePostal() const {  return _code_postal;};
+    std::string getMdp() const { return _mdp;};
     std::vector<std::string> getSkills() const {  return _skills;};
     std::vector<int> getColleagues() const {  return _colleagues;};
 
@@ -33,15 +35,17 @@ public:
     void setPrenom(std::string & prenom) { _prenom = prenom;};
     void setEmail(std::string & email) { _email = email;};
     void setCodePostal(std::string & code_postal) { _code_postal = code_postal;};
+    void setMdp(std::string & mdp) { _mdp = mdp;};
     void setSkills(std::vector<std::string> & skills);
     void setColleagues(std::vector<int> & colleagues);
 
     virtual int addSkill(std::vector<std::string> & skills);
     virtual int addColleague(std::vector<int> & colleagues);
     virtual int updateCodePostal(std::string & code_postal);
+    virtual int updatemdp(std::string & n_mdp);
 
 
-    virtual void getJobseekerByEmail(std::string & email);
+    virtual void getJobseekerByEmail(std::string & email, std::string & mdp);
     virtual int createJobseeker();
     virtual int deleteJobseeker();
     std::vector<std::string> searchEntreprise(std::string & nom, std::string code_postal);
