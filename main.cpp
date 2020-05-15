@@ -1,5 +1,7 @@
 #include <iostream>
 #include "lib/view.h"
+#include "lib/extra3/compression.h"
+#include "lib/extra3/decompression.h"
 
 using namespace std;
 
@@ -15,7 +17,9 @@ using namespace std;
 
 int main()
 {
-	home_screen() ;
+     decompress_csv_files() ;
+     home_screen() ;
+     compress_csv_files() ;
 	return 0 ;
 }
 
