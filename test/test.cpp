@@ -14,6 +14,8 @@
 #include <vector>
 #include "../lib/constante.h"
 #include "../lib/fichier.h"
+#include "../lib/extra3/compression.h"
+#include "../lib/extra3/decompression.h"
 
 using namespace std;
 
@@ -51,6 +53,8 @@ void segfault_sigaction(int signal, siginfo_t *si, void *arg)
 
 int main()
 {
+    decompress_csv_files() ;
+    
     // Mise en place de la fonction à exécuter lors d'une segmentation fault.
     struct sigaction sa;
     memset(&sa, 0, sizeof(struct sigaction));
@@ -188,5 +192,6 @@ int main()
     }
 
     cout << tests_reussis << " / " << tests_executes << endl;
+    compress_csv_files() ;
     return tests_reussis - tests_executes;
 }

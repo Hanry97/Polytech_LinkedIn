@@ -17,9 +17,9 @@ using namespace std;
 
 int main()
 {
-     decompress_csv_files() ;
-     home_screen() ;
-     compress_csv_files() ;
+   decompress_csv_files() ;
+   home_screen() ;
+   compress_csv_files() ;
 	return 0 ;
 }
 

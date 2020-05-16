@@ -52,12 +52,10 @@ build/Position.o: lib/Position.cpp | build
 #Compression
 build/compression.o: lib/extra3/compression.cpp | build	
 	$(cc) -Wall -pedantic -Werror -g -c lib/extra3/compression.cpp -o build/compression.o
-#	g++ -c lib/extra3/compression.cpp -o build/compression.o
 
 #Decompression
 build/decompression.o: lib/extra3/decompression.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/extra3/decompression.cpp -o build/decompression.o
-#	g++ -c lib/extra3/decompression.cpp -o build/decompression.o
 
 #Librairie statique globale
 build/libglobal.a: build/fichier.o build/Position.o build/Person.o build/view.o build/Company.o
