@@ -14,6 +14,9 @@
 #include "fichier.h"
 #include "constante.h"
 #include <sstream>
+#include <ctime>
+#include "journal.h"
+
 
 
 using namespace std;
@@ -22,6 +25,7 @@ using namespace std;
 
 bool existOnVector(vector<int> tab, int val)
 {
+    memorise("existOnVector()");  //memorise("()");
     bool exist = false;
     int tab_size = tab.size();
     int i = 0;
@@ -37,6 +41,7 @@ bool existOnVector(vector<int> tab, int val)
 
 bool existOnVectorString(vector<string> tab, string val)
 {
+    memorise("existOnVectorString()"); //memorise("()");
     bool exist = false;
     size_t tab_size = tab.size();
     size_t i = 0;
@@ -52,6 +57,7 @@ bool existOnVectorString(vector<string> tab, string val)
 
 int get_lastID(string const path)
 {
+    memorise("get_lastID()");  //memorise("()");
     int id = 0;
     
     ifstream table_file(path.c_str());
@@ -95,7 +101,7 @@ int get_lastID(string const path)
 
 vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise)
 {
-
+    memorise("get_List_Of_idPost_Of_Enterprise()");  //memorise("()");
     vector <int> tab_of_post_id;
     ifstream tablePoste_file(tablePoste.c_str());
 
@@ -149,6 +155,7 @@ vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise)
 
 int delete_list_of_row_from_table(vector<int> listOfRowsID, string const path_table)
 {
+    memorise("delete_list_of_row_from_table()");
     int code = SUCCESS;
     string row_old_table;
     const char * path = path_table.c_str();
@@ -209,6 +216,7 @@ int delete_list_of_row_from_table(vector<int> listOfRowsID, string const path_ta
 
 bool skillFounded(std::vector<std::string> tab, std::string val)
 {
+     memorise("skillFounded()");   //memorise("()");
     bool exist = false;
     int sizeOfList = tab.size();
     int c = 0;
@@ -225,6 +233,7 @@ bool skillFounded(std::vector<std::string> tab, std::string val)
 
 int update_row(int id_row, string new_row, string const path_table)
 {
+    memorise("update_row()");  //memorise("()");
     int code  = SUCCESS;
     string row_old_table;
     const char * path = path_table.c_str();
@@ -288,6 +297,7 @@ int update_row(int id_row, string new_row, string const path_table)
 
 string get_tableHeader(std::string const path_table)
 {
+    memorise("get_tableHeader()");
     string table_header = "";
 
     if (path_table == tableEntreprise) table_header = header_tableEntreprise;
@@ -301,6 +311,7 @@ string get_tableHeader(std::string const path_table)
 
 string get_tableRow(int id, string const path)
 {
+    memorise("get_tableRow()");
     string table_row = "";
     
     ifstream table_file(path.c_str());
@@ -343,6 +354,7 @@ string get_tableRow(int id, string const path)
 
 vector<string> get_Allemploye_fromEnterprise(int id_entreprise)
 {
+    memorise("get_Allemploye_fromEnterprise()");
     vector<string> list_result;
     
     ifstream table_file(tableEmployes.c_str());
@@ -383,6 +395,7 @@ vector<string> get_Allemploye_fromEnterprise(int id_entreprise)
 
 vector<string> login_byEmail(string email, string profil_tag)
 {
+    memorise("login_byEmail()");
     vector<string> profil_data;
     string table;
 
@@ -426,6 +439,7 @@ vector<string> login_byEmail(string email, string profil_tag)
 
 int etp_create_profile(string nom, string code_postal, string email) 
 { 
+    memorise("etp_create_profile()");
     int id;
     int code;
 
@@ -458,6 +472,7 @@ int etp_create_profile(string nom, string code_postal, string email)
 
 int etp_create_profileOfPosition(string titre, vector<string> skills, int entreprise_id){
 
+memorise("etp_create_profileOfPosition()");
     int code = EXIT_WITH_ERROR;
     int id,lastID;
 
@@ -498,7 +513,7 @@ int etp_create_profileOfPosition(string titre, vector<string> skills, int entrep
 
 int etp_delete_profileOfPosition(int id_etp,int id_poste)
 {
-    
+    memorise("etp_delete_profileOfPosition()");
     int code = EXIT_WITH_ERROR;
     
     vector<int> tab_OnePost;
@@ -518,6 +533,7 @@ int etp_delete_profileOfPosition(int id_etp,int id_poste)
 
 int etp_delete_profile(int id_entreprise)
 {
+    memorise("etp_delete_profile()");
     int code_op1 = SUCCESS;
     int code_op2 = EXIT_WITH_ERROR;
     int code = EXIT_WITH_ERROR;
@@ -552,6 +568,7 @@ int etp_delete_profile(int id_entreprise)
 
 vector<vector<string>> etp_searchToHire(vector<string> list_competence,string code_postal)
 {
+    memorise(" etp_searchToHire()");
     vector <vector <string> > list_of_result;
 
     ifstream table_file(tableJobseeker.c_str());
@@ -601,6 +618,7 @@ vector<vector<string>> etp_searchToHire(vector<string> list_competence,string co
 
 vector<string> get_AllPoste_fromEnterprise(int id_entreprise)
 {
+    memorise("get_AllPoste_fromEnterprise()");
     vector<string> list_result;
     
     ifstream table_file(tablePoste.c_str());
@@ -650,6 +668,7 @@ vector<string> get_AllPoste_fromEnterprise(int id_entreprise)
 
 vector<string> get_EntrepriseByID(int id_etp)
 {
+    memorise("get_EntrepriseByID()");
     vector<string> etp;
     string etp_data = "", word;
 
@@ -672,6 +691,7 @@ vector<string> get_EntrepriseByID(int id_etp)
 
 int jsk_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills)
 {
+    memorise("jsk_create_profile()");
     int id;
     int code;
 
@@ -809,6 +829,7 @@ int jsk_add_colleague(int id_jsk, vector<int> colleague)
 
 int jsk_update_code_postal(int id_jsk, std::string new_code_postale)
 {
+    memorise("jsk_update_code_postal()");
     int code = EXIT_WITH_ERROR;
     string new_row = "";
     string oldrow;
@@ -840,6 +861,7 @@ int jsk_update_code_postal(int id_jsk, std::string new_code_postale)
 
 int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise)
 {
+    memorise("jsk_profile_transition_to_employe()");
     int code = EXIT_WITH_ERROR;
     string new_row = "";
     string oldrow;
@@ -896,6 +918,7 @@ int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise)
 
 int jsk_delete_profile(int id)
 {
+    memorise(" jsk_delete_profile()");
     int code = EXIT_WITH_ERROR;
 
     vector<int> tab_OneID;
@@ -908,6 +931,7 @@ int jsk_delete_profile(int id)
 
 vector<string> jsk_search_entreprise(string nom, string code_postal)
 {
+    memorise("jsk_search_entreprise()");
     vector <string> list_etp;
 
     ifstream table_file(tableEntreprise.c_str());
@@ -965,6 +989,7 @@ vector<string> jsk_search_entreprise(string nom, string code_postal)
 
 vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_postal)
 {
+    memorise("jsk_searchJob()");
     vector <vector <string> > list_of_result;
 
     ifstream table_file(tablePoste.c_str());
@@ -1037,6 +1062,7 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
 
 vector<vector <string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
 {
+    memorise(" jsk_find_former_colleagues_by_enterprise()");
     vector <vector <string> > list_of_result;
 
     ifstream table_file(tableEmployes.c_str());
@@ -1080,6 +1106,7 @@ vector<vector <string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
 
 vector<string> jsk_get_old_colleagues_by_id(vector<int> list_id)
 {
+    memorise("jsk_get_old_colleagues_by_id()");
     vector <string> list_of_result;
 
     ifstream table_file(tableEmployes.c_str());
@@ -1137,6 +1164,7 @@ vector<string> jsk_get_old_colleagues_by_id(vector<int> list_id)
 
 vector<vector <string>> jsk_find_former_colleagues_by_skills(vector<int> list_id, vector<string> list_competence)
 {
+    memorise("jsk_find_former_colleagues_by_skills()");
     vector<vector<string>> list_results;    
     string collegue_data = "";
     bool match;
@@ -1227,6 +1255,7 @@ vector<vector <string>> jsk_find_former_colleagues_by_skills(vector<int> list_id
 
 int emp_create_profile(string nom, string prenom, string email, string code_postal, vector<string> skills, vector<int> colleagues, int id_enterprise)
 {
+    memorise("emp_create_profile()");
     int id;
     int code;
 
@@ -1278,6 +1307,7 @@ int emp_create_profile(string nom, string prenom, string email, string code_post
 
 int emp_add_skills(int id_emp, vector<string> skills)
 {
+    memorise("emp_add_skills()");
     int code = EXIT_WITH_ERROR;
     string string_skills = "";
     string oldrow;
@@ -1325,6 +1355,7 @@ int emp_add_skills(int id_emp, vector<string> skills)
 
 int emp_add_colleague(int id_emp, std::vector<int> colleague)
 {
+    memorise("emp_add_colleague()");
     int code = EXIT_WITH_ERROR;
     string string_colleague = "";
     string oldrow;
@@ -1373,6 +1404,7 @@ int emp_add_colleague(int id_emp, std::vector<int> colleague)
 
 int emp_update_code_postal(int id_emp, std::string new_code_postale)
 {
+    memorise("emp_update_code_postal()");
     int code = EXIT_WITH_ERROR;
     string new_row = "";
     string oldrow;
@@ -1404,6 +1436,7 @@ int emp_update_code_postal(int id_emp, std::string new_code_postale)
 
 int emp_update_enterprise(int id_emp, int new_id_enterprise)
 {
+    memorise("emp_update_enterprise()");
     int code = EXIT_WITH_ERROR;
     string new_row = "";
     string oldrow;
@@ -1450,6 +1483,7 @@ int emp_update_enterprise(int id_emp, int new_id_enterprise)
 
 int emp_profile_transition_to_jobseeker(int id_emp, int id_etp)
 {
+    memorise("emp_profile_transition_to_jobseeker()");
     int code = EXIT_WITH_ERROR, code1 = SUCCESS, code2 = SUCCESS, code3 = SUCCESS;
     string new_row = "";
     string oldrow;
@@ -1536,6 +1570,7 @@ int emp_profile_transition_to_jobseeker(int id_emp, int id_etp)
 
 int emp_delete_profile(int id)
 {
+    memorise("emp_delete_profile()");
     int code = EXIT_WITH_ERROR;
 
     vector<int> tab_OneID;
@@ -1548,6 +1583,7 @@ int emp_delete_profile(int id)
 
 vector<vector<string>> emp_searchJob(vector<string> list_competence,string code_postal)
 {
+    memorise("emp_searchJob()");
     vector <vector <string> > list_of_result;
 
     return list_of_result;
@@ -1555,6 +1591,7 @@ vector<vector<string>> emp_searchJob(vector<string> list_competence,string code_
 
 vector<vector <string>> emp_find_former_colleagues()
 {
+    memorise("emp_find_former_colleagues()");
     vector <vector <string> > list_of_result;
 
     return list_of_result;
@@ -1565,6 +1602,7 @@ vector<vector <string>> emp_find_former_colleagues()
 
 int create_password(int id, string mdp, string type)
 {
+    memorise("create_password()");
     int code;
 
     //On vérifie que l'utilisateur n'a pas déjà un mot de passe
@@ -1598,6 +1636,7 @@ int create_password(int id, string mdp, string type)
 
 bool password_existAndOk(int id, string mdp, string type)
 {
+    memorise(" password_existAndOk()");
     bool match = false;
 
     ifstream table_file(tablePassword.c_str());
@@ -1640,6 +1679,7 @@ bool password_existAndOk(int id, string mdp, string type)
 
 int delete_password(int id_user, string type)
 {
+    memorise("delete_password()");
     int code = EXIT_WITH_ERROR;
 
     ifstream table_file(tablePassword.c_str());
@@ -1683,6 +1723,7 @@ int delete_password(int id_user, string type)
 
 int update_password(int user_id, string n_mdp,string o_mdp, string type)
 {
+    memorise("update_password()");
     int code = EXIT_WITH_ERROR;
     string encrypted = "";
     bool founded = false;
@@ -1723,7 +1764,7 @@ int update_password(int user_id, string n_mdp,string o_mdp, string type)
             {
                 string new_row = row[0] + ',' + encrypted + ',' + row[2] + ',' + type;  
                 code = update_row(stoi(row[0]),new_row,tablePassword);
-             }                
+            }                
         
         }else{
 
@@ -1736,3 +1777,4 @@ int update_password(int user_id, string n_mdp,string o_mdp, string type)
 
     return code;
 }
+

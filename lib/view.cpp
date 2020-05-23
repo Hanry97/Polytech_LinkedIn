@@ -3,9 +3,17 @@
 #include <string>
 #include <vector>
 #include <sstream>
-
 #include "view.h"
+#include "journal.h"
 using namespace std;
+
+/*void intialise_user_journal(string user)
+{
+  ofstream flux(tableJournal, ios::app);
+  flux<<" User :"<<user<<endl;
+  flux<<"=============================================="<<endl;
+  flux.close();
+}*/
 
 
 //Page d'acceuil
@@ -39,10 +47,12 @@ int navigation_general_menu( int const& choice )
 	switch( choice )
 	{
 		case 1:
+            intialise_user_journal("Unkwnow user","");   //Pour marquer que c'est un nouvel utlisateur
 			return creation_screen();
 		case 2:
 			return login_screen();
 		case 9:
+        
 			return quit() ;
 		default:
 			cout << "\n Ce numero n'existe pas " << endl ;
@@ -52,6 +62,7 @@ int navigation_general_menu( int const& choice )
 
 int quit()
 {
+    //fin_de_session(time(0));
     return EXIT_PROGRAM;
 }
 
@@ -72,7 +83,7 @@ int login_screen()
 
     cout << "\n\n Email    :  "; cin >> email;
     cout << "\nPassword :  "; cin >> mdp;
-
+    intialise_user_journal(email," ");
     if(isValidEmail(email))
     {
         company etp;
@@ -228,8 +239,8 @@ int navigation_company( const int & choice, company & etp )
 			return etp_logout(etp);
 		case 6:
 			return etp_deleteProfil(etp);
-		case 7:
-			exit(0) ;
+		case 7: return EXIT_PROGRAM;
+			//exit(0) ;
 		default:
 			return choice ;
 	}
@@ -553,8 +564,8 @@ int navigation_jobSeeker( int const& choice, jobseeker & jsk )
 			return jsk_search_oldColleagues( jsk ) ;
 		case 6:
 			return DECONNEXION;
-        case 7:
-            exit(0);
+        case 7: return EXIT_PROGRAM;
+            //exit(0);
 		default:
 			return SUCCESS;
 	}

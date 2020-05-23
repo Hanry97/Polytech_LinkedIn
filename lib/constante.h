@@ -9,6 +9,7 @@
 #ifndef CONSTANTE_H 
 #define CONSTANTE_H
 #include <string>
+#include <ctime>
 
 //TAGS
 std::string const TAG_ENTREPRISE = "etp";
@@ -24,6 +25,7 @@ std::string const tablePoste("database/Poste.csv");
 std::string const tableEmployes("database/Employes.csv");
 std::string const tableJobseeker("database/Jobseeker.csv");
 std::string const tablePassword("database/Password.csv");
+std::string const tableJournal("database/journal.csv");
 std::string const header_tablePoste("id,titre,competences,entreprise");
 std::string const header_tableEntreprise("id,nom,code postal,mail");
 std::string const header_tableEmployes("id,nom,prenom,mail,code postal,competences,collegues,entreprise");
