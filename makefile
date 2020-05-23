@@ -49,6 +49,10 @@ build/employe.o: lib/employe.cpp | build
 build/Position.o: lib/Position.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c lib/Position.cpp -I ./lib -o build/Position.o
 
+#Journal
+build/journal.o: lib/journal.cpp | build
+	$(cc) -Wall -pedantic -Werror -g -c lib/journal.cpp -I ./lib -o build/journal.o
+
 #Compression
 build/compression.o: lib/extra3/compression.cpp | build	
 	$(cc) -Wall -pedantic -Werror -g -c lib/extra3/compression.cpp -o build/compression.o
@@ -65,8 +69,8 @@ build/libglobal.a: build/fichier.o build/Position.o build/Person.o build/view.o 
 build/test.o: test/test.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c test/test.cpp -I ./lib -o build/test.o
 
-build/test: build/test.o build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o | build
-	$(cc) build/test.o -o build/test build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o
+build/test: build/test.o build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o build/journal.o | build
+	$(cc) build/test.o -o build/test build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o build/journal.o
 
 build/appli.o: main.cpp | build
 	$(cc) -Wall -pedantic -Werror -g -c main.cpp -I ./lib -o build/appli.o
@@ -74,8 +78,8 @@ build/appli.o: main.cpp | build
 #build/appli: build/appli.o build/libglobal.a | build
 #	$(cc) build/appli.o -Lbuild -lglobal -o build/appli
 
-build/appli: build/appli.o build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o | build
-	$(cc) build/appli.o -o build/appli build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o
+build/appli: build/appli.o build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o build/journal.o | build
+	$(cc) build/appli.o -o build/appli build/sha256.o build/fichier.o build/company.o build/view.o build/employe.o build/jobseeker.o build/Position.o build/compression.o build/decompression.o build/journal.o
 # S'assure de l'existence de tous les programmes finaux (application, test, etc.)
 # Par exemple : all: build/test build/appli
 
