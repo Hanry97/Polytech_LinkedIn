@@ -2,6 +2,7 @@
 #include "lib/view.h"
 #include "lib/extra3/compression.h"
 #include "lib/extra3/decompression.h"
+#include "fichier.h"
 
 using namespace std;
 
@@ -17,9 +18,13 @@ using namespace std;
 
 int main()
 {
+   time_t t_debut = time(0);
+   intialise_date_journal(t_debut);
    decompress_csv_files() ;
    home_screen() ;
    compress_csv_files() ;
+   fin_de_session(t_debut);
+   
 	return 0 ;
 }
 
