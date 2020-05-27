@@ -1,10 +1,13 @@
 /*==============================
                               ||
-LAST MODIFICATION:            ||
-	DATE: 03/04/2020         ||
-	AUTHOR: Mihary R.        ||
+	LAST MODIFICATION:        ||
+	DATE: 03/04/2020          ||
+	AUTHOR: Mihary R.         ||
                               ||
 ==============================*/
+
+//Classe Position, décrit l'objet Position qui
+//repésente un poste mis à disposition par une entreprise
 
 #ifndef __POSITION__
 #define __POSITION__

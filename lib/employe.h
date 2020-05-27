@@ -3,6 +3,13 @@
 
 #include "jobseeker.h"
 
+//Classe Employe, décrit l'objet Employe qui
+//repésente un employé.
+//Employe est aussi la classe fille de Jobseeker
+//de ce fait, hérites des attributs qui sont commumns à 
+//un employé et à un jobseeker certaines fonction sont réécrites
+//pour adapter l'insertion en base de données.
+
 class employe : public jobseeker
 {
     private:

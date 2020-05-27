@@ -9,14 +9,19 @@
 //Page d'acceuil
 int home_screen();
 int quit() ;
+
+//Vérifie que l'email est correcte (contien le symbole @)
 bool isValidEmail(std::string email);
+
 int navigation_general_menu( const int & choice );
 
 //Page de connexion
 int login_screen();
+
 //page de création
 int creation_screen();
 
+//Vérifie l'exitence d'un entier dans un tableau d'entier
 bool existOnVector(const std::vector<int> & tab,const int & val);
 
 //Menu entreprise
@@ -31,7 +36,9 @@ int etp_deleteProfil(company & etp);
 int etp_create_profil();
 int etp_update_password(company & etp);
 //========================================================
+
 //Menu employé
+//========================================================
 int emp_home(employe & emp);
 int emp_create_profil();
 int navigation_employe( const int & choice, employe & emp );
@@ -47,10 +54,10 @@ int emp_deleteProfile(employe & emp);
 int emp_search_poste(employe & emp);
 int emp_search_oldColleagues( employe & emp );
 int emp_update_password(employe & emp);
-
 //========================================================
 
 //Menu jobseeker
+//========================================================
 int jsk_home(jobseeker & jsk);
 int navigation_jobSeeker( int const& choice, jobseeker & jsk );
 int display_modify_profil_jobSeeker( jobseeker & jsk );
@@ -67,5 +74,7 @@ int jsk_create_profil();
 int jsk_search_oldColleagues(jobseeker & jsk );
 int jsk_add_oldColleague(jobseeker & jsk);
 int jsk_update_password(jobseeker & jsk);
+//========================================================
+
 
 #endif
