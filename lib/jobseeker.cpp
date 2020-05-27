@@ -22,7 +22,6 @@ jobseeker::jobseeker(string & nom, string & prenom, string & email, string & cod
 
 jobseeker::~jobseeker()
 {
-    //Appeller à 
 }
 
 jobseeker & jobseeker::operator=(const jobseeker &jsk)
@@ -45,6 +44,7 @@ void jobseeker::setSkills(vector<string> & skills)
     for (int i = 0; i < taille; i++)
             _skills.push_back(skills[i]);
 }
+
 void jobseeker::setColleagues(vector<int> & colleagues)
 {
     int taille = colleagues.size();

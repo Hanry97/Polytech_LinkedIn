@@ -3,6 +3,9 @@
 
 #include "Position.h"
 
+//Classe Company, décrit l'objet Company qui
+//repésente une entreprise
+
 class company
 {
     private:

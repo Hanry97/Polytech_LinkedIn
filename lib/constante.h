@@ -10,6 +10,8 @@
 #define CONSTANTE_H
 #include <string>
 
+//Dénifition des constantes et des codes retour utilisés dans tous le programme
+
 //TAGS
 std::string const TAG_ENTREPRISE = "etp";
 std::string const TAG_JOBSEEKER = "jsk";

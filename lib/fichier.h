@@ -97,10 +97,10 @@ std::vector<std::vector<std::string>> jsk_searchJob(std::vector<std::string> lis
 
 std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_enterprise(int enterprise);
 
-//####### A FAIRE ##############//
 std::vector<std::vector <std::string>> jsk_find_former_colleagues_by_skills(std::vector<int> list_id, std::vector<std::string> list_competence);
 
 std::vector<std::string> jsk_get_old_colleagues_by_id(std::vector<int> list_id);
+
 //FUNCTIONS FOR THE EMPLOYE
 //================================================================================================================================
 
@@ -127,7 +127,9 @@ std::vector<std::vector <std::string>> emp_find_former_colleagues();
 //FONCTION CHIFFREMENT DES PASSWORD (VIGENERE)
 //==================================================================================================================================
 
-
+//Type définit le type d'utilisateur pour lequel on crée le mot de passe
+//Le type correspond à un TAG, les TAGs sont prédéfinits dans le fichier de déclaration des constantes.
+ 
 int create_password(int id, std::string mdp, std::string type);
 bool password_existAndOk(int id, std::string mdp, std::string type);
 int delete_password(int id_user, std::string type);
