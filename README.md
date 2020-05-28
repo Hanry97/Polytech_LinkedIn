@@ -1,14 +1,14 @@
 ![](https://github.com/Hanry97/DevCommeLesPros-2020-Projet/workflows/Test%20master/badge.svg)
 
-# DevCommeLesPros-2020-Projet
+# DevCommeLesPros 2020 Projet POLYTECH LINKEDIN C++
 
-Modèle de départ pour le projet de programmation à effectuer en groupe de deux ou trois étudiants.
-Vous n'êtes pas dans l'obligation de garder exactment les mêmes équipes que pour les exercices précédents.
+Inspiré de LinkedIn, POLYTECH LINKEDIN C++ est un programme écrit en C++ permettant de mettre en relation des entreprises,
+des employés et des chercheurs d'emploi.
 
 # Table des matières
 
-- [Objectif](#objectif)
-- [Spécifications fonctionelles](#sp%C3%A9cifications-fonctionelles)
+- [Généralités]
+- [Fonctionnalités]
     - [Fonctionalités pour une entreprise](#fonctionalit%C3%A9s-pour-une-entreprise)
     - [Fonctionalités pour un chercheur d'emploi](#fonctionalit%C3%A9s-pour-un-chercheur-demploi)
     - [Fonctionalité pour un employé](#fonctionalit%C3%A9-pour-un-employ%C3%A9)
