@@ -8,7 +8,7 @@ des employés et des chercheurs d'emploi.
 # Table des matières
 
 - [Généralités](#G%C3%A9n%C3%A9ralit%C3%A9)
-- [Fonctionnalités]#Fonctionalit%C3%A9s)
+- [Fonctionnalités]#Fonctionnalit%C3%A9s)
     - [Fonctionalités pour une entreprise](#fonctionalit%C3%A9s-pour-une-entreprise)
     - [Fonctionalités pour un chercheur d'emploi](#fonctionalit%C3%A9s-pour-un-chercheur-demploi)
     - [Fonctionalité pour un employé](#fonctionalit%C3%A9-pour-un-employ%C3%A9)
