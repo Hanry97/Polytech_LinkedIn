@@ -1,6 +1,6 @@
 ![](https://github.com/Hanry97/DevCommeLesPros-2020-Projet/workflows/Test%20master/badge.svg)
 
-# DevCommeLesPros 2020 Projet POLYTECH LINKEDIN C++
+# POLYTECH LINKEDIN C++
 
 Inspiré de LinkedIn, POLYTECH LINKEDIN C++ est un programme écrit en C++ permettant de mettre en relation des entreprises,
 des employés et des chercheurs d'emploi.
