@@ -3,6 +3,8 @@
 #include "lib/extra3/compression.h"
 #include "lib/extra3/decompression.h"
 #include "fichier.h"
+#include "journal.h"
+//#include "constante.h"
 
 using namespace std;
 
@@ -14,10 +16,11 @@ using namespace std;
 //Pour les test je propose de le mettre en commentaire en de faire un autre main pour les test
 
 
-
-
+ 
 int main()
 {
+    time_t t_debut=time(0);
+    //t_debut = time(0);
    intialise_date_journal(t_debut);
    decompress_csv_files() ;
    home_screen() ;
