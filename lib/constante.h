@@ -32,6 +32,10 @@ std::string const header_tableEmployes("id,nom,prenom,mail,code postal,competenc
 std::string const header_tableJobseeker("id,nom,prenom,mail,code postal,competences,collegues");
 std::string const header_tablePassword("id,password,user,type");
 
+std::string const journalFile("journal/log.txt");
+std::string const journalTestFile("journal/log_test.txt");
+std::string const header_journalFile("id,date,operation,code returned");
+
 
 //CODES DE RETOUR
 
@@ -64,5 +68,8 @@ const int ERROR_RENAME_FILE = -5;
 
 //Résutat neutre
 const int NOTHING_TO_DO = -6;
+
+//Erreur lors de l'écrituure dans le journal
+const int ERROR_WRITE_LOG = -7;
 
 #endif

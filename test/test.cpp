@@ -63,6 +63,7 @@ int main()
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGSEGV, &sa, NULL);
 
+    //Test entreprise
     {
         string nom, code_postal,email;
         string pathEnterpriseTable = tableEntreprise;
@@ -72,7 +73,7 @@ int main()
 
         TEST(etp_create_profile(nom,code_postal,email) == SUCCESS);
     }
-
+    //Test poste
     {
         string pathPosteTable = tablePoste;
         string titre = "concepteur logiciel";

@@ -22,6 +22,7 @@ bool existOnVectorString(std::vector<std::string> tab, std::string val);
 
 //Renvoi -1 si une erreur s'est produite
 int get_lastID(std::string const path);
+int get_log_lastID(std::string const path);
 
 std::vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise);
 
@@ -134,5 +135,20 @@ int create_password(int id, std::string mdp, std::string type);
 bool password_existAndOk(int id, std::string mdp, std::string type);
 int delete_password(int id_user, std::string type);
 int update_password(int user_id, std::string n_mdp, std::string o_mdp, std::string type);
+
+//JOURNAL
+//==================================================================================================================================
+
+//Vérifie l'existence du fichier journal, le crée s'il n'existe pas déjà.
+bool check_file(const std::string &file);
+
+//Ecriture dans le journal d'une operation liée à une fonction spécification fonctionnelle
+//operation_label : Le nom de l'opération
+//parameters : les paramètres passés à la fonction
+//code retour : le code retour renvoyé à l'issue de l'execution
+int write_operation(const std::string &file ,std::string operation_label,std::vector<std::string> parameters,int code_retour);
+
+//Ecrit dans le journal le resultat d'un échec d'execution
+int write_error_message(const std::string &file, const std::string &message, int code_retour);
 
 #endif

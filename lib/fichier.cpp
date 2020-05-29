@@ -2,11 +2,13 @@
  ===============================================
 ||  Auteur ::                 Hanry Nzale      ||
  ===============================================
-|| Dernière modification ::   28/04/2020       ||
+|| Dernière modification ::   28/05/2020       ||
  ===============================================
 */
 
 #include <iostream>
+#include <chrono>
+#include <ctime> 
 #include "sha256.h"
 #include <fstream>
 #include <string>
@@ -84,8 +86,53 @@ int get_lastID(string const path)
     
     }else{
 
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
+        string message = "ERREUR: Impossible d'ouvrir le fichier "+ path; //à écrire dans le journal
         id = -1;
+        write_error_message(journalFile,message,OPEN_FILE_ERROR);
+    }
+
+    table_file.close();
+
+    return id;
+}
+
+int get_log_lastID(string const path)
+{
+    int id = 0;
+    
+    ifstream table_file(path.c_str());
+
+    if(table_file){
+        
+        string ligne, word, last_ligne;
+        int c = 0;
+        vector<string> row; 
+        
+        while(getline(table_file, ligne)) {
+            last_ligne = ligne;
+            c++;
+        }                   //Tant qu'on n'est pas à la fin, on lit. A la fin ligne contient la dernière ligne
+        
+        if(c>=1){
+            // utilisé pour casser des mots 
+            stringstream s(last_ligne); 
+            // On lit chaque colone de la ligne 
+            // On stock dans word 
+            while (getline(s, word, ':')) { 
+                // On ajoute chaque colonne 
+                // de word au tableau 
+                // la colonne id est en row[0]
+                row.push_back(word); 
+            } 
+
+            id = stoi(row[0]);  
+        }                
+    
+    }else{
+
+        string message = "ERREUR: Impossible d'ouvrir le fichier "+ path; //à écrire dans le journal
+        id = -1;
+        write_error_message(journalFile,message,OPEN_FILE_ERROR);
     }
 
     table_file.close();
@@ -190,15 +237,17 @@ int delete_list_of_row_from_table(vector<int> listOfRowsID, string const path_ta
              if( rename("database/new_tmp.csv", path) != 0 ) code = ERROR_RENAME_FILE;
 
         }else{
-            cout << "ERREUR: Impossible de creer le fichier new_tmp.csv" << endl;
+            string e_message = "ERREUR: Impossible de creer le fichier new_tmp.csv";
             code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
         newTable_file.close();
 
     }else{
-
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
+        string s_path(path);
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+s_path; //à écrire dans le journal
         code = OPEN_FILE_ERROR;
+        write_error_message(journalFile,e_message,code);
     }
 
     table_file.close();
@@ -268,15 +317,17 @@ int update_row(int id_row, string new_row, string const path_table)
              if( rename("database/new_tmp.csv", path) != 0 ) code = ERROR_RENAME_FILE;
 
         }else{
-            cout << "ERREUR: Impossible de creer le fichier new_tmp.csv" << endl;
+            string e_message = "ERREUR: Impossible de creer le fichier new_tmp.csv";
             code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
         newTable_file.close();
 
     }else{
-
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
+        string s_path(path);
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+s_path; //à écrire dans le journal
         code = OPEN_FILE_ERROR;
+        write_error_message(journalFile,e_message,code);
     }
 
     table_file.close();
@@ -331,9 +382,10 @@ string get_tableRow(int id, string const path)
         }                   
     
     }else{
-
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
         id = -1;
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+path; //à écrire dans le journal
+        write_error_message(journalFile,e_message,OPEN_FILE_ERROR);
+        
     }
 
     table_file.close();
@@ -414,9 +466,16 @@ vector<string> login_byEmail(string email, string profil_tag)
             }
         }
 
+        string label_op = "Connexion par email";
+        vector<string> params;
+        params.push_back(email);
+        params.push_back(profil_tag);
+        write_operation(journalFile,label_op,params,NOTHING_TO_DO);
+
         table_file.close();
     }else{
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << table << endl; //à écrire dans le journal
+        string message = "ERREUR: Impossible d'ouvrir le fichier "+table; //à écrire dans le journal
+        write_error_message(journalFile,message,NOTHING_TO_DO);
     }
 
     return profil_data;
@@ -441,9 +500,18 @@ int etp_create_profile(string nom, string code_postal, string email)
         {
             flux << id << "," << nom << "," << code_postal << "," << email << endl;
             code = SUCCESS;
+
+            string label_op = "creation entreprise";
+            vector<string> params;
+            params.push_back(nom);
+            params.push_back(code_postal);
+            params.push_back(email);
+            code = write_operation(journalFile,label_op,params,code);
+
         }else{
-            cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEntreprise << endl;
+            string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tableEntreprise;
             code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
 
         flux.close();
@@ -482,9 +550,18 @@ int etp_create_profileOfPosition(string titre, vector<string> skills, int entrep
         {
             flux << id << "," << titre << "," << string_skills << "," << entreprise_id << endl;
             code = SUCCESS;
+
+            string label_op = "creation de poste";
+            vector<string> params;
+            params = skills;
+            params.push_back(titre);
+            params.push_back(to_string(entreprise_id));
+            code = write_operation(journalFile,label_op,params,code);
+
         }else{
-            cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEntreprise << endl;
+            string e_message = "ERREUR: Impossible d'ouvrir le fichier "+tableEntreprise;
             code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
 
         flux.close();
@@ -510,6 +587,12 @@ int etp_delete_profileOfPosition(int id_etp,int id_poste)
 
         tab_OnePost.push_back(id_poste);
         code = delete_list_of_row_from_table(tab_OnePost,tablePoste);
+
+        string label_op = "suppression de poste";
+        vector<string> params;
+        string l = "etp_id = "+to_string(id_etp)+" poste_id = "+to_string(id_poste);
+        params.push_back(l);
+        code = write_operation(journalFile,label_op,params,code);
 
     }
     
@@ -539,6 +622,13 @@ int etp_delete_profile(int id_entreprise)
         if (code_op2 == SUCCESS)
         {
             code = SUCCESS;
+
+            string label_op = "suppression profil entreprise";
+            vector<string> params;
+            string l = "etp_id = "+to_string(id_entreprise);
+            params.push_back(l);
+            code = write_operation(journalFile,label_op,params,code);
+
         }else{
             code = code_op2;
         }
@@ -589,10 +679,17 @@ vector<vector<string>> etp_searchToHire(vector<string> list_competence,string co
                 }
                 
             }  
-        } 
+        }
+
+        string label_op = "entreprise recherche pour embauche";
+        vector<string> params;
+        params = list_competence;
+        params.push_back(code_postal);
+        write_operation(journalFile,label_op,params,NOTHING_TO_DO); 
 
     }else{
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << tableJobseeker << endl; //à écrire dans le journal
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+tableJobseeker; //à écrire dans le journal
+        write_error_message(journalFile,e_message,OPEN_FILE_ERROR);
     }
     table_file.close();
 
@@ -640,7 +737,8 @@ vector<string> get_AllPoste_fromEnterprise(int id_entreprise)
     
     }else{
 
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+tablePoste; //à écrire dans le journal
+        write_error_message(journalFile,e_message,OPEN_FILE_ERROR);
     }
 
     table_file.close();
@@ -663,7 +761,8 @@ vector<string> get_EntrepriseByID(int id_etp)
         }
     }
     else{
-        //écrire dans le journal
+        string e_message = "Company not found";//écrire dans le journal
+        write_error_message(journalFile,e_message,404);
     }
     return etp;
 }
@@ -697,15 +796,28 @@ int jsk_create_profile(string nom, string prenom, string email, string code_post
         {
             flux << id << "," << nom << "," << prenom << "," << email << "," << code_postal << "," << string_skills << endl;
             code = SUCCESS;
+
+            string label_op = "creation profil jobseeker";
+            vector<string> params;
+            params = skills;
+            params.push_back(nom);
+            params.push_back(prenom);
+            params.push_back(email);
+            params.push_back(code_postal);
+            code = write_operation(journalFile,label_op,params,code);
+
         }else{
-            cout << "ERREUR: Impossible d'ouvrir le fichier " << tableJobseeker << endl;
+            string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tableJobseeker;
             code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
 
         flux.close();
     
     }else{
         code = SUB_FUNCTION_ERROR;
+        string e_message = "La table "+tableJobseeker+" n'existe pas";
+        write_error_message(journalFile,e_message,code);
     }
 
     return code;
@@ -751,6 +863,11 @@ int jsk_add_skills(int id_jsk,vector<string> skills)
         }
 
         code = update_row(id_jsk,ligne,tableJobseeker);
+
+        string label_op = "jobseeker add skills";
+        vector<string> params;
+        params = skills;
+        code = write_operation(journalFile,label_op,params,code);
 
 
     }
@@ -801,6 +918,14 @@ int jsk_add_colleague(int id_jsk, vector<int> colleague)
 
         code = update_row(id_jsk,ligne,tableJobseeker);
 
+        string label_op = "Jobseeker add colleagues";
+        vector<string> params;
+        for (size_t i = 0; i < colleague.size(); i++)
+        {
+            params.push_back(to_string(colleague[i]));
+        }
+        
+        code = write_operation(journalFile,label_op,params,code);
 
     }
 
@@ -832,7 +957,11 @@ int jsk_update_code_postal(int id_jsk, std::string new_code_postale)
 
         code = update_row(id_jsk,ligne,tableJobseeker);
 
-
+        string label_op = "jobseeker update code_postal";
+        vector<string> params;
+        params.push_back(new_code_postale);
+        code = write_operation(journalFile,label_op,params,code);
+        
     }
 
     return code;
@@ -886,6 +1015,13 @@ int jsk_profile_transition_to_employe(int id_jsk, int id_enterprise)
             listRow.push_back(id_jsk);
 
             code = delete_list_of_row_from_table(listRow,tableJobseeker);
+
+            string label_op = "jobseeker transition to employe";
+            vector<string> params;
+            params.push_back("id_jsk = "+to_string(id_jsk));
+            params.push_back("id_etp = "+to_string(id_enterprise));
+            code = write_operation(journalFile,label_op,params,code);
+
         }
 
 
@@ -903,6 +1039,12 @@ int jsk_delete_profile(int id)
     
     code = delete_list_of_row_from_table(tab_OneID,tableJobseeker);
     
+    string label_op = "jobseeker delete his profil";
+    vector<string> params;
+    params.push_back("id_jsk = "+to_string(id));
+    code = write_operation(journalFile,label_op,params,code);
+
+
     return code;
 }
 
@@ -951,11 +1093,20 @@ vector<string> jsk_search_entreprise(string nom, string code_postal)
                     list_etp.push_back(temp);
                 }
             }
-        } 
+        }
+
+        string label_op = "jobseeker research company";
+        vector<string> params;
+        params.push_back(nom);
+        params.push_back(code_postal);
+        int code = 404;
+        write_operation(journalFile,label_op,params,code);
+ 
 
     }else{
-
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEntreprise << endl; //à écrire dans le journal
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tableEntreprise;
+        int code = OPEN_FILE_ERROR;
+        write_error_message(journalFile,e_message,code);
     }
 
     table_file.close();
@@ -1027,8 +1178,18 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
   
         } 
 
+        string label_op = "Research position";
+        vector<string> params;
+        params = list_competence;
+        params.push_back(code_postal);
+        int code = 404;
+        write_operation(journalFile,label_op,params,code);
+ 
+
     }else{
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tablePoste;
+        int code = OPEN_FILE_ERROR;
+        write_error_message(journalFile,e_message,code);
     }
     table_file.close();
 
@@ -1070,8 +1231,17 @@ vector<vector <string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
 
             row.clear();
         }
+
+        string label_op = "Research colleagues";
+        vector<string> params;
+        params.push_back(to_string(enterprise));
+        int code = 404;
+        write_operation(journalFile,label_op,params,code);
+        
     }else{
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tableEmployes;
+        int code = OPEN_FILE_ERROR;
+        write_error_message(journalFile,e_message,code);
     }
     table_file.close();
 
@@ -1081,57 +1251,68 @@ vector<vector <string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
 vector<string> jsk_get_old_colleagues_by_id(vector<int> list_id)
 {
     vector <string> list_of_result;
+    if(list_id.size() >0){
+        ifstream table_file(tableEmployes.c_str());
 
-    ifstream table_file(tableEmployes.c_str());
+        if(table_file){
 
-    if(table_file){
-
-        string ligne, word;
-        vector<string> row; 
-        vector<string> collegue;
-        
-        getline(table_file, ligne);        //Ligne de l'entete
-        while(getline(table_file, ligne)) {
-
-            collegue.clear();
-            row.clear();
-            stringstream s(ligne); 
-
-            while (getline(s, word, ',')) {     //On met chaque champ dans le tableau row
-                row.push_back(word); 
-            }
+            string ligne, word;
+            vector<string> row; 
+            vector<string> collegue;
             
-            if(existOnVector(list_id,stoi(row[0])))                           //Si au moins une compétence correspond
-            {                                           //On recherche l'entreprise correspondant au poste
-                string data_enterprise;                 //L'id de l'entreprise est dans row[3]
-                string enterprise = "";
-                vector<string> data; 
-                string collegue_row;
+            getline(table_file, ligne);        //Ligne de l'entete
+            while(getline(table_file, ligne)) {
 
-                enterprise = get_tableRow(stoi(row[7]), tableEntreprise);
-                if(enterprise != "")
-                {
-                    stringstream sx(enterprise);
-                    data.clear();
+                collegue.clear();
+                row.clear();
+                stringstream s(ligne); 
 
-                    while(getline(sx, data_enterprise, ','))
-                    {
-                        data.push_back(data_enterprise);
-                    }
-                    collegue_row = row[1] + " " + row[2] + " (" + data[1] + ") ";
-                    
+                while (getline(s, word, ',')) {     //On met chaque champ dans le tableau row
+                    row.push_back(word); 
                 }
-                list_of_result.push_back(collegue_row);
-            }
+                
+                if(existOnVector(list_id,stoi(row[0])))                           //Si au moins une compétence correspond
+                {                                           //On recherche l'entreprise correspondant au poste
+                    string data_enterprise;                 //L'id de l'entreprise est dans row[3]
+                    string enterprise = "";
+                    vector<string> data; 
+                    string collegue_row;
+
+                    enterprise = get_tableRow(stoi(row[7]), tableEntreprise);
+                    if(enterprise != "")
+                    {
+                        stringstream sx(enterprise);
+                        data.clear();
+
+                        while(getline(sx, data_enterprise, ','))
+                        {
+                            data.push_back(data_enterprise);
+                        }
+                        collegue_row = row[1] + " " + row[2] + " (" + data[1] + ") ";
+                        
+                    }
+                    list_of_result.push_back(collegue_row);
+                }
+                
+    
+            } 
+
+            string label_op = "jobseeker research colleagues by id";
+            vector<string> params;
+            for (size_t i = 0; i < list_id.size(); i++)
+                params.push_back(to_string(list_id[i]));
+
+            int code = 404;
+            write_operation(journalFile,label_op,params,code);
             
-  
-        } 
 
-    }else{
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+        }else{
+            string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tableEmployes;
+            int code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
+        }
+        table_file.close();
     }
-    table_file.close();
-
     return list_of_result;
 }
 
@@ -1210,13 +1391,24 @@ vector<vector <string>> jsk_find_former_colleagues_by_skills(vector<int> list_id
                     }
 
                 }else{
-                    cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+                    string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tablePoste;
+                    int code = OPEN_FILE_ERROR;
+                    write_error_message(journalFile,e_message,code);
                 }
                 table_file.close();
             }
         
         }
     }
+
+    string label_op = "jobseeker research colleagues by skills";
+    vector<string> params;
+    params = list_competence;
+    for (size_t i = 0; i < list_id.size(); i++)
+        params.push_back(to_string(list_id[i]));
+
+    int code = 404;
+    write_operation(journalFile,label_op,params,code);
 
     return list_results;
     
@@ -1262,15 +1454,27 @@ int emp_create_profile(string nom, string prenom, string email, string code_post
         {
             flux << id << "," << nom << "," << prenom << "," << email << "," << code_postal << "," << string_skills << "," << string_colleagues << "," << to_string(id_enterprise) << endl;
             code = SUCCESS;
+
+            string label_op = "creation profil employe";
+            vector<string> params;
+            params = skills;
+            params.push_back(nom);
+            params.push_back(prenom);
+            params.push_back(email);
+            params.push_back(code_postal);
+            code = write_operation(journalFile,label_op,params,code);
         }else{
-            cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl;
+            string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tableEmployes;
             code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
 
         flux.close();
     
     }else{
         code = SUB_FUNCTION_ERROR;
+        string e_message = "La table "+tableEmployes+" n'existe pas";
+        write_error_message(journalFile,e_message,code);
     }
 
     return code;
@@ -1317,6 +1521,10 @@ int emp_add_skills(int id_emp, vector<string> skills)
 
         code = update_row(id_emp,ligne,tableEmployes);
 
+        string label_op = "Employe add skills";
+        vector<string> params;
+        params = skills;
+        code = write_operation(journalFile,label_op,params,code);
 
     }
 
@@ -1366,6 +1574,15 @@ int emp_add_colleague(int id_emp, std::vector<int> colleague)
 
         code = update_row(id_emp,ligne,tableEmployes);
 
+        string label_op = "Employe add colleagues";
+        vector<string> params;
+        for (size_t i = 0; i < colleague.size(); i++)
+        {
+            params.push_back(to_string(colleague[i]));
+        }
+        
+        code = write_operation(journalFile,label_op,params,code);
+
     }
 
     return code;
@@ -1396,7 +1613,11 @@ int emp_update_code_postal(int id_emp, std::string new_code_postale)
 
         code = update_row(id_emp,ligne,tableEmployes);
 
-
+        string label_op = "Employe update code_postal";
+        vector<string> params;
+        params.push_back(new_code_postale);
+        code = write_operation(journalFile,label_op,params,code);
+        
     }
 
     return code;
@@ -1438,6 +1659,13 @@ int emp_update_enterprise(int id_emp, int new_id_enterprise)
                     list_id.push_back(stoi(collegues[i][3]));
                 
                 code = emp_add_colleague(id_emp,list_id);
+
+                string label_op = "Employe update company";
+                vector<string> params;
+                params.push_back(to_string(id_emp));
+                params.push_back(to_string(new_id_enterprise));
+                code = write_operation(journalFile,label_op,params,code);
+                
                 
             }
         }
@@ -1526,6 +1754,12 @@ int emp_profile_transition_to_jobseeker(int id_emp, int id_etp)
             listRow.push_back(id_emp);
 
             code = delete_list_of_row_from_table(listRow,tableEmployes);
+
+            string label_op = "Employe transition to jobseeker";
+            vector<string> params;
+            params.push_back("id_emp = "+to_string(id_emp));
+            params.push_back("id_etp = "+to_string(id_etp));
+            code = write_operation(journalFile,label_op,params,code);
         }
 
 
@@ -1543,6 +1777,12 @@ int emp_delete_profile(int id)
     
     code = delete_list_of_row_from_table(tab_OneID,tableEmployes);
     
+    string label_op = "Employe delete his profil";
+    vector<string> params;
+    params.push_back("id_emp = "+to_string(id));
+    code = write_operation(journalFile,label_op,params,code);
+
+
     return code;
 }
 
@@ -1582,9 +1822,17 @@ int create_password(int id, string mdp, string type)
         {
             flux << id_l << "," << password << "," << id << "," << type << endl;
             code = SUCCESS;
+
+            string label_op = "create password";
+            vector<string> params;
+            params.push_back("id user = "+to_string(id));
+            params.push_back(type);
+            code = write_operation(journalFile,label_op,params,code);
+
         }else{
-            cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl;
+            string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tablePassword;
             code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
 
         flux.close();
@@ -1667,12 +1915,20 @@ int delete_password(int id_user, string type)
                 vector<int> oneId;
                 oneId.push_back(stoi(row[0]));
                 code = delete_list_of_row_from_table(oneId,tablePassword);
+
+                string label_op = "delete password";
+                vector<string> params;
+                params.push_back("id user = "+to_string(id_user));
+                params.push_back(type);
+                code = write_operation(journalFile,label_op,params,code);
+
             }
         }                   
     
     }else{
-
-        cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+        string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tablePassword;
+        code = OPEN_FILE_ERROR;
+        write_error_message(journalFile,e_message,code);
     }
 
     table_file.close();
@@ -1723,15 +1979,119 @@ int update_password(int user_id, string n_mdp,string o_mdp, string type)
             {
                 string new_row = row[0] + ',' + encrypted + ',' + row[2] + ',' + type;  
                 code = update_row(stoi(row[0]),new_row,tablePassword);
+
+                string label_op = "create password";
+                vector<string> params;
+                params.push_back("id user = "+to_string(user_id));
+                params.push_back(type);
+                code = write_operation(journalFile,label_op,params,code);
              }                
         
         }else{
-
-            cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+            string e_message = "ERREUR: Impossible d'ouvrir le fichier "+ tablePassword;
+            code = OPEN_FILE_ERROR;
+            write_error_message(journalFile,e_message,code);
         }
 
         table_file.close();
 
+    }
+
+    return code;
+}
+
+
+//FONCTIONS DU JOURNAL
+
+bool check_file(const string &file) //indique si un fichier est lisible (et donc si il existe)
+{
+  bool state = true;
+
+  ifstream fichier(file.c_str());
+
+  if(fichier.fail())
+  {
+    state = false;
+    ofstream journal (file.c_str());
+
+    if(journal)    
+    {
+        state = true;
+        journal.close();
+    }
+  }
+  return state;
+}
+
+int write_operation(const string &file ,string operation_label,vector<string> parameters, int code_retour)
+{
+    int code = ERROR_WRITE_LOG;
+    bool fileExist;
+
+    fileExist = check_file(file);
+    if(fileExist)
+    {
+        ofstream flux(file.c_str(), ios::app);
+
+        if(flux)    
+        {
+            int id = get_log_lastID(file);
+            id = id + 1;
+            auto date = std::chrono::system_clock::now();
+            std::time_t operation_time = std::chrono::system_clock::to_time_t(date);
+
+            char s[256];
+            struct tm * p = localtime(&operation_time);
+            strftime(s, 256, "%a %b %d %Y %H:%M:%S", p);
+
+            string time(s);
+            
+            string params = parameters[0];
+            for(size_t i=1; i<parameters.size(); i++){
+                params = params + "," + parameters[i];
+            }
+
+            flux << id << ":::" << time << ":::" << "operation = " <<operation_label << ":::data -> " << params <<":::code returned = "<< code_retour <<endl;
+            code = SUCCESS;
+            flux.close();
+        }else{
+            code = OPEN_FILE_ERROR;
+        }
+    }
+
+    return code;
+}
+
+int write_error_message(const string &file, const string &message,int code_retour)
+{
+    int code = ERROR_WRITE_LOG;
+    bool fileExist;
+
+    fileExist = check_file(file);
+    if(fileExist)
+    {
+        ofstream flux(file.c_str(), ios::app);
+
+        if(flux)    
+        {
+            int id = get_log_lastID(file);
+            if(id==-1) id = 1;
+            else id = id + 1;
+            auto date = std::chrono::system_clock::now();
+            std::time_t operation_time = std::chrono::system_clock::to_time_t(date);
+
+            char s[256];
+            struct tm * p = localtime(&operation_time);
+            strftime(s, 256, "%a %b %d %Y %H:%M:%S", p);
+
+            string time(s);
+          
+            flux << id << ":::" << time << ":::" << "message = " << message <<":::code returned = "<< code_retour <<endl;
+            code = SUCCESS;
+            flux.close();
+        }else{
+            code = OPEN_FILE_ERROR;
+        }
     }
 
     return code;
