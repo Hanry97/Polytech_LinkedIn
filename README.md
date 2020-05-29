@@ -74,40 +74,27 @@ Le chercheur d'emploi :
     
 ## Fonctionalités pour un employé
 
-C'est bien d'être à l'emploi mais pour diverses raisons il peut arriver qu'on veuille quand même s'informer sur les postes à pourvoir pour trouver un travail plus rémunérateur, plus près de chez soi, etc.
+Bien qu'étant dans une entreprise, il peut arriver qu'un employé veuille quand même s'informer sur les postes à pourvoir au 
+sein d'autre entreprises.
+De plus, lorsqu'un un employé quitte ou perd son emploi et est en recherche d'emploi, son profil transitionne vers «checheur 
+d'emploi».
+L'employé :
+- Crée un profil en saisissant : Nom, Prénom, Adresse mail, Code postal, Compétences, Entreprise (la liste des entreprises est au préalable affichée).
+- Modifie son profil :
+    - Ajoute des compétences.
+    - Ajoute un(e) ancien(ne) collègue de travail.
+    - Modifie son code postal.
+- Met à jour son statut («employé» vers «chercheur d'emploi»)
+    - De plus, les employé(e)s de l'entreprise quittée s'ajoutent automatiquement à liste des ancien(ne)s collègues de travail.
+- Supprime son profil.
+- Recherche parmi les postes à pourvoir ceux qui correspondent à son profil :
+    - Par compétences.
+    - Par compétences et code postal
+      Pour ignorer le critère code postal, il suffit de saisir '#' lorsque le code postal est demandé.  
 
-Lorsqu'un un employé quitte ou perd son emploi et est en recherche d'emploi, son profil transitionne vers «checheur d'emploi».
+- Recherche parmi les anciens collègues :
+    - Par entreprise (retoune les ancien(ne)s collègues employés à l'entreprise)
+    - Par compétences (pour les compétences du chercheur d'emploi, retourne les ancien(ne)s collègues employés aux entreprises qui recherchent ces compétences).
 
-- [ ] Créer un profil
-    - [ ] Nom
-    - [ ] Prénom
-    - [ ] Adresse mail
-    - [ ] Code postal
-    - [ ] Compétences
-    - [ ] Ancien(ne)s collègues de travail parmi les personne employés
-    - [ ] Entreprise
-- [ ] Modifier un profil
-    - [ ] Ajouter des compétences
-    - [ ] Ajouter un(e) ancien(ne) collègue de travail
-    - [ ] Modifier le code postal
-    - [ ] Modifier l'entreprise
-- [ ] Transitionner le profil «employé» vers «chercheur d'emploi»
-    - [ ] Les employé(e)s de l'entreprise quittée s'ajoutent automatiquement à liste des ancien(ne)s collègues de travail
-- [ ] Supprimer le profil
-- [ ] Rechercher parmi les les postes à pourvoir qui correspondent au profil de l'employé
-    - [ ] Recherche par compétences
-    - [ ] Recherche par compétences et code postal
-    - [ ] Résultats
-        - [ ] Titre du poste
-        - [ ] Nom de l'entreprise
-        - [ ] Adresse mail de l'entreprise
-        - [ ] Code postal de l'entreprise
-- [ ] Rechercher parmi les anciens collègues
-    - [ ] Recherche par entreprise (retoune les ancien(ne)s collègues employés à l'entreprise)
-    - [ ] Recherche par compétences (pour les compétences du chercheur d'emploi, retourne les ancien(ne)s collègues employés aux entreprises qui recherchent ces compétences)
-    - [ ] Résultats
-        - [ ] Nom du (de la) collègue
-        - [ ] Prénom du (de la) collègue
-        - [ ] Adresse mail du (de la) collègue
 
 # Bugs
