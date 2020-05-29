@@ -51,39 +51,27 @@ Une entreprise:
     
 ## Fonctionalités pour un chercheur d'emploi
 
-Pour un chercheur d'emploi, un bon moyen d'entrer en contact avec une entreprise qui nous intéresse est grâce à une personne que l'on connaît déjà (un(e) ancien(ne) collègue de travail) qui travaille présentement pour cette entreprise.
+Un chercheur d'emploi entre en contact avec une entreprise est grâce à une personne qu'il connaît déjà (un(e) ancien(ne) collègue de travail) qui travaille présentement pour cette entreprise.
 
-Lorsqu'un checheur d'emploi est embauché, son profil transitionne vers «employé».
+Lorsqu'un checheur d'emploi est embauché, son profil passe de demandeur d'emploi vers «employé».
+Le chercheur d'emploi :
+- Crée un profil en saisissant : Nom, Prénom, Adresse mail, Code postal, Compétences.
+- Modifie son profil :
+    - Ajoute des compétences.
+    - Ajoute un(e) ancien(ne) collègue de travail
+    - Modifie son code postal.
+- Met à jour son statut («chercheur d'emploi» vers «employé»).
+- Supprime son profil.
+- Recherche parmi les postes à pourvoir qui correspondent à son profil :
+    - Par compétences (il saisit succéssivement des compétences et saisit 'q' pour terminer)
+    - Par compétences et code postal.
+  Pour ignorer le critère code postal, il suffit de saisir '#' lorsque le code postal est demandé.  
 
-- [ ] Créer un profil
-    - [ ] Nom
-    - [ ] Prénom
-    - [ ] Adresse mail
-    - [ ] Code postal
-    - [ ] Compétences
-    - [ ] Ancien(ne)s collègues de travail parmi les personne employés
-- [ ] Modifier un profil
-    - [ ] Ajouter des compétences
-    - [ ] Ajouter un(e) ancien(ne) collègue de travail
-    - [ ] Modifier le code postal
-- [ ] Transitionner le profil de «chercheur d'emploi» à un profil «employé»
-- [ ] Supprimer un profil
-- [ ] Rechercher parmi les les postes à pourvoir qui correspondent à son profil
-    - [ ] Recherche par compétences
-    - [ ] Recherche par compétences et code postal
-    - [ ] Résultats
-        - [ ] Titre du poste
-        - [ ] Nom de l'entreprise
-        - [ ] Adresse mail de l'entreprise
-        - [ ] Code postal de l'entreprise
-- [ ] Rechercher parmi les anciens collègues
-    - [ ] Recherche par entreprise (retoune les ancien(ne)s collègues employés à l'entreprise)
-    - [ ] Recherche par compétences (pour les compétences du chercheur d'emploi, retourne les ancien(ne)s collègues employés aux entreprises qui recherchent ces compétences)
-    - [ ] Résultats
-        - [ ] Nom du (de la) collègue
-        - [ ] Prénom du (de la) collègue
-        - [ ] Adresse mail du (de la) collègue
-
+- Recherche parmi les anciens collègues :
+    - Par entreprise (retoune les ancien(ne)s collègues employés à l'entreprise)
+    - Par compétences (pour les compétences du chercheur d'emploi, retourne les ancien(ne)s collègues employés aux entreprises qui recherchent ces compétences)
+    
+    
 ## Fonctionalités pour un employé
 
 C'est bien d'être à l'emploi mais pour diverses raisons il peut arriver qu'on veuille quand même s'informer sur les postes à pourvoir pour trouver un travail plus rémunérateur, plus près de chez soi, etc.
