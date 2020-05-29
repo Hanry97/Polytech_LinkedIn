@@ -1,0 +1,51 @@
+1:::Fri May 29 2020 21:58:37:::operation = creation entreprise:::data -> Polytech Nice,13509,polytech@uni-nice.fr:::code returned = 0
+2:::Fri May 29 2020 21:58:37:::operation = creation de poste:::data -> C,C++,Python,concepteur logiciel,5:::code returned = 0
+3:::Fri May 29 2020 21:58:37:::operation = creation de poste:::data -> Linux,Windows,Admin systeme,5:::code returned = 0
+4:::Fri May 29 2020 21:58:37:::operation = suppression de poste:::data -> etp_id = 5 poste_id = 7:::code returned = 0
+5:::Fri May 29 2020 21:58:37:::operation = suppression profil entreprise:::data -> etp_id = 5:::code returned = 0
+6:::Fri May 29 2020 21:58:37:::operation = creation profil jobseeker:::data -> Ruby,C++,React,MySpecialSkill,Didier,Franck,Franck@gmail.com,13009:::code returned = 0
+7:::Fri May 29 2020 21:58:37:::operation = creation profil jobseeker:::data -> Ruby,C++,React,MySpecialSkill,Didier,Franck,Franck@gmail.com,13009:::code returned = 0
+8:::Fri May 29 2020 21:58:37:::operation = jobseeker add skills:::data -> Agile,Java EE,API rest:::code returned = 0
+9:::Fri May 29 2020 21:58:37:::operation = Jobseeker add colleagues:::data -> 4,5,6:::code returned = 0
+10:::Fri May 29 2020 21:58:37:::operation = jobseeker update code_postal:::data -> 13005:::code returned = 0
+11:::Fri May 29 2020 21:58:37:::operation = creation profil employe:::data -> Ruby,C++,React,MySpecialSkill,Agile,Java EE,API rest,Didier,Franck,Franck@gmail.com,13005:::code returned = 0
+12:::Fri May 29 2020 21:58:37:::operation = jobseeker transition to employe:::data -> id_jsk = 7,id_etp = 4:::code returned = 0
+13:::Fri May 29 2020 21:58:37:::operation = entreprise recherche pour embauche:::data -> MySpecialSkill,#:::code returned = -6
+14:::Fri May 29 2020 21:58:37:::operation = jobseeker delete his profil:::data -> id_jsk = 6:::code returned = 0
+15:::Fri May 29 2020 21:58:37:::operation = Employe delete his profil:::data -> id_emp = 5:::code returned = 0
+16:::Fri May 29 2020 21:58:37:::operation = create password:::data -> id user = 1997,emp:::code returned = 0
+17:::Fri May 29 2020 21:58:37:::operation = create password:::data -> id user = 1997,emp:::code returned = 0
+18:::Fri May 29 2020 21:58:37:::operation = delete password:::data -> id user = 1997,emp:::code returned = 0
+19:::Fri May 29 2020 22:02:07:::operation = jobseeker research company:::data -> EDF,#:::code returned = 404
+20:::Fri May 29 2020 22:03:08:::operation = creation profil employe:::data -> Gestion,Management,Excel,Murielle,Anne,anne@gmail.com,13009:::code returned = 0
+21:::Fri May 29 2020 22:03:08:::operation = create password:::data -> id user = 5,emp:::code returned = 0
+22:::Fri May 29 2020 22:03:28:::operation = Connexion par email:::data -> anne@gmail.com,etp:::code returned = -6
+23:::Fri May 29 2020 22:03:28:::operation = Connexion par email:::data -> anne@gmail.com,jsk:::code returned = -6
+24:::Fri May 29 2020 22:03:28:::operation = Connexion par email:::data -> anne@gmail.com,emp:::code returned = -6
+25:::Fri May 29 2020 22:07:02:::operation = Connexion par email:::data -> anne@gmail.com,etp:::code returned = -6
+26:::Fri May 29 2020 22:07:02:::operation = Connexion par email:::data -> anne@gmail.com,jsk:::code returned = -6
+27:::Fri May 29 2020 22:07:02:::operation = Connexion par email:::data -> anne@gmail.com,emp:::code returned = -6
+28:::Fri May 29 2020 22:07:38:::operation = jobseeker research position:::data -> Gestion,13500:::code returned = 404
+29:::Fri May 29 2020 22:07:57:::operation = Employe update code_postal:::data -> 13008:::code returned = 0
+30:::Fri May 29 2020 22:09:58:::operation = Connexion par email:::data -> anne@gmail.com,etp:::code returned = -6
+31:::Fri May 29 2020 22:09:58:::operation = Connexion par email:::data -> anne@gmail.com,jsk:::code returned = -6
+32:::Fri May 29 2020 22:09:58:::operation = Connexion par email:::data -> anne@gmail.com,emp:::code returned = -6
+33:::Fri May 29 2020 22:10:29:::operation = jobseeker research company:::data -> Polytech,#:::code returned = 404
+34:::Fri May 29 2020 22:10:31:::operation = Research colleagues:::data -> 1:::code returned = 404
+35:::Fri May 29 2020 22:10:41:::operation = Employe add colleagues:::data -> 2:::code returned = 0
+36:::Fri May 29 2020 22:10:46:::operation = jobseeker research colleagues by id:::data -> 2:::code returned = 404
+37:::Fri May 29 2020 22:19:06:::operation = Connexion par email:::data -> anne@gmail.com,etp:::code returned = -6
+38:::Fri May 29 2020 22:19:06:::operation = Connexion par email:::data -> anne@gmail.com,jsk:::code returned = -6
+39:::Fri May 29 2020 22:19:06:::operation = Connexion par email:::data -> anne@gmail.com,emp:::code returned = -6
+40:::Fri May 29 2020 22:20:36:::operation = creation profil jobseeker:::data -> C,Java,Python,Mathieu,Max,max@gmail.com,13005:::code returned = 0
+41:::Fri May 29 2020 22:20:36:::operation = create password:::data -> id user = 6,jsk:::code returned = 0
+42:::Fri May 29 2020 22:20:52:::operation = Connexion par email:::data -> max@gmail.com,etp:::code returned = -6
+43:::Fri May 29 2020 22:20:52:::operation = Connexion par email:::data -> max@gmail.com,jsk:::code returned = -6
+44:::Fri May 29 2020 22:21:05:::operation = jobseeker add skills:::data -> C++:::code returned = 0
+45:::Fri May 29 2020 22:21:18:::operation = jobseeker research company:::data -> Polytech,#:::code returned = 404
+46:::Fri May 29 2020 22:21:20:::operation = Research colleagues:::data -> 1:::code returned = 404
+47:::Fri May 29 2020 22:21:30:::operation = Jobseeker add colleagues:::data -> 4,1:::code returned = 0
+48:::Fri May 29 2020 22:21:34:::operation = jobseeker research colleagues by id:::data -> 4,1:::code returned = 404
+49:::Fri May 29 2020 22:36:55:::operation = Connexion par email:::data -> max@gmail.com,etp:::code returned = -6
+50:::Fri May 29 2020 22:36:55:::operation = Connexion par email:::data -> max@gmail.com,jsk:::code returned = -6
+51:::Fri May 29 2020 22:37:02:::operation = jobseeker research colleagues by id:::data -> 4,1:::code returned = 404
