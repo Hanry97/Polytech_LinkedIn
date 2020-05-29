@@ -11,6 +11,8 @@
 #include <string>
 #include <ctime>
 
+//time_t t_debut;
+
 //TAGS
 std::string const TAG_ENTREPRISE = "etp";
 std::string const TAG_JOBSEEKER = "jsk";
@@ -64,5 +66,6 @@ const int ERROR_RENAME_FILE = -5;
 
 //Résutat neutre
 const int NOTHING_TO_DO = -6;
+
 
 #endif

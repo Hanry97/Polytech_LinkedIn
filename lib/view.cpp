@@ -4,7 +4,10 @@
 #include <vector>
 #include <sstream>
 #include "view.h"
+#include "constante.h"
 #include "journal.h"
+#include "extra3/compression.h"
+
 using namespace std;
 
 /*void intialise_user_journal(string user)
@@ -47,12 +50,13 @@ int navigation_general_menu( int const& choice )
 	switch( choice )
 	{
 		case 1:
-            intialise_user_journal("Unkwnow user","");   //Pour marquer que c'est un nouvel utlisateur
+            memorise("Creation_screen()");   //Pour marquer que c'est un nouvel utlisateur
 			return creation_screen();
 		case 2:
+            memorise("Login_sreen()");
 			return login_screen();
 		case 9:
-        
+            memorise("quit()");
 			return quit() ;
 		default:
 			cout << "\n Ce numero n'existe pas " << endl ;
@@ -83,7 +87,7 @@ int login_screen()
 
     cout << "\n\n Email    :  "; cin >> email;
     cout << "\nPassword :  "; cin >> mdp;
-    intialise_user_journal(email," ");
+    intialise_user_journal(email);
     if(isValidEmail(email))
     {
         company etp;
@@ -91,6 +95,7 @@ int login_screen()
         
         if(etp.getId() != -1)
         {
+             intialise_etp_journal(etp.getNom(),etp.getCodePostal());
             code = etp_home(etp);
         }
         else
@@ -100,6 +105,7 @@ int login_screen()
             
             if(jsk.getId() != -1)
             {
+                intialise_jsk_journal(jsk.getNom(),jsk.getCodePostal());
                 code = jsk_home(jsk);
             }
             else
@@ -109,6 +115,7 @@ int login_screen()
 
                 if(emp.getId() != -1)
                 {
+                    intialise_emp_journal(emp.getNom(),emp.getCodePostal());
                     code = emp_home(emp);
                 }    
                 else 
@@ -118,6 +125,10 @@ int login_screen()
             } 
         }
          
+    }
+
+    else{
+         login_fail_journal() ;   //affiche accès refuser dans le journal
     }
     
     return code;
@@ -239,8 +250,9 @@ int navigation_company( const int & choice, company & etp )
 			return etp_logout(etp);
 		case 6:
 			return etp_deleteProfil(etp);
-		case 7: return EXIT_PROGRAM;
-			//exit(0) ;
+		case 7: //compress_csv_files() ;
+                //fin_de_session(t_debut);
+			    return EXIT_PROGRAM; ;
 		default:
 			return choice ;
 	}
@@ -443,6 +455,7 @@ int etp_deleteProfil(company & etp)
 
 int etp_create_profil()
 {
+    memorise("etp_create_profil()");
     int code;
     string nom,email,code_postal,mdp;
     char exit_char;
@@ -564,8 +577,9 @@ int navigation_jobSeeker( int const& choice, jobseeker & jsk )
 			return jsk_search_oldColleagues( jsk ) ;
 		case 6:
 			return DECONNEXION;
-        case 7: return EXIT_PROGRAM;
-            //exit(0);
+        case 7: //compress_csv_files() ;
+                //fin_de_session(t_debut);
+                return EXIT_PROGRAM;;
 		default:
 			return SUCCESS;
 	}
@@ -635,7 +649,9 @@ int navigation_modify_profil_jobSeeker( int const& choice, jobseeker & jsk )
 			code = BACK_PREV_MENU;
             break;
 		case 7: 
-			exit(0);	
+            //compress_csv_files() ;
+            //fin_de_session(t_debut);
+			return EXIT_PROGRAM;;	
 		default: 
             code = SUCCESS;
             break;
@@ -925,6 +941,7 @@ int jsk_search_poste(jobseeker & jsk)
 
 int jsk_create_profil()
 {
+     memorise("jsk_create_profil()");
     int code;
     string nom, prenom, email,code_postal, skill, mdp;
     vector<string> skills;
@@ -967,10 +984,16 @@ int jsk_create_profil()
 
     code = jsk.createJobseeker();
     
-    if(code == SUCCESS)
+    if(code == SUCCESS){
+        //initialise_new_jsk(jsk);
         cout<< "\n\nFELICITAIONS, VOTRE COMPTE A ETE CREE VOUS POUVEZ DESORMAIS VOUS CONNECTER! ENTREZ 'q' POUR CONTINUER" << endl;
-    else 
+    }
+           
+    else{
         cout<< "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
+        memorise("pb de creation de jbsk");
+    } 
+        
         
     cin>> exit_char;
 
@@ -1290,7 +1313,9 @@ int navigation_employe( int const & choice, employe & emp )
 		case 6:
 			return DECONNEXION;
         case 7:
-            exit(0);
+            //compress_csv_files() ;
+            //fin_de_session(t_debut);
+            return EXIT_PROGRAM;
 		default:
 			return SUCCESS;
 	}
@@ -1364,7 +1389,9 @@ int navigation_modify_profil_employe ( const int & choice, employe & emp)
 			code = BACK_PREV_MENU;
             break;
 		case 8: 
-			exit(0);	
+        //compress_csv_files() ;
+        //fin_de_session(t_debut);
+		return EXIT_PROGRAM;;	
 		default: 
             code = SUCCESS;
             break;
@@ -1423,6 +1450,7 @@ int emp_afficher(employe & emp)
 
 int emp_create_profil()
 {
+    memorise("emp_create_profil()");
     int code = EXIT_WITH_ERROR;
     char exit_char;
     string nom,prenom,email,code_postal,mdp;
@@ -1490,10 +1518,16 @@ int emp_create_profil()
 
             code = emp.createEmploye();
             
-            if(code == SUCCESS)
+            if(code == SUCCESS){
+                //initialise_new_emp(emp);
                 cout<< "\n\nFELICITAIONS, VOTRE COMPTE A ETE CREE VOUS POUVEZ DESORMAIS VOUS CONNECTER!" << endl;
-            else 
-                cout<< "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
+            }
+            
+            else{
+                 cout<< "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
+                 memorise("Erreur de creation d'employer");
+            } 
+               
 
         }else
         {

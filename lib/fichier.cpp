@@ -91,6 +91,7 @@ int get_lastID(string const path)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");   //memorise("()");
         id = -1;
     }
 
@@ -148,7 +149,9 @@ vector <int> get_List_Of_idPost_Of_Enterprise(int id_enterprise)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
+    
 
     return tab_of_post_id;
 }
@@ -198,6 +201,7 @@ int delete_list_of_row_from_table(vector<int> listOfRowsID, string const path_ta
 
         }else{
             cout << "ERREUR: Impossible de creer le fichier new_tmp.csv" << endl;
+             memorise("ERREUR: Impossible d'ouvrir le fichier new_tmp.csv");
             code = OPEN_FILE_ERROR;
         }
         newTable_file.close();
@@ -205,6 +209,7 @@ int delete_list_of_row_from_table(vector<int> listOfRowsID, string const path_ta
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
+         memorise("ERREUR: Impossible d'ouvrir le fichier");
         code = OPEN_FILE_ERROR;
     }
 
@@ -278,6 +283,7 @@ int update_row(int id_row, string new_row, string const path_table)
 
         }else{
             cout << "ERREUR: Impossible de creer le fichier new_tmp.csv" << endl;
+             memorise("ERREUR: Impossible d'ouvrir le fichier new_tmp.csv");
             code = OPEN_FILE_ERROR;
         }
         newTable_file.close();
@@ -285,6 +291,7 @@ int update_row(int id_row, string new_row, string const path_table)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
+         memorise("ERREUR: Impossible d'ouvrir le fichier");
         code = OPEN_FILE_ERROR;
     }
 
@@ -344,6 +351,7 @@ string get_tableRow(int id, string const path)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << path << endl; //à écrire dans le journal
+         memorise("ERREUR: Impossible d'ouvrir le fichier");
         id = -1;
     }
 
@@ -386,6 +394,7 @@ vector<string> get_Allemploye_fromEnterprise(int id_entreprise)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+         memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
 
     table_file.close();
@@ -430,6 +439,7 @@ vector<string> login_byEmail(string email, string profil_tag)
         table_file.close();
     }else{
         cout << "ERREUR: Impossible d'ouvrir le fichier " << table << endl; //à écrire dans le journal
+         memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
 
     return profil_data;
@@ -457,6 +467,7 @@ int etp_create_profile(string nom, string code_postal, string email)
             code = SUCCESS;
         }else{
             cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEntreprise << endl;
+             memorise("ERREUR: Impossible d'ouvrir le fichier");
             code = OPEN_FILE_ERROR;
         }
 
@@ -499,6 +510,7 @@ memorise("etp_create_profileOfPosition()");
             code = SUCCESS;
         }else{
             cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEntreprise << endl;
+             memorise("ERREUR: Impossible d'ouvrir le fichier");
             code = OPEN_FILE_ERROR;
         }
 
@@ -610,6 +622,7 @@ vector<vector<string>> etp_searchToHire(vector<string> list_competence,string co
 
     }else{
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tableJobseeker << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
     table_file.close();
 
@@ -659,6 +672,7 @@ vector<string> get_AllPoste_fromEnterprise(int id_entreprise)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
 
     table_file.close();
@@ -719,6 +733,7 @@ int jsk_create_profile(string nom, string prenom, string email, string code_post
             code = SUCCESS;
         }else{
             cout << "ERREUR: Impossible d'ouvrir le fichier " << tableJobseeker << endl;
+             memorise("ERREUR: Impossible d'ouvrir le fichier");
             code = OPEN_FILE_ERROR;
         }
 
@@ -980,6 +995,7 @@ vector<string> jsk_search_entreprise(string nom, string code_postal)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEntreprise << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
 
     table_file.close();
@@ -1054,6 +1070,7 @@ vector<vector<string>> jsk_searchJob(vector<string> list_competence,string code_
 
     }else{
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+         memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
     table_file.close();
 
@@ -1098,6 +1115,7 @@ vector<vector <string>> jsk_find_former_colleagues_by_enterprise(int enterprise)
         }
     }else{
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+         memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
     table_file.close();
 
@@ -1156,6 +1174,7 @@ vector<string> jsk_get_old_colleagues_by_id(vector<int> list_id)
 
     }else{
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
     table_file.close();
 
@@ -1239,6 +1258,7 @@ vector<vector <string>> jsk_find_former_colleagues_by_skills(vector<int> list_id
 
                 }else{
                     cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePoste << endl; //à écrire dans le journal
+                    memorise("ERREUR: Impossible d'ouvrir le fichier");
                 }
                 table_file.close();
             }
@@ -1293,6 +1313,7 @@ int emp_create_profile(string nom, string prenom, string email, string code_post
             code = SUCCESS;
         }else{
             cout << "ERREUR: Impossible d'ouvrir le fichier " << tableEmployes << endl;
+            memorise("ERREUR: Impossible d'ouvrir le fichier");
             code = OPEN_FILE_ERROR;
         }
 
@@ -1610,7 +1631,6 @@ int create_password(int id, string mdp, string type)
     int lastID = get_lastID(tablePassword);
     //On créé la ligne
     if(lastID != -1){
-        
         int id_l = lastID + 1;
         string password = sha256(mdp);
         
@@ -1622,6 +1642,7 @@ int create_password(int id, string mdp, string type)
             code = SUCCESS;
         }else{
             cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl;
+            memorise("ERREUR: Impossible d'ouvrir le fichier");
             code = OPEN_FILE_ERROR;
         }
 
@@ -1670,6 +1691,7 @@ bool password_existAndOk(int id, string mdp, string type)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
 
     table_file.close();
@@ -1713,6 +1735,7 @@ int delete_password(int id_user, string type)
     }else{
 
         cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+        memorise("ERREUR: Impossible d'ouvrir le fichier");
     }
 
     table_file.close();
@@ -1769,6 +1792,7 @@ int update_password(int user_id, string n_mdp,string o_mdp, string type)
         }else{
 
             cout << "ERREUR: Impossible d'ouvrir le fichier " << tablePassword << endl; //à écrire dans le journal
+            memorise("ERREUR: Impossible d'ouvrir le fichier");
         }
 
         table_file.close();

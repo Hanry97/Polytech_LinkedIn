@@ -18,7 +18,6 @@ using namespace std;
 
 int main()
 {
-   time_t t_debut = time(0);
    intialise_date_journal(t_debut);
    decompress_csv_files() ;
    home_screen() ;
