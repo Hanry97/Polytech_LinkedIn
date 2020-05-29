@@ -12,7 +12,7 @@ des employés et des chercheurs d'emploi.
     - [Fonctionalités pour une entreprise](#fonctionalit%C3%A9s-pour-une-entreprise)
     - [Fonctionalités pour un chercheur d'emploi](#fonctionalit%C3%A9s-pour-un-chercheur-demploi)
     - [Fonctionalité pour un employé](#fonctionalit%C3%A9-pour-un-employ%C3%A9)
-- [Bugs](#Bugs)
+- [Bugs et manipulations](#Bugs-et-manipulations)
     
 # Généralités
 
@@ -97,4 +97,10 @@ L'employé :
     - Par compétences (pour les compétences du chercheur d'emploi, retourne les ancien(ne)s collègues employés aux entreprises qui recherchent ces compétences).
 
 
-# Bugs
+# Bugs et manipulations
+
+- Mauvaise saisie : saisir autre chose que des chiffres dans les options des menus génère un dysfonctionnement du programme (manipulation à éviter).
+- Il n'y a pas de message d'erreur lorsque l'email et le mot de passe sont incorrectes.
+- On ne peut pas abandonner la saisie d'un formulaire sans l'avoir terminer et valider.
+-La base de données est décompressée au lancement du programme et compressée lorsque l'utilisateur quitte 'proprement' le programme.
+ Aussi, la base de données n'est pas compressée si le programme n'est pas quitté depuis le menu principale.
