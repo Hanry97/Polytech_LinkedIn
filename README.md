@@ -16,7 +16,7 @@ des employés et des chercheurs d'emploi.
     
 # Généralités
 
-Le programme s'execute en consonle en executant la commande 'make execute_app' depuis la racine du projet.
+Le programme s'execute en consonl en executant la commande 'make execute_app' depuis la racine du projet.
 L'utilisateur est appellé à saisir des numéros correspondants à des options. Au lancement, deux choix sont proposés : 
 Inscription et Connexion.
 
@@ -26,17 +26,18 @@ majuscules et les miniuscules sont différenciées) et le mot de passe est saisi
 -Inscription : l'utilisateur choisit le type de profil et saisit les informations demandées. Une fois l'inscription terminée,
 il est redirigé vers la page deconnexion.
 
-Dans chaque menu, l'utilisateur a la possibilité de quitter 'proprement' le programme grace à l'option 'quitter'.
+Après chaque opération, l'utilisateur est généralement invité à saisir le caractère 'q' pour revenir au menu. De plus, depuis 
+chaque menu, il a la possibilité de quitter 'proprement' le programme grace à l'option 'quitter'.
 
 
 # Fonctionnalités
 
-Sur cette platforme, on distingue trois profils d'utilisateur avec des besoins propres.
+On distingue trois profils d'utilisateur du programme et chacun avec des besoins propres.
 Les entreprises, les chercheurs d'emploi et les employés.
 
 ## Fonctionalités pour une entreprise
 
-Une entreprise annonce des postes à pourvoir, spécifiant les compétences requises.
+Une entreprise annonce des postes à pourvoir en spécifiant les compétences requises.
 Elle peut aussi rechercher parmi les chercheurs d'emploi ceux qui correspondent à ses besoins.
 
 - [ ] Créer un profil
