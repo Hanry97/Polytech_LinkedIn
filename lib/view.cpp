@@ -5,6 +5,9 @@
 #include <sstream>
 
 #include "view.h"
+
+#include "extra3/compression.h"
+#include "extra3/decompression.h"
 using namespace std;
 
 
@@ -13,6 +16,9 @@ int home_screen()
 {
     int choice ;
     int code = EXIT_WITH_ERROR;
+
+    //On décompresse la base de données
+    decompress_csv_files() ;
 
     while(choice != 9)
     {
@@ -31,6 +37,10 @@ int home_screen()
     
 	    code = navigation_general_menu( choice ) ;
     }
+
+    //On compresse la base de données avant de quitter
+    compress_csv_files() ;
+
     return code;
 }
 
@@ -229,6 +239,7 @@ int navigation_company( const int & choice, company & etp )
 		case 6:
 			return etp_deleteProfil(etp);
 		case 7:
+            compress_csv_files() ;
 			exit(0) ;
 		default:
 			return choice ;
@@ -554,6 +565,7 @@ int navigation_jobSeeker( int const& choice, jobseeker & jsk )
 		case 6:
 			return DECONNEXION;
         case 7:
+            compress_csv_files() ;
             exit(0);
 		default:
 			return SUCCESS;
@@ -624,6 +636,7 @@ int navigation_modify_profil_jobSeeker( int const& choice, jobseeker & jsk )
 			code = BACK_PREV_MENU;
             break;
 		case 7: 
+            compress_csv_files() ;
 			exit(0);	
 		default: 
             code = SUCCESS;
@@ -1279,6 +1292,7 @@ int navigation_employe( int const & choice, employe & emp )
 		case 6:
 			return DECONNEXION;
         case 7:
+            compress_csv_files() ;
             exit(0);
 		default:
 			return SUCCESS;
@@ -1353,6 +1367,7 @@ int navigation_modify_profil_employe ( const int & choice, employe & emp)
 			code = BACK_PREV_MENU;
             break;
 		case 8: 
+            compress_csv_files() ;
 			exit(0);	
 		default: 
             code = SUCCESS;
