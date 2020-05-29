@@ -105,3 +105,4 @@ L'employé :
 -La base de données est décompressée au lancement du programme et compressée lorsque l'utilisateur quitte 'proprement' le programme.
  Aussi, la base de données n'est pas compressée si le programme n'est pas quitté depuis le menu principale.
  - Il n'y a pas de vérification d'unicité du mot de passe ou de l'adresse email.
+ - Pour éviter les problèmes de compression de la fichiers de données il est recommander de quitter le programme en utilisant l'option 'Quitter' proposée dans les différents menus.
