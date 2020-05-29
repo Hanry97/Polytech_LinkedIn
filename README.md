@@ -20,11 +20,11 @@ Le programme s'execute en console en executant la commande 'make execute_app' de
 L'utilisateur est appellé à saisir des numéros correspondants à des options. Au lancement, deux choix sont proposés : 
 Inscription et Connexion.
 
--Connexion : l'utilisateur saisie sont adresse email et son mot de passe. Notons que la casse est prise en compte (les 
-majuscules et les miniuscules sont différenciées) et le mot de passe est saisis en clair.
+   - Connexion : l'utilisateur saisie sont adresse email et son mot de passe. Notons que la casse est prise en compte (les 
+     majuscules et les miniuscules sont différenciées) et le mot de passe est saisis en clair.
 
--Inscription : l'utilisateur choisit le type de profil et saisit les informations demandées. Une fois l'inscription terminée,
-il est redirigé vers la page deconnexion.
+   - Inscription : l'utilisateur choisit le type de profil et saisit les informations demandées. Une fois l'inscription         
+     terminée, il est redirigé vers la page deconnexion.
 
 Après chaque opération, l'utilisateur est généralement invité à saisir le caractère 'q' pour revenir au menu. De plus, depuis 
 chaque menu, il a la possibilité de quitter 'proprement' le programme grace à l'option 'quitter'.
