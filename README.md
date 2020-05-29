@@ -16,7 +16,7 @@ des employés et des chercheurs d'emploi.
     
 # Généralités
 
-Le programme s'execute en consonl en executant la commande 'make execute_app' depuis la racine du projet.
+Le programme s'execute en console en executant la commande 'make execute_app' depuis la racine du projet.
 L'utilisateur est appellé à saisir des numéros correspondants à des options. Au lancement, deux choix sont proposés : 
 Inscription et Connexion.
 
@@ -39,25 +39,16 @@ Les entreprises, les chercheurs d'emploi et les employés.
 
 Une entreprise annonce des postes à pourvoir en spécifiant les compétences requises.
 Elle peut aussi rechercher parmi les chercheurs d'emploi ceux qui correspondent à ses besoins.
-
-- [ ] Créer un profil
-    - [ ] Nom
-    - [ ] Code postal
-    - [ ] Adresse mail
-- [ ] Supprimer un profil
-    - [ ] Supprime automatiquement les postes à pourvoir existant
-- [ ] Créer le profil d'un poste à pourvoir
-    - [ ] Titre
-    - [ ] Compétences requises
-- [ ] Supprimer le profil d'un poste pourvu
-- [ ] Rechercher parmi les chercheurs d'emploi pour des profils qui correspondent à un poste à pourvoir
-    - [ ] Recherche par compétences
-    - [ ] Recherche par compétences et code postal
-    - [ ] Résultats
-        - [ ] Nom
-        - [ ] Prénom
-        - [ ] Adresse mail
-
+Une entreprise:
+- Crée un profil en saisissant : Nom,Code postal et Adresse mail. 
+- Supprime son profil.
+- Publie une offre d'emploi en précisant Titre et Compétences requises.
+- Retire une ou plusieurs offres d'emploi (la liste des offres est au préalabe affichée).
+- Rechercher parmi les chercheurs d'emploi pour des profils qui correspondent à un poste à pourvoir:
+    - Par compétences (l'utilisateur saisit succéssivement des compétences et saisit 'q' pour terminer)
+    - Par compétences et code postal.
+  Pour ignorer le critère code postal, il suffit de saisir '#' lorsque le code postal est demandé.  
+    
 ## Fonctionalités pour un chercheur d'emploi
 
 Pour un chercheur d'emploi, un bon moyen d'entrer en contact avec une entreprise qui nous intéresse est grâce à une personne que l'on connaît déjà (un(e) ancien(ne) collègue de travail) qui travaille présentement pour cette entreprise.
