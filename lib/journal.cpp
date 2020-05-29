@@ -120,7 +120,7 @@ void initialise_new_etp(company etp)
 
    ofstream flux(tableJournal, ios::app);
    flux<<endl<<"--------------------------------"<<endl;
-   flux<<"New company added("<<etp.getNom()<<", "<<etp.getEmail()<<", "<<etp.getCodePostal()<<")"<<" at "<<ltm->tm_hour<<":"<< ltm->tm_min<<":"<< ltm->tm_sec<<endl;
+   flux<<"New added company ("<<etp.getNom()<<", "<<etp.getEmail()<<", "<<etp.getCodePostal()<<")"<<" at "<<ltm->tm_hour<<":"<< ltm->tm_min<<":"<< ltm->tm_sec<<endl;
    flux<<"--------------------------------"<<endl;
   flux.close();
 }
@@ -132,7 +132,7 @@ void initialise_new_jsk(jobseeker jsk)
 
    ofstream flux(tableJournal, ios::app);
    flux<<endl<<"--------------------------------"<<endl;
-   flux<<"New jobseeker added("<<jsk.getNom()<<", "<<jsk.getEmail()<<", "<<jsk.getCodePostal()<<")"<<" at "<<ltm->tm_hour<<":"<< ltm->tm_min<<":"<< ltm->tm_sec<<endl;
+   flux<<"New added jobseeker ("<<jsk.getNom()<<", "<<jsk.getEmail()<<", "<<jsk.getCodePostal()<<")"<<" at "<<ltm->tm_hour<<":"<< ltm->tm_min<<":"<< ltm->tm_sec<<endl;
    flux<<"--------------------------------"<<endl;
   flux.close();  
 }
@@ -143,7 +143,7 @@ void initialise_new_emp(employe emp)
 
    ofstream flux(tableJournal, ios::app);
    flux<<endl<<"--------------------------------"<<endl;
-   flux<<"New employe added("<<emp.getNom()<<", "<<emp.getEmail()<<", "<<emp.getCodePostal()<<")"<<" at "<<ltm->tm_hour<<":"<< ltm->tm_min<<":"<< ltm->tm_sec<<endl;
+   flux<<"New added employe ("<<emp.getNom()<<", "<<emp.getEmail()<<", "<<emp.getCodePostal()<<")"<<" at "<<ltm->tm_hour<<":"<< ltm->tm_min<<":"<< ltm->tm_sec<<endl;
    flux<<"--------------------------------"<<endl;
   flux.close();  
 }

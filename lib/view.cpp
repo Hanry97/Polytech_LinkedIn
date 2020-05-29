@@ -95,7 +95,7 @@ int login_screen()
         
         if(etp.getId() != -1)
         {
-             intialise_etp_journal(etp.getNom(),etp.getCodePostal());
+            intialise_etp_journal(etp.getNom(),etp.getCodePostal());
             code = etp_home(etp);
         }
         else
@@ -121,17 +121,14 @@ int login_screen()
                 else 
                 {
                     code = EXIT_WITH_ERROR;
+                    login_fail_journal() ;           //affiche accès refuser dans le journal
                 }
             } 
         }
          
     }
 
-    else{
-         login_fail_journal() ;   //affiche accès refuser dans le journal
-    }
-    
-    return code;
+        return code;
 }
 
 //page de création 
@@ -296,8 +293,11 @@ int etp_create_poste(company & etp)
 
     code = etp.createPosition(poste);
     
-    if(code == SUCCESS)
+    if(code == SUCCESS){
+        
         cout<< "\n\nFELICITAIONS, L'OFFRE A ETE PUBLIEE ! ENTREZ 'q' POUR CONTINUER" << endl;
+    }
+        
     else 
         cout<< "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
         
@@ -477,7 +477,11 @@ int etp_create_profil()
     code = etp.createCompany();
     
     if(code == SUCCESS)
+    {
+        initialise_new_etp(etp);
         cout<< "\n\nFELICITAIONS, VOTRE COMPTE A ETE CREE VOUS POUVEZ DESORMAIS VOUS CONNECTER! ENTREZ 'q' POUR CONTINUER" << endl;
+    }
+        
     else 
         cout<< "\n\nUNE ERREUR S'EST PRODUITE, ENTREZ 'q' POUR CONTINUER" << endl;
         
@@ -985,7 +989,7 @@ int jsk_create_profil()
     code = jsk.createJobseeker();
     
     if(code == SUCCESS){
-        //initialise_new_jsk(jsk);
+        initialise_new_jsk(jsk);
         cout<< "\n\nFELICITAIONS, VOTRE COMPTE A ETE CREE VOUS POUVEZ DESORMAIS VOUS CONNECTER! ENTREZ 'q' POUR CONTINUER" << endl;
     }
            
@@ -1519,7 +1523,7 @@ int emp_create_profil()
             code = emp.createEmploye();
             
             if(code == SUCCESS){
-                //initialise_new_emp(emp);
+                initialise_new_emp(emp);
                 cout<< "\n\nFELICITAIONS, VOTRE COMPTE A ETE CREE VOUS POUVEZ DESORMAIS VOUS CONNECTER!" << endl;
             }
             
