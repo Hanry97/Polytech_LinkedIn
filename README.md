@@ -104,3 +104,4 @@ L'employé :
 - On ne peut pas abandonner la saisie d'un formulaire sans l'avoir terminer et valider.
 -La base de données est décompressée au lancement du programme et compressée lorsque l'utilisateur quitte 'proprement' le programme.
  Aussi, la base de données n'est pas compressée si le programme n'est pas quitté depuis le menu principale.
+ - Il n'y a pas de vérification d'unicité du mot de passe ou de l'adresse email.
