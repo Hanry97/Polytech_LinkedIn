@@ -16,11 +16,18 @@ des employés et des chercheurs d'emploi.
     
 # Généralités
 
-Le site [LinkedIn](https://linkedin.com) est un réseau social servant de rapprochement et de moyen de contact entre des entreprises, des demandeurs d'emploi et d'anciens collègues travail.
-Vous avez à créer un programme qui simule cette plateforme.
+Le programme s'execute en consonle en executant la commande 'make execute_app' depuis la racine du projet.
+L'utilisateur est appellé à saisir des numéros correspondants à des options. Au lancement, deux choix sont proposés : 
+Inscription et Connexion.
 
-Cette application n'est pas un site web.
-C'est un programme lancé à l'invite de commandes qui utilisent des fichers locaux comme base de données.
+-Connexion : l'utilisateur saisie sont adresse email et son mot de passe. Notons que la casse est prise en compte (les 
+majuscules et les miniuscules sont différenciées) et le mot de passe est saisis en clair.
+
+-Inscription : l'utilisateur choisit le type de profil et saisit les informations demandées. Une fois l'inscription terminée,
+il est redirigé vers la page deconnexion.
+
+Dans chaque menu, l'utilisateur a la possibilité de quitter 'proprement' le programme grace à l'option 'quitter'.
+
 
 # Fonctionnalités
 
